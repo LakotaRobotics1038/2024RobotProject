@@ -4,18 +4,42 @@
 
 package frc.robot;
 
+import edu.wpi.first.hal.ControlWord;
+import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
+import frc.robot.autons.Auton;
+import frc.robot.autons.AutonSelector;
+import frc.robot.constants.SwerveModuleConstants;
+import frc.robot.subsystems.Compressor1038;
+import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SwagLights;
+// import frc.robot.subsystems.Vision;
 
-    private RobotContainer m_robotContainer;
+public class Robot extends TimedRobot {
+    // Singleton Instances
+    private AutonSelector autonSelector = AutonSelector.getInstance();
+    private SwagLights swagLights = SwagLights.getInstance();
+    private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
+    // private Vision vision = Vision.getInstance();
+    private Compressor1038 compressor = Compressor1038.getInstance();
+
+    // Variables
+    private Auton autonomousCommand;
+    private ControlWord controlWordCache = new ControlWord();
+
+    // Subsystems
+    private DriveTrain driveTrain = DriveTrain.getInstance();
 
     @Override
     public void robotInit() {
-        m_robotContainer = new RobotContainer();
+        // Singleton instances that need to be created but not referenced
+        DriverJoystick.getInstance();
+        Dashboard.getInstance();
+
+        addPeriodic(swagLights::periodic, 0.5);
     }
 
     @Override
@@ -25,6 +49,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        System.out.println("Robot Disabled");
+        DriverStationJNI.getControlWord(controlWordCache);
+        if (controlWordCache.getEStop()) {
+            swagLights.setEStop();
+        } else {
+            swagLights.setDisabled(true);
+        }
     }
 
     @Override
@@ -33,14 +64,21 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledExit() {
+        swagLights.setDisabled(false);
     }
 
     @Override
     public void autonomousInit() {
-        m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.schedule();
+        compressor.disable();
+        autonomousCommand = autonSelector.chooseAuton();
+        // if (DriverStation.isFMSAttached()) {
+        // vision.startRecording();
+        // }
+
+        if (autonomousCommand != null) {
+            driveTrain.setDrivingIdleMode(SwerveModuleConstants.kAutoDrivingMotorIdleMode);
+            autonomousCommand.schedule();
         }
     }
 
@@ -50,13 +88,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousExit() {
+        if (autonomousCommand != null) {
+            autonomousCommand.cancel();
+        }
     }
 
     @Override
     public void teleopInit() {
-        if (m_autonomousCommand != null) {
-            m_autonomousCommand.cancel();
-        }
+        Dashboard.getInstance().clearTrajectory();
+        compressor.enable();
+        driveTrain.setDrivingIdleMode(SwerveModuleConstants.kTeleopDrivingMotorIdleMode);
     }
 
     @Override
@@ -65,6 +106,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopExit() {
+        driveTrain.setX();
+        // vision.stopRecording();
     }
 
     @Override

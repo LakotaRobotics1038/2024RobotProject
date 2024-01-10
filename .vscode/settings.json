@@ -1,4 +1,11 @@
 {
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "files.trimTrailingWhitespace": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.tabSize": 4,
+  "editor.parameterHints.enabled": true,
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
   "files.exclude": {

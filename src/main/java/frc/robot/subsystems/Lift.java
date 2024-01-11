@@ -32,10 +32,10 @@ public class Lift extends SubsystemBase {
     }
 
     public void run (double speed) {
-        leftLiftMotor.run(speed);
+        leftLiftMotor.set(speed);
     }
 
     public void stop (double speed) {
-        lefttLiftMotor.stop();
+        leftLiftMotor.stopMotor();
     }
 }

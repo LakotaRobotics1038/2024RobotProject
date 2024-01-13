@@ -9,7 +9,7 @@ import frc.robot.constants.StorageConstants;
 
 public class Storage extends SubsystemBase {
 
-    public final CANSparkMax storageMotor = new CANSparkMax(StorageConstants.kStorageMotorPort,
+    private final CANSparkMax storageMotor = new CANSparkMax(StorageConstants.kStorageMotorPort,
             MotorType.kBrushless);
 
     private static Storage instance;

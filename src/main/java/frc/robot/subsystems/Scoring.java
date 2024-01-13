@@ -72,7 +72,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public void setClampSetpoint(double setpoint) {
-        setpoint = MathUtil.clamp(setpoint, 0, ScoringConstants.kMaxDistance);
+        setpoint = MathUtil.clamp(setpoint, ScoringConstants.kMinSpeed, ScoringConstants.kMaxDistance);
         super.setSetpoint(setpoint);
     }
 
@@ -85,7 +85,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public void runRoller(double speed) {
-        speed = MathUtil.clamp(speed, 0, ScoringConstants.kMaxSpeed);
+        speed = MathUtil.clamp(speed, ScoringConstants.kMinSpeed, ScoringConstants.kMaxSpeed);
         rollerMotor.set(speed);
     }
 

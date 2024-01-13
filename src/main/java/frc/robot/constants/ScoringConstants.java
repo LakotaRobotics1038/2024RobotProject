@@ -10,8 +10,9 @@ public class ScoringConstants {
     public static final double kTrapSetpoint = 0;
 
     public static final double kMaxDistance = 0;
-    public static final double kMaxSpeed = 0;
-    public static final double kMaxPower = 0;
+    public static final double kMinDistance = 0;
+    public static final double kMaxSpeed = 1;
+    public static final double kMinSpeed = -1;
 
     public static final double kP = 0;
     public static final double kI = 0;

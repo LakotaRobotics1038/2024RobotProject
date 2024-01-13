@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.AbsoluteEncoder;
 
 import frc.robot.constants.ScoringConstants;
@@ -49,18 +48,22 @@ public class Scoring extends PIDSubsystem {
 
     public Scoring() {
         super(new PIDController(ScoringConstants.kP, ScoringConstants.kI, ScoringConstants.kD));
+        rollerMotor.restoreFactoryDefaults();
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
+        rollerMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+        rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();
         leftScoringElevatorMotor.burnFlash();
     }
 
     @Override
     protected void useOutput(double output, double setpoint) {
-
+        double power = MathUtil.clamp(output, -ScoringConstants.kMaxPower, ScoringConstants.kMaxPower);
+        leftScoringElevatorMotor.set(power);
     }
 
     @Override
@@ -82,6 +85,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public void runRoller(double speed) {
+        speed = MathUtil.clamp(speed, 0, ScoringConstants.kMaxSpeed);
         rollerMotor.set(speed);
     }
 

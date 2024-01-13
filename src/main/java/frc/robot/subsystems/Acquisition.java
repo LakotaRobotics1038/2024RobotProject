@@ -10,15 +10,14 @@ import frc.robot.constants.AcquisitionConstants;
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
 
-    private static CANSparkMax rearMotor = new CANSparkMax(AcquisitionConstants.frontMotorID, MotorType.kBrushless);
-    private static CANSparkMax frontMotor = new CANSparkMax(AcquisitionConstants.frontMotorID, MotorType.kBrushless);
+    private static CANSparkMax rearMotor = new CANSparkMax(AcquisitionConstants.frontMotorPort, MotorType.kBrushless);
+    private static CANSparkMax frontMotor = new CANSparkMax(AcquisitionConstants.frontMotorPort, MotorType.kBrushless);
 
     private Acquisition() {
         rearMotor.restoreFactoryDefaults();
         frontMotor.restoreFactoryDefaults();
 
-        rearMotor.setIdleMode(IdleMode.kCoast);
-        frontMotor.setIdleMode(IdleMode.kCoast);
+        rearMotor.setIdleMode(IdleMode.kBrake);
 
         rearMotor.follow(frontMotor);
 
@@ -34,11 +33,11 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void runRear() {
-        rearMotor.set(AcquisitionConstants.rearMotorSpeed);
+        rearMotor.set(AcquisitionConstants.motorSpeed);
     }
 
     public void runFront() {
-        frontMotor.set(AcquisitionConstants.frontMotorSpeed);
+        frontMotor.set(AcquisitionConstants.motorSpeed);
     }
 
     public void stopRear() {

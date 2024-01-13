@@ -16,8 +16,12 @@ public class Acquisition extends SubsystemBase {
     private Acquisition() {
         rearMotor.restoreFactoryDefaults();
         frontMotor.restoreFactoryDefaults();
+
         rearMotor.setIdleMode(IdleMode.kCoast);
         frontMotor.setIdleMode(IdleMode.kCoast);
+
+        rearMotor.follow(frontMotor);
+
         rearMotor.burnFlash();
         frontMotor.burnFlash();
     }

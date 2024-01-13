@@ -8,8 +8,8 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lift extends SubsystemBase {
-    private CANSparkMax leftLiftMotor = new CANSparkMax(0, MotorType.kBrushless);
-    private CANSparkMax rightLiftMotor = new CANSparkMax(0, MotorType.kBrushless);
+    private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftLiftMotorPort, MotorType.kBrushless);
+    private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightLiftMotorPort, MotorType.kBrushless);
 
     private static Lift instance;
 
@@ -31,11 +31,11 @@ public class Lift extends SubsystemBase {
         rightLiftMotor.burnFlash();
     }
 
-    public void run (double speed) {
-        leftLiftMotor.set(speed);
+    public void run () {
+        leftLiftMotor.set(LiftConstants.motorSpeed);
     }
 
-    public void stop (double speed) {
+    public void stop () {
         leftLiftMotor.stopMotor();
     }
 }

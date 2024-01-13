@@ -35,5 +35,6 @@ public class ScoreNoteCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         scoring.stopRoller();
+        timer.stop();
     }
 }

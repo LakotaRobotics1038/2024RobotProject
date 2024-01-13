@@ -62,7 +62,7 @@ public class Scoring extends PIDSubsystem {
 
     @Override
     protected void useOutput(double output, double setpoint) {
-        double power = MathUtil.clamp(output, -ScoringConstants.kMaxPower, ScoringConstants.kMaxPower);
+        double power = MathUtil.clamp(output, -ScoringConstants.kMaxSpeed, ScoringConstants.kMaxSpeed);
         leftScoringElevatorMotor.set(power);
     }
 

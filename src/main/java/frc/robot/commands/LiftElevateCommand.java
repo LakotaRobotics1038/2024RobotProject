@@ -12,7 +12,7 @@ public class LiftElevateCommand extends Command {
 
     @Override
     public void execute() {
-        Lift.runPos();
+        lift.runPos();
     }
 
     @Override
@@ -23,7 +23,7 @@ public class LiftElevateCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        Lift.stop();
+        lift.stop();
     }
 
 }

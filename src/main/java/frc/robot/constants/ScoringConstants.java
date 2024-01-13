@@ -1,6 +1,13 @@
 package frc.robot.constants;
 
 public class ScoringConstants {
+
+    public static enum ScoringStatesConstants {
+        Ground,
+        Amp,
+        Stage;
+    }
+
     public static final int kLeftScoringElevatorMotorPort = 0;
     public static final int kRightScoringElevatorMotorPort = 0;
     public static final int kRollerMotorPort = 0;

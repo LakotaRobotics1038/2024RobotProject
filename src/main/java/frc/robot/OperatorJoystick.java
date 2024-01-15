@@ -8,6 +8,11 @@ import frc.robot.subsystems.Scoring;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.Vision;
+import frc.robot.constants.StorageConstants;
+import frc.robot.constants.ScoringConstants;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Scoring.ElevatorSetpoints;
 
 public class OperatorJoystick extends XboxController1038 {
     // Singleton Setup
@@ -36,5 +41,32 @@ public class OperatorJoystick extends XboxController1038 {
 
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
+
+        // aButton.whileTrue(new StorageRunCommand(StorageConstants.reverseMotorSpeed));
+        // bButton.whileTrue(new StorageRunCommand(StorageConstants.motorSpeed));
+        // xButton.onTrue(new liftDepressCommand());
+        // yButton.onTrue(new liftExtendCommand());
+
+        /*
+         * switch (this.getPOVPosition()) {
+         * case Up:
+         * InstantCommand(new ScoreNoteCommand());
+         * break;
+         * case Right:
+         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.amp));
+         * break;
+         * case Down:
+         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.ground));
+         * break;
+         * case Left:
+         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.trap));
+         * break;
+         * default:
+         * break;
+         * }
+         */
+
+        // rightBumper.onTrue(AcquireCommand(ScoringConstants.motorSpeed));
+        // rightTrigger.onTrue(AcquireCommand(ScoringConstants.reverseMotorSpeed));
     }
 }

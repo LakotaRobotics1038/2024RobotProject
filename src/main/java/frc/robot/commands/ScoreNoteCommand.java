@@ -8,9 +8,17 @@ import frc.robot.subsystems.Scoring;
 public class ScoreNoteCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
+    private int secondsToScore;
+
+    public ScoreNoteCommand(int secondsToScore) {
+        this.addRequirements(scoring);
+        this.secondsToScore = secondsToScore;
+
+    }
 
     public ScoreNoteCommand() {
         this.addRequirements(scoring);
+
     }
 
     @Override
@@ -25,16 +33,13 @@ public class ScoreNoteCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (timer.get() > ScoringConstants.kSecondsToScore) {
-            return true;
-        } else {
-            return false;
-        }
+        return timer.get() > ScoringConstants.secondsToScore;
     }
 
     @Override
     public void end(boolean interrupted) {
         scoring.stopRoller();
         timer.stop();
+        timer.reset();
     }
 }

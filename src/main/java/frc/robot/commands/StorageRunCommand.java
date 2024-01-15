@@ -6,13 +6,16 @@ import frc.robot.subsystems.Storage;
 public class StorageRunCommand extends Command {
     private Storage storage = Storage.getInstance();
 
-    public StorageRunCommand() {
+    private double speed;
+
+    public StorageRunCommand(double speed) {
         addRequirements(storage);
+        this.speed = speed;
     }
 
     @Override
     public void execute() {
-        storage.run();
+        storage.run(speed);
     }
 
     @Override

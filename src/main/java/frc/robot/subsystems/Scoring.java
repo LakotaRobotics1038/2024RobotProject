@@ -15,7 +15,7 @@ import edu.wpi.first.math.MathUtil;
 
 public class Scoring extends PIDSubsystem {
 
-    public final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(ScoringConstants.kLeftScoringElevatorMotorPort,
+    private final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(ScoringConstants.kLeftScoringElevatorMotorPort,
             MotorType.kBrushless);
     private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
             ScoringConstants.kRightScoringElevatorMotorPort, MotorType.kBrushless);

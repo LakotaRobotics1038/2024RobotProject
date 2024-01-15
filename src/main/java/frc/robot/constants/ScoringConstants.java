@@ -5,7 +5,7 @@ public class ScoringConstants {
     public static enum ScoringStatesConstants {
         Ground,
         Amp,
-        Stage;
+        Trap;
     }
 
     public static final int kLeftScoringElevatorMotorPort = 0;

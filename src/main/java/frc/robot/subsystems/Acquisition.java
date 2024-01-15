@@ -32,19 +32,15 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
-    public void runRear() {
-        rearMotor.set(AcquisitionConstants.motorSpeed);
-    }
-
-    public void runFront() {
+    public void acquire() {
         frontMotor.set(AcquisitionConstants.motorSpeed);
     }
 
-    public void stopRear() {
-        rearMotor.stopMotor();
+    public void dispose() {
+        frontMotor.set(-AcquisitionConstants.motorSpeed);
     }
 
-    public void stopFront() {
+    public void stop() {
         frontMotor.stopMotor();
     }
 }

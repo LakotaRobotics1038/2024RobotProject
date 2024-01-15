@@ -13,7 +13,6 @@ public class ScoreNoteCommand extends Command {
     public ScoreNoteCommand(int secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;
-
     }
 
     public ScoreNoteCommand() {

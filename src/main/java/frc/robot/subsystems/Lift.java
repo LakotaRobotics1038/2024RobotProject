@@ -13,7 +13,7 @@ public class Lift extends SubsystemBase {
 
     private static Lift instance;
 
-    public Lift getInstance() {
+    public static Lift getInstance() {
         if (instance == null) {
             instance = new Lift();
         }

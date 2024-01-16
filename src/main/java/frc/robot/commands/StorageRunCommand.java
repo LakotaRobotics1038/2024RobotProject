@@ -8,14 +8,13 @@ public class StorageRunCommand extends Command {
 
     private double speed;
 
-    public StorageRunCommand(double speed) {
+    public StorageRunCommand() {
         addRequirements(storage);
-        this.speed = speed;
     }
 
     @Override
     public void execute() {
-        storage.run(speed);
+        storage.run();
     }
 
     @Override

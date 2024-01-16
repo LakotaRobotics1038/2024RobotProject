@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.libraries.XboxController1038;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Lift;
@@ -13,6 +14,10 @@ import frc.robot.constants.ScoringConstants;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
+import frc.robot.commands.AcquireCommand;
+import frc.robot.commands.LiftDepressCommand;
+import frc.robot.commands.LiftExtendCommand;
+import frc.robot.commands.ScoreNoteCommand;
 
 public class OperatorJoystick extends XboxController1038 {
     // Singleton Setup
@@ -22,12 +27,6 @@ public class OperatorJoystick extends XboxController1038 {
     private Storage storage = Storage.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
     private Vision vision = Vision.getInstance();
-
-    public enum ElevatorStates {
-        Ground,
-        Amp,
-        Trap;
-    }
 
     private static OperatorJoystick instance;
 
@@ -44,29 +43,27 @@ public class OperatorJoystick extends XboxController1038 {
 
         // aButton.whileTrue(new StorageRunCommand(StorageConstants.reverseMotorSpeed));
         // bButton.whileTrue(new StorageRunCommand(StorageConstants.motorSpeed));
-        // xButton.onTrue(new liftDepressCommand());
-        // yButton.onTrue(new liftExtendCommand());
+        xButton.onTrue(new LiftDepressCommand());
+        yButton.onTrue(new LiftExtendCommand());
 
-        /*
-         * switch (this.getPOVPosition()) {
-         * case Up:
-         * InstantCommand(new ScoreNoteCommand());
-         * break;
-         * case Right:
-         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.amp));
-         * break;
-         * case Down:
-         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.ground));
-         * break;
-         * case Left:
-         * InstantCommand(new ScoringPositionCommand(ElevatorSetpoints.trap));
-         * break;
-         * default:
-         * break;
-         * }
-         */
+        switch (this.getPOVPosition()) {
+            case Up:
+                scoring.runRoller(ScoringConstants.rollerSpeed);
+                break;
+            case Right:
+                scoring.setSetpoint(ElevatorSetpoints.amp);
+                break;
+            case Down:
+                scoring.setSetpoint(ElevatorSetpoints.ground);
+                break;
+            case Left:
+                scoring.setSetpoint(ElevatorSetpoints.trap);
+                break;
+            default:
+                break;
+        }
 
-        // rightBumper.onTrue(AcquireCommand(ScoringConstants.motorSpeed));
-        // rightTrigger.onTrue(AcquireCommand(ScoringConstants.reverseMotorSpeed));
+        rightBumper.onTrue(new AcquireCommand(AcquisitionConstants.motorSpeed));
+        rightTrigger.onTrue(new AcquireCommand(AcquisitionConstants.reverseMotorSpeed));
     }
 }

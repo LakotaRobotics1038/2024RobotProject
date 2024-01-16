@@ -4,25 +4,21 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
 
-    private static CANSparkMax rearMotor = new CANSparkMax(AcquisitionConstants.frontMotorPort, MotorType.kBrushless);
-    private static CANSparkMax frontMotor = new CANSparkMax(AcquisitionConstants.frontMotorPort, MotorType.kBrushless);
+    private static CANSparkMax driveMotor = new CANSparkMax(AcquisitionConstants.motorPort, MotorType.kBrushless);
 
     private Acquisition() {
-        rearMotor.restoreFactoryDefaults();
-        frontMotor.restoreFactoryDefaults();
+        driveMotor.restoreFactoryDefaults();
 
-        rearMotor.setIdleMode(IdleMode.kBrake);
+        driveMotor.setIdleMode(IdleMode.kBrake);
 
-        rearMotor.follow(frontMotor);
-
-        rearMotor.burnFlash();
-        frontMotor.burnFlash();
+        driveMotor.burnFlash();
     }
 
     public static Acquisition getInstance() {
@@ -32,19 +28,16 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
-    public void runRear() {
-        rearMotor.set(AcquisitionConstants.motorSpeed);
+    public void acquire(double speed) {
+        speed = MathUtil.clamp(speed, AcquisitionConstants.minMotorSpeed, AcquisitionConstants.maxMotorSpeed);
+        driveMotor.set(speed);
     }
 
-    public void runFront() {
-        frontMotor.set(AcquisitionConstants.motorSpeed);
+    public void dispose() {
+        driveMotor.set(-AcquisitionConstants.motorSpeed);
     }
 
-    public void stopRear() {
-        rearMotor.stopMotor();
-    }
-
-    public void stopFront() {
-        frontMotor.stopMotor();
+    public void stop() {
+        driveMotor.stopMotor();
     }
 }

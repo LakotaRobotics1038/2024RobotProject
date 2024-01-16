@@ -40,6 +40,5 @@ public class ScoringPositionCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         scoring.stopRoller();
-        super.end(interrupted);
     }
 }

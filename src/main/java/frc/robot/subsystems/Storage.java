@@ -28,8 +28,8 @@ public class Storage extends SubsystemBase {
         storageMotor.burnFlash();
     }
 
-    public void run() {
-        storageMotor.set(StorageConstants.motorSpeed);
+    public void run(double speed) {
+        storageMotor.set(speed);
     }
 
     public void stop() {

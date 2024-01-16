@@ -9,7 +9,6 @@ import com.revrobotics.AbsoluteEncoder;
 import frc.robot.constants.ScoringConstants;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import edu.wpi.first.math.MathUtil;

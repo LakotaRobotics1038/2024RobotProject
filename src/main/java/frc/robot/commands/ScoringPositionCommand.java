@@ -17,22 +17,15 @@ public class ScoringPositionCommand extends Command {
     }
 
     @Override
-    public void initialize() {
-
-    }
-
-    @Override
     public void execute() {
 
         switch (scoringState) {
             case amp:
                 scoring.setSetpoint(ElevatorSetpoints.amp.value);
                 break;
-
             case ground:
                 scoring.setSetpoint(ElevatorSetpoints.ground.value);
                 break;
-
             default:
                 scoring.setSetpoint(ElevatorSetpoints.trap.value);
                 break;

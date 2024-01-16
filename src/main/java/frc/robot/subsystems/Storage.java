@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.StorageConstants;
 
@@ -29,6 +30,8 @@ public class Storage extends SubsystemBase {
     }
 
     public void run(double speed) {
+        speed = MathUtil.clamp(StorageConstants.motorSpeed, StorageConstants.minMotorSpeed,
+                StorageConstants.maxMotorSpeed);
         storageMotor.set(speed);
     }
 

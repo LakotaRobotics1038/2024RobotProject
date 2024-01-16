@@ -9,6 +9,7 @@ import com.revrobotics.AbsoluteEncoder;
 import frc.robot.constants.ScoringConstants;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
 import edu.wpi.first.math.MathUtil;
@@ -21,7 +22,10 @@ public class Scoring extends PIDSubsystem {
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
             ScoringConstants.rollerMotorPort, MotorType.kBrushless);
-
+    private final CANSparkMax leftLoadingMotor = new CANSparkMax(
+            ScoringConstants.leftScoringElevatorMotorPort, MotorType.kBrushless);
+    private final CANSparkMax righttLoadingMotor = new CANSparkMax(
+            ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     public enum ElevatorSetpoints {
@@ -51,13 +55,20 @@ public class Scoring extends PIDSubsystem {
         rollerMotor.restoreFactoryDefaults();
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
+        leftLoadingMotor.restoreFactoryDefaults();
+        righttLoadingMotor.restoreFactoryDefaults();
         rollerMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
+        leftLoadingMotor.setIdleMode(IdleMode.kCoast);
+        righttLoadingMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+        righttLoadingMotor.follow(leftLoadingMotor);
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();
         leftScoringElevatorMotor.burnFlash();
+        leftLoadingMotor.burnFlash();
+        righttLoadingMotor.burnFlash();
     }
 
     @Override
@@ -84,6 +95,11 @@ public class Scoring extends PIDSubsystem {
         return leftScoringElevatorEncoder.getPosition();
     }
 
+    public void runLoader(double speed) {
+        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
+        leftLoadingMotor.set(speed);
+    }
+
     public void runRoller(double speed) {
         speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
         rollerMotor.set(speed);
@@ -91,6 +107,10 @@ public class Scoring extends PIDSubsystem {
 
     public void stopRoller() {
         rollerMotor.stopMotor();
+    }
+
+    public void stopLoader() {
+        leftLoadingMotor.stopMotor();
     }
 
     public void setP(double p) {

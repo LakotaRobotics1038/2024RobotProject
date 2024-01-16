@@ -19,14 +19,11 @@ public class ScoringPositionCommand extends Command {
     @Override
     public void initialize() {
 
-        // TODO Auto-generated method stub
-
-        super.initialize();
     }
 
     @Override
     public void execute() {
-        // TODO Auto-generated method stub
+
         switch (scoringState) {
             case amp:
                 scoring.setSetpoint(ElevatorSetpoints.amp.value);
@@ -40,18 +37,15 @@ public class ScoringPositionCommand extends Command {
                 scoring.setSetpoint(ElevatorSetpoints.trap.value);
                 break;
         }
-        super.execute();
     }
 
     @Override
     public boolean isFinished() {
-        // TODO Auto-generated method stub
         return scoring.getController().atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
-        // TODO Auto-generated method stub
         scoring.stopRoller();
         super.end(interrupted);
     }

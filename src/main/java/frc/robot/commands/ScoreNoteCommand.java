@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.ScoringConstants;
 import frc.robot.subsystems.Scoring;
 
 public class ScoreNoteCommand extends Command {
@@ -26,12 +27,12 @@ public class ScoreNoteCommand extends Command {
 
     @Override
     public void execute() {
-        scoring.runRoller(0);
+        scoring.runRoller(ScoringConstants.rollerSpeed);
     }
 
     @Override
     public boolean isFinished() {
-        return (this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false);
+        return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
     }
 
     @Override

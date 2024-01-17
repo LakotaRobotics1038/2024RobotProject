@@ -29,7 +29,7 @@ public class Storage extends SubsystemBase {
     }
 
     public void run() {
-        storageMotor.set();
+        storageMotor.set(StorageConstants.motorSpeed);
     }
 
     public void stop() {

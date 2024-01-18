@@ -27,7 +27,7 @@ public class Storage extends SubsystemBase {
         storageMotor.setIdleMode(IdleMode.kBrake);
         storageMotor.burnFlash();
     }
-
+    
     public void run() {
         storageMotor.set(StorageConstants.motorSpeed);
     }

@@ -15,19 +15,19 @@ import edu.wpi.first.math.MathUtil;
 
 public class Scoring extends PIDSubsystem {
 
-    private final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(ScoringConstants.kLeftScoringElevatorMotorPort,
+    private final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(ScoringConstants.leftScoringElevatorMotorPort,
             MotorType.kBrushless);
     private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
-            ScoringConstants.kRightScoringElevatorMotorPort, MotorType.kBrushless);
+            ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
-            ScoringConstants.kRollerMotorPort, MotorType.kBrushless);
+            ScoringConstants.rollerMotorPort, MotorType.kBrushless);
 
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     public enum ElevatorSetpoints {
-        ground(ScoringConstants.kGroundSetpoint),
-        amp(ScoringConstants.kAmpSetpoint),
-        trap(ScoringConstants.kTrapSetpoint);
+        ground(ScoringConstants.groundSetpoint),
+        amp(ScoringConstants.ampSetpoint),
+        trap(ScoringConstants.trapSetpoint);
 
         public final double value;
 
@@ -62,7 +62,7 @@ public class Scoring extends PIDSubsystem {
 
     @Override
     protected void useOutput(double output, double setpoint) {
-        double power = MathUtil.clamp(output, -ScoringConstants.kMaxSpeed, ScoringConstants.kMaxSpeed);
+        double power = MathUtil.clamp(output, -ScoringConstants.maxSpeed, ScoringConstants.maxSpeed);
         leftScoringElevatorMotor.set(power);
     }
 
@@ -72,7 +72,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public void setClampSetpoint(double setpoint) {
-        setpoint = MathUtil.clamp(setpoint, ScoringConstants.kMinSpeed, ScoringConstants.kMaxDistance);
+        setpoint = MathUtil.clamp(setpoint, ScoringConstants.minSpeed, ScoringConstants.maxDistance);
         super.setSetpoint(setpoint);
     }
 
@@ -85,7 +85,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public void runRoller(double speed) {
-        speed = MathUtil.clamp(speed, ScoringConstants.kMinSpeed, ScoringConstants.kMaxSpeed);
+        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
         rollerMotor.set(speed);
     }
 

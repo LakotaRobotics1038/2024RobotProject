@@ -23,7 +23,7 @@ public class Scoring extends PIDSubsystem {
             ScoringConstants.rollerMotorPort, MotorType.kBrushless);
     private final CANSparkMax leftLoadingMotor = new CANSparkMax(
             ScoringConstants.leftScoringElevatorMotorPort, MotorType.kBrushless);
-    private final CANSparkMax righttLoadingMotor = new CANSparkMax(
+    private final CANSparkMax rightLoadingMotor = new CANSparkMax(
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
@@ -55,19 +55,19 @@ public class Scoring extends PIDSubsystem {
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
         leftLoadingMotor.restoreFactoryDefaults();
-        righttLoadingMotor.restoreFactoryDefaults();
+        rightLoadingMotor.restoreFactoryDefaults();
         rollerMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftLoadingMotor.setIdleMode(IdleMode.kCoast);
-        righttLoadingMotor.setIdleMode(IdleMode.kCoast);
+        rightLoadingMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
-        righttLoadingMotor.follow(leftLoadingMotor);
+        rightLoadingMotor.follow(leftLoadingMotor);
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();
         leftScoringElevatorMotor.burnFlash();
         leftLoadingMotor.burnFlash();
-        righttLoadingMotor.burnFlash();
+        rightLoadingMotor.burnFlash();
     }
 
     @Override

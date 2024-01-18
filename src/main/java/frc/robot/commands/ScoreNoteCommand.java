@@ -17,7 +17,6 @@ public class ScoreNoteCommand extends Command {
 
     public ScoreNoteCommand() {
         this.addRequirements(scoring);
-
     }
 
     @Override

@@ -38,7 +38,12 @@
     ],
     "java.test.defaultConfig": "WPIlibUnitTests",
     "cSpell.words": [
+        "Auton",
+        "Brushless",
         "Holonomic",
-        "Odometry"
+        "Jetson",
+        "Odometry",
+        "Setpoint",
+        "Setpoints"
     ]
 }

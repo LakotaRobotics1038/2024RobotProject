@@ -41,10 +41,14 @@ public class OperatorJoystick extends XboxController1038 {
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
 
-        // aButton.whileTrue(new StorageRunCommand(StorageConstants.reverseMotorSpeed));
-        // bButton.whileTrue(new StorageRunCommand(StorageConstants.motorSpeed));
+        aButton.whileTrue(new StorageRunCommand(StorageConstants.reverseMotorSpeed));
+        bButton.whileTrue(new StorageRunCommand(StorageConstants.motorSpeed));
         xButton.onTrue(new LiftDepressCommand());
         yButton.onTrue(new LiftExtendCommand());
+
+        D
+
+
 
         switch (this.getPOVPosition()) {
             case Up:
@@ -65,5 +69,7 @@ public class OperatorJoystick extends XboxController1038 {
 
         rightBumper.onTrue(new AcquireCommand(AcquisitionConstants.motorSpeed));
         rightTrigger.onTrue(new AcquireCommand(AcquisitionConstants.reverseMotorSpeed));
+
+        bu
     }
 }

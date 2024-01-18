@@ -21,7 +21,10 @@ public class Scoring extends PIDSubsystem {
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
             ScoringConstants.rollerMotorPort, MotorType.kBrushless);
-
+    private final CANSparkMax leftLoadingMotor = new CANSparkMax(
+            ScoringConstants.leftScoringElevatorMotorPort, MotorType.kBrushless);
+    private final CANSparkMax rightLoadingMotor = new CANSparkMax(
+            ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     public enum ElevatorSetpoints {
@@ -51,13 +54,20 @@ public class Scoring extends PIDSubsystem {
         rollerMotor.restoreFactoryDefaults();
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
+        leftLoadingMotor.restoreFactoryDefaults();
+        rightLoadingMotor.restoreFactoryDefaults();
         rollerMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
+        leftLoadingMotor.setIdleMode(IdleMode.kCoast);
+        rightLoadingMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+        rightLoadingMotor.follow(leftLoadingMotor);
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();
         leftScoringElevatorMotor.burnFlash();
+        leftLoadingMotor.burnFlash();
+        rightLoadingMotor.burnFlash();
     }
 
     @Override
@@ -84,6 +94,11 @@ public class Scoring extends PIDSubsystem {
         return leftScoringElevatorEncoder.getPosition();
     }
 
+    public void runLoader(double speed) {
+        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
+        leftLoadingMotor.set(speed);
+    }
+
     public void runRoller(double speed) {
         speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
         rollerMotor.set(speed);
@@ -91,6 +106,10 @@ public class Scoring extends PIDSubsystem {
 
     public void stopRoller() {
         rollerMotor.stopMotor();
+    }
+
+    public void stopLoader() {
+        leftLoadingMotor.stopMotor();
     }
 
     public void setP(double p) {

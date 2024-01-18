@@ -25,5 +25,4 @@ public class LiftDepressCommand extends Command {
     public void end(boolean interrupted) {
         lift.stop();
     }
-
 }

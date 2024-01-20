@@ -17,7 +17,6 @@ public class ScoreNoteCommand extends Command {
 
     public ScoreNoteCommand() {
         this.addRequirements(scoring);
-
     }
 
     @Override
@@ -28,6 +27,7 @@ public class ScoreNoteCommand extends Command {
     @Override
     public void execute() {
         scoring.runRoller(ScoringConstants.rollerSpeed);
+        scoring.runLoader(ScoringConstants.loaderSpeed);
     }
 
     @Override
@@ -38,6 +38,7 @@ public class ScoreNoteCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         scoring.stopRoller();
+        scoring.stopLoader();
         timer.stop();
         timer.reset();
     }

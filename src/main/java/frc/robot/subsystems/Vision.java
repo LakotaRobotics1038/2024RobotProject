@@ -21,16 +21,24 @@ import frc.robot.utils.VisionData;
 public class Vision extends SubsystemBase {
     // Enum for different things vision can find
     public enum VisionTarget {
-        CUBE(0),
-        CONE(1),
-        APT1(2),
-        APT2(3),
-        APT3(4),
-        APT4(5),
-        APT5(6),
-        APT6(7),
-        APT7(8),
-        APT8(9);
+        APR1(0),
+        APT2(1),
+        APT3(2),
+        APT4(3),
+        APT5(4),
+        APT6(5),
+        APT7(6),
+        APT8(7),
+        APT9(8),
+        APT10(9),
+        APT11(10),
+        APT12(11),
+        APT13(12),
+        APT14(13),
+        APT15(14),
+        APT16(15),
+        GAVIN(16),
+        NOTES(17);
 
         public final int value;
 

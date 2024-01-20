@@ -5,6 +5,7 @@ import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.subsystems.Scoring;
 import frc.robot.constants.ScoringConstants;
+import frc.robot.constants.StorageConstants;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
 import frc.robot.commands.AcquireCommand;
 import frc.robot.commands.LiftDepressCommand;
@@ -27,8 +28,8 @@ public class OperatorJoystick extends XboxController1038 {
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
 
-        aButton.whileTrue(new StorageRunCommand());
-        bButton.whileTrue(new StorageRunCommand());
+        aButton.whileTrue(new StorageRunCommand(StorageConstants.reverseMotorSpeed));
+        bButton.whileTrue(new StorageRunCommand(StorageConstants.motorSpeed));
         xButton.onTrue(new LiftDepressCommand());
         yButton.onTrue(new LiftExtendCommand());
 

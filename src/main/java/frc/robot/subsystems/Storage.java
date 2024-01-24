@@ -14,6 +14,11 @@ public class Storage extends SubsystemBase {
 
     private static Storage instance;
 
+    /**
+     * Creates an instance of the Storage subsystem if it does not already exist.
+     *
+     * @return An instance of the Storage subsystem.
+     */
     public static Storage getInstance() {
         if (instance == null) {
             instance = new Storage();
@@ -21,17 +26,27 @@ public class Storage extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Resets the storage motor, inverts it, sets its idle mode to brake, and burns
+     * the settings to flash.
+     */
     private Storage() {
         storageMotor.restoreFactoryDefaults();
         storageMotor.setInverted(true);
         storageMotor.setIdleMode(IdleMode.kBrake);
         storageMotor.burnFlash();
     }
-    
+
+    /**
+     * Runs the Storage motor at a constant speed.
+     */
     public void run() {
         storageMotor.set(StorageConstants.motorSpeed);
     }
 
+    /**
+     * Stops the Storage motor.
+     */
     public void stop() {
         storageMotor.stopMotor();
     }

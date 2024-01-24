@@ -13,6 +13,10 @@ public final class Lift extends SubsystemBase {
 
     private static Lift instance;
 
+    /**
+     *
+     * @return An instance of the lift subsystem
+     */
     public static Lift getInstance() {
         if (instance == null) {
             instance = new Lift();
@@ -20,6 +24,9 @@ public final class Lift extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * resets the motors and sets the idle mode to coast
+     */
     private Lift() {
         leftLiftMotor.restoreFactoryDefaults();
         rightLiftMotor.restoreFactoryDefaults();
@@ -31,14 +38,23 @@ public final class Lift extends SubsystemBase {
         rightLiftMotor.burnFlash();
     }
 
+    /**
+     * runs motors forawds
+     */
     public void runPos() {
         leftLiftMotor.set(LiftConstants.motorSpeed);
     }
 
+    /**
+     * runs motors Backawds
+     */
     public void runNeg() {
         leftLiftMotor.set(-LiftConstants.motorSpeed);
     }
 
+    /**
+     * stops motors
+     */
     public void stop() {
         leftLiftMotor.stopMotor();
     }

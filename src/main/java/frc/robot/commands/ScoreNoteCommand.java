@@ -10,11 +10,6 @@ public class ScoreNoteCommand extends Command {
     private Timer timer = new Timer();
     private int secondsToScore;
 
-    /**
-     * a Constuctor that limits the time available to score.
-     *
-     * @param secondsToScore - int
-     */
     public ScoreNoteCommand(int secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;

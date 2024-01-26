@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class RecieveVisionDataReturnDrivingAround extends SubsystemBase {
 
+    private static Vision vision = Vision.getInstance();
+
     private static RecieveVisionDataReturnDrivingAround instance;
 
     public static RecieveVisionDataReturnDrivingAround getInstance() {
@@ -20,9 +22,11 @@ public class RecieveVisionDataReturnDrivingAround extends SubsystemBase {
     public RecieveVisionDataReturnDrivingAround() {
     }
 
-    public double getAngle(double x, double y) {
+    public double getAngle(int id) {
+        double x = vision.getX(id);
+        double y = vision.getY(id);
         if (x < VisionConstants.width / 2) {
-            x = -x;
+            x = -vision.getX(id);
         }
         if (y < VisionConstants.height / 2) {
             y = -y;
@@ -30,9 +34,16 @@ public class RecieveVisionDataReturnDrivingAround extends SubsystemBase {
         return Math.toDegrees(Math.atan(x / y));
     }
 
-    /*
-     * public double getDistance(double x, double y) {
-     *
-     * }
-     */
+    public double getDistance(int id) {
+        double y = vision.getY(id);
+        double oldY = 0.0;
+        if (y > oldY) {
+            oldY = y;
+            return y;
+        } else {
+            oldY = 0.0;
+            return -1;
+        }
+    }
+
 }

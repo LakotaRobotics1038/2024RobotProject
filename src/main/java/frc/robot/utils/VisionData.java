@@ -22,4 +22,16 @@ public class VisionData {
         return "x: " + this.x + " y: " + this.y + " area: " + this.area + " conf: " + this.confidence + " tgt: "
                 + this.target;
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getID() {
+        return target.getValue();
+    }
 }

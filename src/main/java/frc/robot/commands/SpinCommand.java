@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
+import frc.robot.subsystems.Vision.VisionTarget;
 
 public class SpinCommand extends Command {
     private RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
@@ -11,34 +12,31 @@ public class SpinCommand extends Command {
 
     private double gyroInit;
     private double gyroEnd;
-    private double x;
-    private double y;
-    private boolean negativeOrNot;
+    private boolean clockwise;
+    private VisionTarget id;
 
-    public SpinCommand(double x, double y) {
+    public SpinCommand(VisionTarget id) {
         addRequirements(recieveVisionDataReturnDrivingAround);
-        this.x = x;
-        this.y = y;
+        this.id = id;
     }
 
     @Override
     public void initialize() {
         gyroInit = driveTrain.getRoll();
-        gyroEnd = recieveVisionDataReturnDrivingAround.getAngle(x, y) + gyroInit;
+        gyroEnd = recieveVisionDataReturnDrivingAround.getAngle(id.getValue()) + gyroInit;
 
         if (gyroInit > gyroEnd) {
-            negativeOrNot = true;
+            clockwise = true;
         }
     }
 
     @Override
     public void execute() {
-        if (negativeOrNot == true) {
-            driveTrain.drive(1, 1, 1, false);
+        if (clockwise == true) {
+            driveTrain.drive(0, 0, 1, false);
         } else {
-            driveTrain.drive(1, 1, -1, false);
+            driveTrain.drive(0, 0, -1, false);
         }
-
     }
 
     @Override

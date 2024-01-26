@@ -45,6 +45,10 @@ public class Vision extends SubsystemBase {
         VisionTarget(int value) {
             this.value = value;
         }
+
+        public int getValue() {
+            return value;
+        }
     }
 
     public enum CameraStream {
@@ -146,5 +150,23 @@ public class Vision extends SubsystemBase {
 
     public boolean isEnabled1() {
         return enabled1;
+    }
+
+    public double getX(int id) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getID() == id) {
+                return visionData.get(i).getX();
+            }
+        }
+        return -1;
+    }
+
+    public double getY(int id) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getID() == id) {
+                return visionData.get(i).getY();
+            }
+        }
+        return -1;
     }
 }

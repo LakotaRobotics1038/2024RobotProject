@@ -10,4 +10,12 @@ public final class VisionConstants {
 
     public static final double width = 640;
     public static final double height = 480;
+
+    public static final double kP = 0.005;
+    public static final double kI = 0;
+    public static final double kD = 0.0002;
+    public static final double setpoint = 0.0;
+    public static final double maxSpeed = 0.5;
+
+    public static final int noteHeight = 14;
 }

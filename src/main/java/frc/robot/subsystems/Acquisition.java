@@ -31,7 +31,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     public boolean getLaserOutput() {
-        acqLaser.get();
+        return acqLaser.get();
     }
 
     public void acquire(double speed) {

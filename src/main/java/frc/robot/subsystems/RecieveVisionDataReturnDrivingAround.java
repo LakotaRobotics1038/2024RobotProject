@@ -37,12 +37,16 @@ public class RecieveVisionDataReturnDrivingAround extends SubsystemBase {
     public double getDistance(int id) {
         double y = vision.getY(id);
         double oldY = 0.0;
-        if (y > oldY) {
-            oldY = y;
-            return y;
-        } else {
-            oldY = 0.0;
-            return -1;
+        if (id == 17) {
+            if (y > oldY) {
+                oldY = y;
+                return y;
+            } else {
+                oldY = 0.0;
+                return -1;
+            }
+        } else if (id >= 0 && id <= 15) {
+            // code for april tags and area
         }
     }
 

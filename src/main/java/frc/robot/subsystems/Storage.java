@@ -31,7 +31,7 @@ public class Storage extends SubsystemBase {
     }
 
     public boolean getLaserOutput() {
-        storageLaser.get();
+        return storageLaser.get();
     }
 
     public void run() {

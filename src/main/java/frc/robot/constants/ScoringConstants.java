@@ -14,6 +14,7 @@ public class ScoringConstants {
     public static final double maxDistance = 0;
     public static final double minDistance = 0;
     public static final double maxSpeed = 1;
+    public static final double zeroSpeed = 0;
     public static final double minSpeed = -1;
     public static final double rollerSpeed = 0;
     public static final double loaderSpeed = 0;

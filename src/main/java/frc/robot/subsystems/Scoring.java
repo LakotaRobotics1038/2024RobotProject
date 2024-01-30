@@ -102,6 +102,17 @@ public class Scoring extends PIDSubsystem {
     public void runRoller(double speed) {
         speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
         rollerMotor.set(speed);
+
+    }
+
+    public void runRollerBackwardToShoot(double speed) {
+        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.zeroSpeed);
+        rollerMotor.set(speed);
+    }
+
+    public void runLoaderBackward(double speed) {
+        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.zeroSpeed);
+        leftLoadingMotor.set(speed);
     }
 
     public void stopRoller() {

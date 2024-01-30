@@ -27,7 +27,7 @@ public class Scoring extends PIDSubsystem {
     private final CANSparkMax rightLoadingMotor = new CANSparkMax(
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    private static DigitalInput loaderLaser = new DigitalInput(loaderLaserPort);
+    private static DigitalInput loaderLaser = new DigitalInput(ScoringConstants.loaderLaserPort);
 
     public enum ElevatorSetpoints {
         ground(ScoringConstants.groundSetpoint),

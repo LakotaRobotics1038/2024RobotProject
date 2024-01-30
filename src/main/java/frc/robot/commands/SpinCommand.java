@@ -1,23 +1,39 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Vision.VisionTarget;
 
-public class SpinCommand extends Command {
-    private RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
+public class SpinCommand extends PIDCommand {
+    private static RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
             .getInstance();
-    private DriveTrain driveTrain = DriveTrain.getInstance();
+    private static DriveTrain driveTrain = DriveTrain.getInstance();
+    private static Vision vision = Vision.getInstance();
 
     private double gyroInit;
     private double gyroEnd;
     private boolean clockwise;
     private VisionTarget id;
 
-    public SpinCommand(VisionTarget id) {
+    public SpinCommand(int id) {
+        super(new PIDController(0, 0, 0),
+                driveTrain::getHeading,
+                0 - recieveVisionDataReturnDrivingAround.getAngle(id),
+                output -> {
+                    output = MathUtil.clamp(output, 0, 360);
+                    driveTrain.drive(0, 0, output, true);
+                },
+                driveTrain, vision);
+        getController().enableContinuousInput(0, 360);
+
         addRequirements(recieveVisionDataReturnDrivingAround);
         this.id = id;
+    }
+
     }
 
     @Override

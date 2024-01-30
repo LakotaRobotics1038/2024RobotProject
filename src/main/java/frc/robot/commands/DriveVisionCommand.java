@@ -1,42 +1,39 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.constants.VisionConstants;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
 
-public class DriveVisionCommand extends PIDCommand {
-    private static DriveTrain drivetrain = DriveTrain.getInstance();
+public class DriveVisionCommand extends Command {
+    private DriveTrain drivetrain = DriveTrain.getInstance();
     private RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
             .getInstance();
+    private Timer timer;
 
     private int id;
 
     public DriveVisionCommand(int id) {
-        super(new PIDController(VisionConstants.kP, VisionConstants.kI, VisionConstants.kD),
-                drivetrain::getRoll,
-                VisionConstants.setpoint,
-                output -> {
-                    output = MathUtil.clamp(output, -VisionConstants.maxSpeed, VisionConstants.maxSpeed);
-                    drivetrain.drive(output, 0, 0, true);
-                },
-                drivetrain);
-
         addRequirements(recieveVisionDataReturnDrivingAround);
         this.id = id;
     }
 
     @Override
     public void execute() {
-        super.execute();
+        drivetrain.drive(0, 1, 0, false);
     }
 
     @Override
     public boolean isFinished() {
         if (recieveVisionDataReturnDrivingAround.getDistance(id) == -1) {
-            return true;
+            timer.start();
+            if (timer.get() >= 0.5) {
+                timer.stop();
+                timer.reset();
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }

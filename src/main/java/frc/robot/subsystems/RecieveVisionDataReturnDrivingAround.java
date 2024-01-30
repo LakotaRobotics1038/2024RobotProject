@@ -35,18 +35,15 @@ public class RecieveVisionDataReturnDrivingAround extends SubsystemBase {
     }
 
     public double getDistance(int id) {
-        // double y = vision.getY(id);
-        // double oldY = 0.0;
-        // if (y > oldY) {
-        // oldY = y;
-        // return y;
-        // } else {
-        // oldY = 0.0;
-        // return -1;
-        // }
-        double angle = getAngle(id);
-        double distance = VisionConstants.height / Math.tan(angle);
-        return distance;
+        double y = vision.getY(id);
+        double oldY = 0.0;
+        if (y > oldY) {
+            oldY = y;
+            return y;
+        } else {
+            oldY = 0.0;
+            return -1;
+        }
     }
 
 }

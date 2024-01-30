@@ -115,7 +115,7 @@ public class Scoring extends PIDSubsystem {
     }
 
     public boolean getLaserOutput() {
-        loaderLaser.get();
+        return loaderLaser.get();
     }
 
     public void setP(double p) {

@@ -8,6 +8,7 @@ import com.revrobotics.AbsoluteEncoder;
 
 import frc.robot.constants.ScoringConstants;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 
@@ -26,6 +27,7 @@ public class Scoring extends PIDSubsystem {
     private final CANSparkMax rightLoadingMotor = new CANSparkMax(
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    private static DigitalInput loaderLaser = new DigitalInput(loaderLaserPort);
 
     public enum ElevatorSetpoints {
         ground(ScoringConstants.groundSetpoint),
@@ -110,6 +112,10 @@ public class Scoring extends PIDSubsystem {
 
     public void stopLoader() {
         leftLoadingMotor.stopMotor();
+    }
+
+    public boolean getLaserOutput() {
+        loaderLaser.get();
     }
 
     public void setP(double p) {

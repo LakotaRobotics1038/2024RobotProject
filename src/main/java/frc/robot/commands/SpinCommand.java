@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.Vision.VisionTarget;
 
 public class SpinCommand extends PIDCommand {
     private static RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
@@ -17,7 +16,7 @@ public class SpinCommand extends PIDCommand {
     private double gyroInit;
     private double gyroEnd;
     private boolean clockwise;
-    private VisionTarget id;
+    private int id;
 
     public SpinCommand(int id) {
         super(new PIDController(0, 0, 0),
@@ -34,12 +33,10 @@ public class SpinCommand extends PIDCommand {
         this.id = id;
     }
 
-    }
-
     @Override
     public void initialize() {
         gyroInit = driveTrain.getRoll();
-        gyroEnd = recieveVisionDataReturnDrivingAround.getAngle(id.getValue()) + gyroInit;
+        gyroEnd = recieveVisionDataReturnDrivingAround.getAngle(id) + gyroInit;
 
         if (gyroInit > gyroEnd) {
             clockwise = true;

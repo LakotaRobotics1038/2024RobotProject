@@ -2,11 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
 
 public class DriveVisionCommand extends Command {
-    private DriveTrain drivetrain = DriveTrain.getInstance();
+    private DriveTrain driveTrain = DriveTrain.getInstance();
     private RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
             .getInstance();
     private Timer timer;
@@ -20,7 +21,7 @@ public class DriveVisionCommand extends Command {
 
     @Override
     public void execute() {
-        drivetrain.drive(0, 1, 0, false);
+        driveTrain.drive(0, 1, 0, false);
     }
 
     @Override
@@ -34,6 +35,8 @@ public class DriveVisionCommand extends Command {
             } else {
                 return false;
             }
+        } else if (recieveVisionDataReturnDrivingAround.getDistance(id) >= VisionConstants.aprilTagArea) {
+            return true;
         } else {
             return false;
         }
@@ -41,6 +44,6 @@ public class DriveVisionCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.drive(0, 0, 0, false);
+        driveTrain.drive(0, 0, 0, false);
     }
 }

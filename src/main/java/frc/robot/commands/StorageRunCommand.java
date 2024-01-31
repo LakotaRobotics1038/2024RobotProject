@@ -19,7 +19,7 @@ public class StorageRunCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return storage.getLaserOutput();
     }
 
     @Override

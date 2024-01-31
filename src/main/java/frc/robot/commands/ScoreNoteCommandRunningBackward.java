@@ -40,11 +40,13 @@ public class ScoreNoteCommandRunningBackward extends Command {
 
     }
 
+    @Override
     public boolean isFinished() {
         return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
     }
 
-    public void end() {
+    @Override
+    public void end(boolean interrupted) {
         scoring.stopLoader();
         scoring.stopRoller();
     }

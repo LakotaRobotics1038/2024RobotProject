@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.ScoringConstants;
 import frc.robot.subsystems.Scoring;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
 
@@ -33,11 +32,6 @@ public class ScoreNoteCommandRunningBackward extends Command {
         if (elevatorSetpoint.equals(ElevatorSetpoints.amp)) {
             scoring.setSetpoint(ElevatorSetpoints.amp.value);
         }
-
-        // Waiting on methods for these
-        // scoring.runRollerBackwardToShoot(-ScoringConstants.rollerSpeed);
-        // scoring.runLoaderBackward(-ScoringConstants.loaderSpeed);
-
     }
 
     @Override
@@ -49,6 +43,8 @@ public class ScoreNoteCommandRunningBackward extends Command {
     public void end(boolean interrupted) {
         scoring.stopLoader();
         scoring.stopRoller();
+        timer.stop();
+        timer.reset();
     }
 
 }

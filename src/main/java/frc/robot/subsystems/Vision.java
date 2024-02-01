@@ -169,4 +169,44 @@ public class Vision extends SubsystemBase {
         }
         return -1;
     }
+
+    public double getAngle(int id) {
+        double x = getX(id);
+        double y = getY(id);
+        if (x < VisionConstants.width / 2) {
+            x = -getX(id);
+        }
+        if (y < VisionConstants.height / 2) {
+            y = -y;
+        }
+        return Math.toDegrees(Math.atan(x / y));
+    }
+
+    public double getDistance(int id) {
+        double x1 = getX(id);
+        double x2 = getX(id);
+        double y1 = getY(id);
+        double y2 = getY(id);
+        double oldY = 0.0;
+
+        if (id == 17) {
+            if (y2 > oldY) {
+                oldY = y2;
+                return 0;
+            } else {
+                oldY = 0.0;
+                return -1;
+            }
+
+        } else if (id >= 0 && id <= 15) {
+            // code for april tags and area
+            double length = Math.abs(x2 - x1);
+            double width = Math.abs(y2 - y1);
+            double area = (width * length);
+            return area;
+        } else {
+            return 1;
+        }
+    }
+
 }

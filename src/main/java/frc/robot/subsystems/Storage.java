@@ -26,10 +26,6 @@ public class Storage extends SubsystemBase {
         return instance;
     }
 
-    /**
-     * Resets the storage motor, inverts it, sets its idle mode to brake, and burns
-     * the settings to flash.
-     */
     private Storage() {
         storageMotor.restoreFactoryDefaults();
         storageMotor.setInverted(true);

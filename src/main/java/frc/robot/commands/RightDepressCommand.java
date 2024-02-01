@@ -3,16 +3,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Lift;
 
-public class LiftExtendCommand extends Command {
+public class RightDepressCommand extends Command {
     private Lift lift = Lift.getInstance();
 
-    public LiftExtendCommand() {
+    public RightDepressCommand() {
         addRequirements(lift);
     }
 
     @Override
     public void execute() {
-        lift.runPos();
+        lift.runRightNeg();
     }
 
     @Override
@@ -23,7 +23,6 @@ public class LiftExtendCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        lift.stop();
+        lift.stopRightMotor();
     }
-
 }

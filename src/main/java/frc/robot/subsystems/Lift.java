@@ -30,15 +30,27 @@ public final class Lift extends SubsystemBase {
         rightLiftMotor.burnFlash();
     }
 
-    public void runPos() {
+    public void runLeftPos() {
         leftLiftMotor.set(LiftConstants.motorSpeed);
     }
 
-    public void runNeg() {
+    public void runRightPos() {
+        rightLiftMotor.set(LiftConstants.motorSpeed);
+    }
+
+    public void runLeftNeg() {
         leftLiftMotor.set(-LiftConstants.motorSpeed);
     }
 
-    public void stop() {
+    public void runRightNeg() {
+        rightLiftMotor.set(-LiftConstants.motorSpeed);
+    }
+
+    public void stopLeftMotor() {
         leftLiftMotor.stopMotor();
+    }
+
+    public void stopRightMotor() {
+        rightLiftMotor.stopMotor();
     }
 }

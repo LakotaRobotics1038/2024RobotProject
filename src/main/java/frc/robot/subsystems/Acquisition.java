@@ -30,7 +30,7 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
-    public boolean getLaserOutput() {
+    public boolean isNotePresent() {
         return acqLaser.get();
     }
 

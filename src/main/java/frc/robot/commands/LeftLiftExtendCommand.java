@@ -18,7 +18,6 @@ public class LeftLiftExtendCommand extends Command {
     @Override
     public boolean isFinished() {
         return false;
-        // awaiting sensors
     }
 
     @Override

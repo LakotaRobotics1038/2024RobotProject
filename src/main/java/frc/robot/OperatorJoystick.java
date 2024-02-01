@@ -52,7 +52,7 @@ public class OperatorJoystick extends XboxController1038 {
         }
 
         rightBumper.onTrue(new AcquireCommand(AcquisitionConstants.motorSpeed));
-        rightTrigger.onTrue(new AcquireCommand(AcquisitionConstants.reverseMotorSpeed));
+        rightTrigger.whileTrue(new AcquireCommand(AcquisitionConstants.reverseMotorSpeed));
 
     }
 }

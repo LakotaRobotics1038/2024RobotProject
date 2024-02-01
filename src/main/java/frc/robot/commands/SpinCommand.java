@@ -4,12 +4,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
 import frc.robot.subsystems.Vision;
 
 public class SpinCommand extends PIDCommand {
-    private static RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
-            .getInstance();
     private static DriveTrain driveTrain = DriveTrain.getInstance();
     private static Vision vision = Vision.getInstance();
 
@@ -21,7 +18,7 @@ public class SpinCommand extends PIDCommand {
     public SpinCommand(int id) {
         super(new PIDController(0, 0, 0),
                 driveTrain::getHeading,
-                0 - recieveVisionDataReturnDrivingAround.getAngle(id),
+                0 - vision.getAngle(id),
                 output -> {
                     output = MathUtil.clamp(output, 0, 360);
                     driveTrain.drive(0, 0, output, true);
@@ -29,14 +26,14 @@ public class SpinCommand extends PIDCommand {
                 driveTrain, vision);
         getController().enableContinuousInput(0, 360);
 
-        addRequirements(recieveVisionDataReturnDrivingAround);
+        addRequirements(vision);
         this.id = id;
     }
 
     @Override
     public void initialize() {
         gyroInit = driveTrain.getRoll();
-        gyroEnd = recieveVisionDataReturnDrivingAround.getAngle(id) + gyroInit;
+        gyroEnd = vision.getAngle(id) + gyroInit;
 
         if (gyroInit > gyroEnd) {
             clockwise = true;

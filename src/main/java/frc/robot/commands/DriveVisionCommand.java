@@ -4,18 +4,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.RecieveVisionDataReturnDrivingAround;
+import frc.robot.subsystems.Vision;
 
 public class DriveVisionCommand extends Command {
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private RecieveVisionDataReturnDrivingAround recieveVisionDataReturnDrivingAround = RecieveVisionDataReturnDrivingAround
-            .getInstance();
+    private Vision vision = Vision.getInstance();
     private Timer timer;
 
     private int id;
 
     public DriveVisionCommand(int id) {
-        addRequirements(recieveVisionDataReturnDrivingAround);
+        addRequirements(vision);
         this.id = id;
     }
 
@@ -26,7 +25,7 @@ public class DriveVisionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (recieveVisionDataReturnDrivingAround.getDistance(id) == -1) {
+        if (vision.getDistance(id) == -1) {
             timer.start();
             if (timer.get() >= 0.5) {
                 timer.stop();
@@ -35,7 +34,7 @@ public class DriveVisionCommand extends Command {
             } else {
                 return false;
             }
-        } else if (recieveVisionDataReturnDrivingAround.getDistance(id) >= VisionConstants.aprilTagArea) {
+        } else if (vision.getDistance(id) >= VisionConstants.aprilTagArea) {
             return true;
         } else {
             return false;

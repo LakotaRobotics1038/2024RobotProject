@@ -31,8 +31,8 @@ public class Storage extends SubsystemBase {
     }
 
     public void run(double speed) {
-        double zoom = MathUtil.clamp(speed, -StorageConstants.maxMotorSpeed, StorageConstants.maxMotorSpeed);
-        storageMotor.set(zoom);
+        speed = MathUtil.clamp(speed, -StorageConstants.maxMotorSpeed, StorageConstants.maxMotorSpeed);
+        storageMotor.set(speed);
     }
 
     public void stop() {

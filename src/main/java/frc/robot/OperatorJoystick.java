@@ -13,6 +13,7 @@ import frc.robot.commands.LiftExtendCommand;
 import frc.robot.commands.StorageRunCommand;
 
 public class OperatorJoystick extends XboxController1038 {
+    // singleton setup
     private Scoring scoring = Scoring.getInstance();
 
     private static OperatorJoystick instance;

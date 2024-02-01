@@ -114,7 +114,7 @@ public class Scoring extends PIDSubsystem {
         leftLoadingMotor.stopMotor();
     }
 
-    public boolean getLaserOutput() {
+    public boolean isNotePresent() {
         return loaderLaser.get();
     }
 

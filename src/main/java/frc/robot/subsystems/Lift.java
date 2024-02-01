@@ -25,7 +25,6 @@ public final class Lift extends SubsystemBase {
         rightLiftMotor.restoreFactoryDefaults();
         leftLiftMotor.setIdleMode(IdleMode.kCoast);
         rightLiftMotor.setIdleMode(IdleMode.kCoast);
-        rightLiftMotor.follow(leftLiftMotor);
 
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();

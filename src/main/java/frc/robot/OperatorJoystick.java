@@ -1,20 +1,23 @@
 package frc.robot;
 
 import frc.robot.libraries.XboxController1038;
+import frc.robot.libraries.XboxController1038.PovPositions;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
-import frc.robot.subsystems.Scoring;
-import frc.robot.constants.ScoringConstants;
 import frc.robot.constants.StorageConstants;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquireCommand;
 import frc.robot.commands.LiftDepressCommand;
 import frc.robot.commands.LiftExtendCommand;
+import frc.robot.commands.ScoreNoteCommand;
+import frc.robot.commands.ScoringPositionCommand;
 import frc.robot.commands.StorageRunCommand;
 
 public class OperatorJoystick extends XboxController1038 {
     // singleton setup
-    private Scoring scoring = Scoring.getInstance();
+    private final int OperatorJoystickPort = 1;
+    private XboxController1038 operatorJoystick = new XboxController1038(OperatorJoystickPort);
 
     private static OperatorJoystick instance;
 
@@ -34,22 +37,17 @@ public class OperatorJoystick extends XboxController1038 {
         xButton.onTrue(new LiftDepressCommand());
         yButton.onTrue(new LiftExtendCommand());
 
-        switch (this.getPOVPosition()) {
-            case Up:
-                scoring.runRoller(ScoringConstants.rollerSpeed);
-                break;
-            case Right:
-                scoring.setSetpoint(ElevatorSetpoints.amp);
-                break;
-            case Down:
-                scoring.setSetpoint(ElevatorSetpoints.ground);
-                break;
-            case Left:
-                scoring.setSetpoint(ElevatorSetpoints.trap);
-                break;
-            default:
-                break;
-        }
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Up)
+                .onTrue(new ScoreNoteCommand());
+
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
+                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.trap));
+
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
+                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.ground));
+
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
+                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.trap));
 
         rightBumper.onTrue(new AcquireCommand(AcquisitionConstants.motorSpeed));
         rightTrigger.whileTrue(new AcquireCommand(AcquisitionConstants.reverseMotorSpeed));

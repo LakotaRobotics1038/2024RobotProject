@@ -6,16 +6,13 @@ import frc.robot.subsystems.Acquisition;
 public class AcquireCommand extends Command {
     private static Acquisition acquisition = Acquisition.getInstance();
 
-    private double speed;
-
-    public AcquireCommand(double speed) {
+    public AcquireCommand() {
         addRequirements(acquisition);
-        this.speed = speed;
     }
 
     @Override
     public void execute() {
-        acquisition.acquire(speed);
+        acquisition.acquire();
     }
 
     @Override

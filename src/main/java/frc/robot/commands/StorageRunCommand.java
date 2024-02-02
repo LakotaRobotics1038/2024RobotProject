@@ -6,8 +6,6 @@ import frc.robot.subsystems.Storage;
 public class StorageRunCommand extends Command {
     private Storage storage = Storage.getInstance();
 
-    private double speed;
-
     public StorageRunCommand() {
         addRequirements(storage);
     }
@@ -19,7 +17,7 @@ public class StorageRunCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return storage.getLaserOutput();
+        return storage.isNoteInTransition();
     }
 
     @Override

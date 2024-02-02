@@ -20,7 +20,7 @@ public class AcquireCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return acquisition.getLaserOutput();
+        return acquisition.isNotePresent();
     }
 
     @Override

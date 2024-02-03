@@ -15,7 +15,7 @@ public class StorageRunCommand extends Command {
 
     @Override
     public void execute() {
-        storage.runLoader();
+        storage.runStorage();
         storage.runTransition();
     }
 

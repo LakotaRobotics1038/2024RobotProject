@@ -11,4 +11,6 @@ public class AcquisitionConstants {
     public static final double minMotorSpeed = -1;
     public static final double sushiSpeed = 0;
     public static final double intakeSpeed = 0;
+
+    public static final double defaultTimeToAcquire = 0.5;
 }

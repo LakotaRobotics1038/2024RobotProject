@@ -2,23 +2,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.AcquisitionConstants;
 import frc.robot.subsystems.Acquisition;
 
-public class AcquireCommand extends Command {
-    private static Acquisition acquisition = Acquisition.getInstance();
+public class RelinquishCommand extends Command {
+    private Acquisition acquisition = Acquisition.getInstance();
     private Timer timer = new Timer();
-    private double timeToAcquire;
+    private double timeToDrop = 1;
 
-    public AcquireCommand() {
+    public RelinquishCommand() {
         addRequirements(acquisition);
-        this.timeToAcquire = AcquisitionConstants.defaultTimeToAcquire;
     }
 
-    public AcquireCommand(double timeToAcquire) {
+    public RelinquishCommand(int timeToDrop) {
         addRequirements(acquisition);
-
-        this.timeToAcquire = timeToAcquire;
+        this.timeToDrop = timeToDrop;
     }
 
     @Override
@@ -28,14 +25,13 @@ public class AcquireCommand extends Command {
 
     @Override
     public void execute() {
-        acquisition.acquire();
+        acquisition.reverseMotors();
     }
 
     @Override
     public boolean isFinished() {
-        // TODO: update with sensors
 
-        return acquisition.isNotePresent() || (timeToAcquire == 0) || (timer.get() > timeToAcquire);
+        return (timeToDrop == 0) || (timeToDrop < timer.get());
     }
 
     @Override

@@ -12,4 +12,6 @@ public class StorageConstants {
     public static final double transitionSpeed = 0.0;
     public static final double storageSpeed = 0.0;
 
+    public static final double defaultTimeToRun = 0.5;
+
 }

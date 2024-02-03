@@ -171,7 +171,12 @@ public class Vision extends SubsystemBase {
     }
 
     public double getArea(int id) {
-        return getArea(id);
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getID() == id) {
+                return visionData.get(i).getArea();
+            }
+        }
+        return -1;
     }
 
     public double getAngle(int id) {

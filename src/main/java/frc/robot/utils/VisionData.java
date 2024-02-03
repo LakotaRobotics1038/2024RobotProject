@@ -34,4 +34,8 @@ public class VisionData {
     public int getID() {
         return target.getValue();
     }
+
+    public double getArea() {
+        return area;
+    }
 }

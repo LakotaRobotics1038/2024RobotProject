@@ -170,6 +170,10 @@ public class Vision extends SubsystemBase {
         return -1;
     }
 
+    public double getArea(int id) {
+        return getArea(id);
+    }
+
     public double getAngle(int id) {
         double x = getX(id);
         double y = getY(id);
@@ -183,15 +187,12 @@ public class Vision extends SubsystemBase {
     }
 
     public double getDistance(int id) {
-        double x1 = getX(id);
-        double x2 = getX(id);
-        double y1 = getY(id);
-        double y2 = getY(id);
+        double y = getY(id);
         double oldY = 0.0;
 
         if (id == 17) {
-            if (y2 > oldY) {
-                oldY = y2;
+            if (y > oldY) {
+                oldY = y;
                 return 0;
             } else {
                 oldY = 0.0;
@@ -199,10 +200,7 @@ public class Vision extends SubsystemBase {
             }
 
         } else if (id >= 0 && id <= 15) {
-            // code for april tags and area
-            double length = Math.abs(x2 - x1);
-            double width = Math.abs(y2 - y1);
-            double area = (width * length);
+            double area = getArea(id);
             return area;
         } else {
             return 1;

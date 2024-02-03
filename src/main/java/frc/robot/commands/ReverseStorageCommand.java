@@ -6,7 +6,7 @@ import frc.robot.subsystems.Storage;
 public class ReverseStorageCommand extends Command {
     private Storage storage = Storage.getInstance();
 
-    public TransitionRunCommand() {
+    public ReverseStorageCommand() {
         addRequirements(storage);
     }
 

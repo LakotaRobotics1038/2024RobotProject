@@ -195,7 +195,7 @@ public class Vision extends SubsystemBase {
         double y = getY(id);
         double oldY = 0.0;
 
-        if (id == 17) {
+        if (id == VisionTarget.NOTES.value) {
             if (y > oldY) {
                 oldY = y;
                 return 0;
@@ -204,7 +204,7 @@ public class Vision extends SubsystemBase {
                 return -1;
             }
 
-        } else if (id >= 0 && id <= 15) {
+        } else if (id >= VisionTarget.APR1.value && id <= VisionTarget.APT16.value) {
             double area = getArea(id);
             return area;
         } else {

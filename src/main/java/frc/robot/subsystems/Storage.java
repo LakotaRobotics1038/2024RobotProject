@@ -55,11 +55,11 @@ public class Storage extends SubsystemBase {
         transitionMotor.set(-StorageConstants.transitionSpeed);
     }
 
-    public void runLoader() {
+    public void runStorage() {
         leftStorage.set(StorageConstants.storageSpeed);
     }
 
-    public void reverseLoader() {
+    public void reverseStorage() {
         leftStorage.set(-StorageConstants.storageSpeed);
     }
 

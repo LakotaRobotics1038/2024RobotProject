@@ -53,7 +53,7 @@ public final class Lift extends SubsystemBase {
     }
 
     public void runNeg() {
-        leftLiftMotor.set(-LiftConstants.backwardsMotorSpeed);
+        leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
 
     public void stop() {

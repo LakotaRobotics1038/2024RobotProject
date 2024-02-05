@@ -22,6 +22,11 @@ public class Storage extends SubsystemBase {
 
     private static Storage instance;
 
+    /**
+     * Creates an instance of the Storage subsystem if it does not already exist.
+     *
+     * @return An instance of the Storage subsystem.
+     */
     public static Storage getInstance() {
         if (instance == null) {
             instance = new Storage();

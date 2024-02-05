@@ -28,6 +28,11 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.burnFlash();
     }
 
+    /**
+     * Creates a new instance of the Acquisition subsystem if it does not exist.
+     *
+     * @return An instance of the Acquisition subsystem
+     */
     public static Acquisition getInstance() {
         if (instance == null) {
             instance = new Acquisition();
@@ -48,6 +53,9 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
+    /**
+     * Stops the motor.
+     */
     public void stop() {
         sushiMotor.stopMotor();
         intakeMotor.stopMotor();

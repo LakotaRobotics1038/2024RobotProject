@@ -37,7 +37,8 @@ public class UnacquireCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        acquisition.stop();
+        acquisition.stopIntake();
+        acquisition.stopSushi();
         timer.stop();
         timer.reset();
     }

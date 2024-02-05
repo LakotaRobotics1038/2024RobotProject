@@ -31,8 +31,8 @@ public class OperatorJoystick extends XboxController1038 {
         super(IOConstants.kOperatorControllerPort);
 
         aButton.whileTrue(new DropNoteCommand());
-        xButton.onTrue(new TransitionRunCommand());
-        yButton.onTrue(new AcquireCommand());
-        bButton.onTrue(new StorageRunCommand());
+        xButton.whileTrue(new TransitionRunCommand());
+        yButton.whileTrue(new AcquireCommand());
+        bButton.whileTrue(new StorageRunCommand());
     }
 }

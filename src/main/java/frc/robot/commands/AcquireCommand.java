@@ -33,8 +33,6 @@ public class AcquireCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // TODO: update with sensors
-
         return acquisition.isNotePresent() || (timeToAcquire == 0) || (timer.get() > timeToAcquire);
     }
 

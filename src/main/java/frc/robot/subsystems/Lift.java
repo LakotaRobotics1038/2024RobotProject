@@ -12,8 +12,8 @@ public final class Lift extends SubsystemBase {
     private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
 
-    private Servo leftServo = new Servo(LiftConstants.leftServoPort);
-    private Servo rightServo = new Servo(LiftConstants.rightServoPort);
+    private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
+    private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
 
     private static Lift instance;
 
@@ -31,21 +31,21 @@ public final class Lift extends SubsystemBase {
         rightLiftMotor.setIdleMode(IdleMode.kCoast);
         rightLiftMotor.follow(leftLiftMotor);
 
-        leftServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
-        rightServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        leftRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        rightRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
 
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();
     }
 
     public void enableRatchets() {
-        leftServo.set(1);
-        rightServo.set(1);
+        leftRatchetServo.set(LiftConstants.ratchetMaxExtend);
+        rightRatchetServo.set(LiftConstants.ratchetMaxExtend);
     }
 
     public void disableRatchets() {
-        leftServo.set(0);
-        rightServo.set(0);
+        leftRatchetServo.set(LiftConstants.ratchetMinExtend);
+        rightRatchetServo.set(LiftConstants.ratchetMinExtend);
     }
 
     public void runPos() {
@@ -53,7 +53,7 @@ public final class Lift extends SubsystemBase {
     }
 
     public void runNeg() {
-        leftLiftMotor.set(-LiftConstants.motorSpeed);
+        leftLiftMotor.set(-LiftConstants.backwardsMotorSpeed);
     }
 
     public void stop() {

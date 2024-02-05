@@ -2,18 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.subsystems.Acquisition;
 
-public class RelinquishCommand extends Command {
+public class UnacquireCommand extends Command {
     private Acquisition acquisition = Acquisition.getInstance();
     private Timer timer = new Timer();
-    private double timeToDrop = 1;
+    private double timeToDrop = AcquisitionConstants.timeToDrop;
 
-    public RelinquishCommand() {
+    public UnacquireCommand() {
         addRequirements(acquisition);
     }
 
-    public RelinquishCommand(int timeToDrop) {
+    public UnacquireCommand(int timeToDrop) {
         addRequirements(acquisition);
         this.timeToDrop = timeToDrop;
     }
@@ -31,7 +32,7 @@ public class RelinquishCommand extends Command {
     @Override
     public boolean isFinished() {
 
-        return (timeToDrop == 0) || (timeToDrop < timer.get());
+        return timeToDrop == 0 || timeToDrop < timer.get();
     }
 
     @Override

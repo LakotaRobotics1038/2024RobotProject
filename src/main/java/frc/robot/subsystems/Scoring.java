@@ -25,9 +25,9 @@ public class Scoring extends PIDSubsystem {
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     public enum ElevatorSetpoints {
-        ground(ScoringConstants.groundSetpoint),
-        amp(ScoringConstants.ampSetpoint),
-        trap(ScoringConstants.trapSetpoint);
+        Ground(ScoringConstants.groundSetpoint),
+        Amp(ScoringConstants.ampSetpoint),
+        Trap(ScoringConstants.trapSetpoint);
 
         public final double value;
 

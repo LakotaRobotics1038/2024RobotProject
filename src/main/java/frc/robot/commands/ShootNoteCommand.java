@@ -10,13 +10,13 @@ public class ShootNoteCommand extends Command {
     private Timer timer = new Timer();
     private int secondsToScore;
 
-    public ShootNoteCommand(int secondsToScore) {
-        this.addRequirements(scoring);
-        this.secondsToScore = secondsToScore;
-    }
-
     public ShootNoteCommand() {
         this.addRequirements(scoring);
+    }
+
+    public ShootNoteCommand(int secondsToScore) {
+        addRequirements(scoring);
+        this.secondsToScore = secondsToScore;
     }
 
     @Override
@@ -26,18 +26,18 @@ public class ShootNoteCommand extends Command {
 
     @Override
     public void execute() {
-      if (scoring.getPosition() != ScoringConstants.groundSetpoint) {
-          scoring.rollerShoot();
-      }
+        if (scoring.getPosition() != ScoringConstants.groundSetpoint) {
+            scoring.rollerShoot();
+        }
 
-      // can i run the position command inside this command
+        // TODO: whatever part is intentionally not completed
     }
 
     @Override
     public boolean isFinished() {
-      if (scoring.getPosition() == ScoringConstants.groundSetpoint) {
-          return true;
-      }
+        if (scoring.getPosition() == ScoringConstants.groundSetpoint) {
+            return true;
+        }
         return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
     }
 

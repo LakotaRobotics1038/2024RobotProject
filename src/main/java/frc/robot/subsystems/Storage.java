@@ -12,13 +12,13 @@ public class Storage extends SubsystemBase {
 
     private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
             MotorType.kBrushless);
-    private final CANSparkMax leftStorage = new CANSparkMax(
+    private final CANSparkMax leftStorageMotor = new CANSparkMax(
             StorageConstants.leftStoragePort, MotorType.kBrushless);
-    private final CANSparkMax rightStorage = new CANSparkMax(
+    private final CANSparkMax rightStorageMotor = new CANSparkMax(
             StorageConstants.rightStoragePort, MotorType.kBrushless);
 
-    private final DigitalInput beginLaser = new DigitalInput(StorageConstants.beginLaserPort);
-    private final DigitalInput endLaser = new DigitalInput(StorageConstants.endLaserPort);
+    private final DigitalInput enterStorageMotor = new DigitalInput(StorageConstants.enterStorageMotorPort);
+    private final DigitalInput exitStorageMotor = new DigitalInput(StorageConstants.exitStorageMotorPort);
 
     private static Storage instance;
 
@@ -36,20 +36,20 @@ public class Storage extends SubsystemBase {
 
     private Storage() {
         transitionMotor.restoreFactoryDefaults();
-        leftStorage.restoreFactoryDefaults();
-        rightStorage.restoreFactoryDefaults();
+        leftStorageMotor.restoreFactoryDefaults();
+        rightStorageMotor.restoreFactoryDefaults();
 
         transitionMotor.setInverted(true);
 
-        leftStorage.setIdleMode(IdleMode.kCoast);
-        rightStorage.setIdleMode(IdleMode.kCoast);
+        leftStorageMotor.setIdleMode(IdleMode.kCoast);
+        rightStorageMotor.setIdleMode(IdleMode.kCoast);
         transitionMotor.setIdleMode(IdleMode.kBrake);
 
-        rightStorage.follow(leftStorage, true);
+        rightStorageMotor.follow(leftStorageMotor, true);
 
         transitionMotor.burnFlash();
-        leftStorage.burnFlash();
-        rightStorage.burnFlash();
+        leftStorageMotor.burnFlash();
+        rightStorageMotor.burnFlash();
     }
 
     public void runTransition() {
@@ -57,19 +57,19 @@ public class Storage extends SubsystemBase {
     }
 
     public void reverseTransition() {
-        transitionMotor.set(-StorageConstants.transitionSpeed);
+        transitionMotor.set(StorageConstants.reverseTransitionSpeed);
     }
 
     public void runStorage() {
-        leftStorage.set(StorageConstants.storageSpeed);
+        leftStorageMotor.set(StorageConstants.storageSpeed);
     }
 
     public void reverseStorage() {
-        leftStorage.set(-StorageConstants.storageSpeed);
+        leftStorageMotor.set(StorageConstants.reverseStorageSpeed);
     }
 
     public void stopStorage() {
-        leftStorage.stopMotor();
+        leftStorageMotor.stopMotor();
     }
 
     public void stopTransition() {
@@ -77,10 +77,10 @@ public class Storage extends SubsystemBase {
     }
 
     public boolean noteEnteringStorage() {
-        return beginLaser.get();
+        return enterStorageMotor.get();
     }
 
     public boolean noteExitingStorage() {
-        return endLaser.get();
+        return exitStorageMotor.get();
     }
 }

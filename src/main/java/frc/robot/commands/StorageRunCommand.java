@@ -7,7 +7,6 @@ public class StorageRunCommand extends Command {
     private Storage storage = Storage.getInstance();
 
     private boolean seenNote;
-    private double speed;
 
     public StorageRunCommand() {
         addRequirements(storage);
@@ -23,12 +22,10 @@ public class StorageRunCommand extends Command {
     public boolean isFinished() {
         if (storage.noteExitingStorage()) {
             seenNote = true;
-            return false;
-        } else if (!storage.noteEnteringStorage() && seenNote) {
+        } else if (seenNote) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override

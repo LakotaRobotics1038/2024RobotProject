@@ -2,20 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.ScoringConstants;
 import frc.robot.subsystems.Scoring;
 
-public class DropNoteCommand extends Command {
+public class ScoreNoreAmpCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
     private int secondsToScore;
 
-    public DropNoteCommand(int secondsToScore) {
+    public ScoreNoreAmpCommand(int secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;
     }
 
-    public DropNoteCommand() {
+    public ScoreNoreAmpCommand() {
         this.addRequirements(scoring);
     }
 

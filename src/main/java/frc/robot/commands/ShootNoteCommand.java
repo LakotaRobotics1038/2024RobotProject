@@ -29,8 +29,6 @@ public class ShootNoteCommand extends Command {
         if (scoring.getPosition() != ScoringConstants.groundSetpoint) {
             scoring.rollerShoot();
         }
-
-        // TODO: whatever part is intentionally not completed
     }
 
     @Override

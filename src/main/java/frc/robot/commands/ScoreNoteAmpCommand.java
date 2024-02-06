@@ -4,17 +4,17 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Scoring;
 
-public class ScoreNoreAmpCommand extends Command {
+public class ScoreNoteAmpCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
     private int secondsToScore;
 
-    public ScoreNoreAmpCommand(int secondsToScore) {
+    public ScoreNoteAmpCommand(int secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;
     }
 
-    public ScoreNoreAmpCommand() {
+    public ScoreNoteAmpCommand() {
         this.addRequirements(scoring);
     }
 

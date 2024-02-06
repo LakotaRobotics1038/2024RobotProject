@@ -17,6 +17,11 @@ public final class Lift extends SubsystemBase {
 
     private static Lift instance;
 
+    /**
+     * Creates an instance of the Lift subsystem if it does not exist.
+     *
+     * @return An instance of the lift subsystem
+     */
     public static Lift getInstance() {
         if (instance == null) {
             instance = new Lift();
@@ -24,6 +29,10 @@ public final class Lift extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * resets the motors, sets the idle mode to coast and makes the right motor
+     * follow the left. Burns these settings to the flash of each motor.
+     */
     private Lift() {
         leftLiftMotor.restoreFactoryDefaults();
         rightLiftMotor.restoreFactoryDefaults();
@@ -39,6 +48,7 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
+
      * Enables the lift ratchets (sets them to a contant maximum extension).
      */
     public void enableRatchets() {

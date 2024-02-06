@@ -93,7 +93,8 @@ public class Scoring extends PIDSubsystem {
     public void setSetpoint(ElevatorSetpoints setpoint) {
         setSetpoint(setpoint.value);
     }
-    
+   
+  
     /**
      * Returns the position of the scoring elevator encoder.
      *

@@ -74,40 +74,79 @@ public class Scoring extends PIDSubsystem {
     protected double getMeasurement() {
         return getPosition();
     }
-
+    
+    /**
+     * Sets the Scoring PID setpoint to a clamped value.
+     *
+     * @param double - desired setpoint
+     */
     public void setClampSetpoint(double setpoint) {
         setpoint = MathUtil.clamp(setpoint, ScoringConstants.minSpeed, ScoringConstants.maxDistance);
         super.setSetpoint(setpoint);
     }
-
+    
+    /**
+     * Sets the Scoring PID setpoint to one of the constant setpoints.
+     *
+     * @param ElevatorSetpoints - desired setpoint
+     */
     public void setSetpoint(ElevatorSetpoints setpoint) {
         setSetpoint(setpoint.value);
     }
-
+    
+    /**
+     * Returns the position of the scoring elevator encoder.
+     *
+     * @return double - current encoder position
+     */
     public double getPosition() {
         return leftScoringElevatorEncoder.getPosition();
     }
-
+    
+    /**
+     * Runs the scoring roller at the constant speed designated for regular scoring.
+     */
     public void runRoller() {
         rollerMotor.set(ScoringConstants.rollerSpeed);
     }
-
+    
+    /**
+     * Runs the scoring roller at the constant speed designated for shooting.
+     */
     public void rollerShoot() {
         rollerMotor.set(-ScoringConstants.rollerSpeed);
     }
-
+    
+    /**
+     * Stops the scoring roller.
+     */
     public void stopRoller() {
         rollerMotor.stopMotor();
     }
-
+    
+    /**
+     * Sets P value for scoring PID.     
+     *
+     * @param double - desired P value
+     */
     public void setP(double p) {
         getController().setP(p);
     }
-
+    
+    /**
+     * Sets I value for scoring PID.
+     *
+     * @param double - desired I value
+     */
     public void setI(double i) {
         getController().setI(i);
     }
-
+    
+    /**
+     * Sets D value for scoring PID.
+     *
+     * @param double - desired D value
+     */
     public void setD(double d) {
         getController().setD(d);
     }

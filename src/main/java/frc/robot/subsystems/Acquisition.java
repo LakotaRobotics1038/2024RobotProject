@@ -39,30 +39,49 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the acquisition intake motor at a constant speed.
+     */
     public void acquire() {
         intakeMotor.set(AcquisitionConstants.intakeSpeed);
     }
 
+    
+    /**
+     * Runs the acquisition sushi motor at a constant speed.
+     */
     public void runSushi() {
         sushiMotor.set(AcquisitionConstants.sushiSpeed);
     }
 
+    /**
+     * Reverses both acquisition motors at a constant speed.
+     */
     public void reverseMotors() {
         sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
     /**
-     * Stops the motor.
+     * Stops the acquisition sushi motor.
      */
     public void stopSushi() {
         sushiMotor.stopMotor();
     }
 
+    
+    /**
+     * Stops the acquisition intake motor.
+     */
     public void stopIntake() {
         intakeMotor.stopMotor();
     }
 
+    /**
+     * Returns the output of the acquisition laser.
+     *
+     * @return boolean - status of the acquisition laser
+     */
     public boolean isNotePresent() {
         return acqLaser.get();
     }

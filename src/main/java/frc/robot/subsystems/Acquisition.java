@@ -4,21 +4,27 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
 
-    private static CANSparkMax driveMotor = new CANSparkMax(AcquisitionConstants.motorPort, MotorType.kBrushless);
+    private static CANSparkMax sushiMotor = new CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
+    private static CANSparkMax intakeMotor = new CANSparkMax(AcquisitionConstants.intakeMotorPort,
+            MotorType.kBrushless);
+    private static DigitalInput acqLaser = new DigitalInput(AcquisitionConstants.acqLaserPort);
 
     private Acquisition() {
-        driveMotor.restoreFactoryDefaults();
+        sushiMotor.restoreFactoryDefaults();
+        intakeMotor.restoreFactoryDefaults();
 
-        driveMotor.setIdleMode(IdleMode.kBrake);
+        sushiMotor.setIdleMode(IdleMode.kBrake);
+        intakeMotor.setIdleMode(IdleMode.kBrake);
 
-        driveMotor.burnFlash();
+        sushiMotor.burnFlash();
+        intakeMotor.burnFlash();
     }
 
     /**
@@ -34,27 +40,49 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Clamps the given speed to fit between the minimum and maximum speeds, then
-     * runs the motor at the clamped speed.
+     * Runs the acquisition intake motor at a constant speed.
+     */
+    public void acquire() {
+        intakeMotor.set(AcquisitionConstants.intakeSpeed);
+    }
+
+    
+    /**
+     * Runs the acquisition sushi motor at a constant speed.
+     */
+    public void runSushi() {
+        sushiMotor.set(AcquisitionConstants.sushiSpeed);
+    }
+
+    /**
+     * Reverses both acquisition motors at a constant speed.
+     */
+    public void reverseMotors() {
+        sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
+        intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
+    }
+
+    /**
+     * Stops the acquisition sushi motor.
+     */
+    public void stopSushi() {
+        sushiMotor.stopMotor();
+    }
+
+    
+    /**
+     * Stops the acquisition intake motor.
+     */
+    public void stopIntake() {
+        intakeMotor.stopMotor();
+    }
+
+    /**
+     * Returns the output of the acquisition laser.
      *
-     * @param speed The speed at which the subsystem is to run its motor.
+     * @return boolean - status of the acquisition laser
      */
-    public void acquire(double speed) {
-        speed = MathUtil.clamp(speed, AcquisitionConstants.minMotorSpeed, AcquisitionConstants.maxMotorSpeed);
-        driveMotor.set(speed);
-    }
-
-    /**
-     * Runs the Acquistion motor backwards at a constant speed.
-     */
-    public void dispose() {
-        driveMotor.set(-AcquisitionConstants.motorSpeed);
-    }
-
-    /**
-     * Stops the motor.
-     */
-    public void stop() {
-        driveMotor.stopMotor();
+    public boolean isNotePresent() {
+        return acqLaser.get();
     }
 }

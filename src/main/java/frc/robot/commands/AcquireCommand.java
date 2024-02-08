@@ -46,7 +46,7 @@ public class AcquireCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         acquisition.stopSushi();
-        acquisition.stopSushi();
+        acquisition.stopIntake();
         timer.stop();
         timer.reset();
     }

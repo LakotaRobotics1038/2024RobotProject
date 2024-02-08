@@ -13,7 +13,7 @@ public class Acquisition extends SubsystemBase {
 
     private static CANSparkMax sushiMotor = new CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
     private static CANSparkMax intakeMotor = new CANSparkMax(AcquisitionConstants.intakeMotorPort,
-            MotorType.kBrushless);
+            MotorType.kBrushed);
     private static DigitalInput acqLaser = new DigitalInput(AcquisitionConstants.acqLaserPort);
 
     private Acquisition() {
@@ -46,7 +46,6 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.intakeSpeed);
     }
 
-    
     /**
      * Runs the acquisition sushi motor at a constant speed.
      */
@@ -69,7 +68,6 @@ public class Acquisition extends SubsystemBase {
         sushiMotor.stopMotor();
     }
 
-    
     /**
      * Stops the acquisition intake motor.
      */

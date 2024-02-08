@@ -1,6 +1,7 @@
 package frc.robot;
 
 import frc.robot.libraries.XboxController1038;
+import frc.robot.commands.AcquireCommand;
 import frc.robot.constants.IOConstants;
 
 public class OperatorJoystick extends XboxController1038 {
@@ -17,5 +18,8 @@ public class OperatorJoystick extends XboxController1038 {
 
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
+
+        yButton.whileTrue(new AcquireCommand());
+
     }
 }

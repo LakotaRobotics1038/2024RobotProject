@@ -20,7 +20,7 @@ public class Scoring extends PIDSubsystem {
     private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
-            ScoringConstants.rollerMotorPort, MotorType.kBrushless);
+            ScoringConstants.rollerMotorPort, MotorType.kBrushed);
 
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
@@ -53,7 +53,7 @@ public class Scoring extends PIDSubsystem {
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
 
-        rollerMotor.setIdleMode(IdleMode.kCoast);
+        rollerMotor.setIdleMode(IdleMode.kBrake);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
 
@@ -74,7 +74,7 @@ public class Scoring extends PIDSubsystem {
     protected double getMeasurement() {
         return getPosition();
     }
-    
+
     /**
      * Sets the Scoring PID setpoint to a clamped value.
      *
@@ -84,7 +84,7 @@ public class Scoring extends PIDSubsystem {
         setpoint = MathUtil.clamp(setpoint, ScoringConstants.minSpeed, ScoringConstants.maxDistance);
         super.setSetpoint(setpoint);
     }
-    
+
     /**
      * Sets the Scoring PID setpoint to one of the constant setpoints.
      *
@@ -93,8 +93,7 @@ public class Scoring extends PIDSubsystem {
     public void setSetpoint(ElevatorSetpoints setpoint) {
         setSetpoint(setpoint.value);
     }
-   
-  
+
     /**
      * Returns the position of the scoring elevator encoder.
      *
@@ -103,37 +102,37 @@ public class Scoring extends PIDSubsystem {
     public double getPosition() {
         return leftScoringElevatorEncoder.getPosition();
     }
-    
+
     /**
      * Runs the scoring roller at the constant speed designated for regular scoring.
      */
     public void runRoller() {
         rollerMotor.set(ScoringConstants.rollerSpeed);
     }
-    
+
     /**
      * Runs the scoring roller at the constant speed designated for shooting.
      */
     public void rollerShoot() {
         rollerMotor.set(-ScoringConstants.rollerSpeed);
     }
-    
+
     /**
      * Stops the scoring roller.
      */
     public void stopRoller() {
         rollerMotor.stopMotor();
     }
-    
+
     /**
-     * Sets P value for scoring PID.     
+     * Sets P value for scoring PID.
      *
      * @param double - desired P value
      */
     public void setP(double p) {
         getController().setP(p);
     }
-    
+
     /**
      * Sets I value for scoring PID.
      *
@@ -142,7 +141,7 @@ public class Scoring extends PIDSubsystem {
     public void setI(double i) {
         getController().setI(i);
     }
-    
+
     /**
      * Sets D value for scoring PID.
      *

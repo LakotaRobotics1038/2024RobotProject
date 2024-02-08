@@ -7,7 +7,7 @@ import frc.robot.subsystems.Scoring;
 public class ScoreNoteAmpCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
-    private int secondsToScore;
+    private int secondsToScore = 0;
 
     public ScoreNoteAmpCommand(int secondsToScore) {
         this.addRequirements(scoring);
@@ -30,7 +30,7 @@ public class ScoreNoteAmpCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
+        return this.secondsToScore != 0 ? timer.get() > this.secondsToScore : false;
     }
 
     @Override

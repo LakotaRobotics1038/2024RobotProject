@@ -33,7 +33,9 @@ public class AcquireCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return acquisition.isNotePresent() || (timeToAcquire == 0) || (timer.get() > timeToAcquire);
+        return false;
+        // return acquisition.isNotePresent() || (timeToAcquire == 0) || (timer.get() >
+        // timeToAcquire);
     }
 
     @Override

@@ -8,12 +8,6 @@ import frc.robot.subsystems.Scoring;
 public class DropNoteCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
-    private int secondsToScore;
-
-    public DropNoteCommand(int secondsToScore) {
-        this.addRequirements(scoring);
-        this.secondsToScore = secondsToScore;
-    }
 
     public DropNoteCommand() {
         this.addRequirements(scoring);
@@ -27,11 +21,6 @@ public class DropNoteCommand extends Command {
     @Override
     public void execute() {
         scoring.runRoller();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
     }
 
     @Override

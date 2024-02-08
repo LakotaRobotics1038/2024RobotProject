@@ -22,9 +22,8 @@ import frc.robot.autons.AutonSelector.AutonChoices;
 public class Dashboard extends SubsystemBase {
     // Inputs
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private Compressor1038 compressor = Compressor1038.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
-    private Vision vision = Vision.getInstance();
+    // private Vision vision = Vision.getInstance();
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
@@ -114,11 +113,6 @@ public class Dashboard extends SubsystemBase {
         controlsTab.addNumber("Roll", driveTrain::getRoll)
                 .withPosition(1, 0);
 
-        driversTab.addNumber("Air Pressure", compressor::getPressure)
-                .withPosition(4, 0)
-                .withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 120));
-
         driversTab.add(field)
                 .withPosition(2, 1)
                 .withSize(4, 3)
@@ -128,10 +122,10 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
-                .withPosition(6, 0)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
+        // driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
+        // .withPosition(6, 0)
+        // .withWidget(BuiltInWidgets.kBooleanBox)
+        // .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
 
         controlsTab.add(field)
                 .withPosition(2, 0)

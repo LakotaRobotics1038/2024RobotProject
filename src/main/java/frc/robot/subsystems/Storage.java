@@ -11,7 +11,7 @@ import frc.robot.constants.StorageConstants;
 public class Storage extends SubsystemBase {
 
     private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
-            MotorType.kBrushless);
+            MotorType.kBrushed);
     private final CANSparkMax leftStorage = new CANSparkMax(
             StorageConstants.leftStoragePort, MotorType.kBrushless);
     private final CANSparkMax rightStorage = new CANSparkMax(

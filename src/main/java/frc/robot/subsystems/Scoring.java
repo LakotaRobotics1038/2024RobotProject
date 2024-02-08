@@ -20,7 +20,7 @@ public class Scoring extends PIDSubsystem {
     private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
-            ScoringConstants.rollerMotorPort, MotorType.kBrushless);
+            ScoringConstants.rollerMotorPort, MotorType.kBrushed);
 
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 

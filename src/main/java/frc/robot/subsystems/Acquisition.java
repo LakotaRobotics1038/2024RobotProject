@@ -14,7 +14,7 @@ public class Acquisition extends SubsystemBase {
 
     private static CANSparkMax sushiMotor = new CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
     private static CANSparkMax intakeMotor = new CANSparkMax(AcquisitionConstants.intakeMotorPort,
-            MotorType.kBrushless);
+            MotorType.kBrushed);
     private static DigitalInput acqLaser = new DigitalInput(AcquisitionConstants.acqLaserPort);
 
     private Acquisition() {

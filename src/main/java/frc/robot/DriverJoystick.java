@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Vision vision = Vision.getInstance();
+    // private final Vision vision = Vision.getInstance();
 
     // Previous Status
     private double prevX = 0;
@@ -85,9 +85,9 @@ public class DriverJoystick extends XboxController1038 {
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
         // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        // super.aButton
+        // .onTrue(new InstantCommand(vision::enable0, vision))
+        // .onFalse(new InstantCommand(vision::disable0, vision));
     }
 
     /**

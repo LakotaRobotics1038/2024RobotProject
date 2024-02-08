@@ -11,7 +11,7 @@ import frc.robot.constants.StorageConstants;
 public class Storage extends SubsystemBase {
 
     private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
-            MotorType.kBrushless);
+            MotorType.kBrushed);
     private final CANSparkMax leftStorageMotor = new CANSparkMax(
             StorageConstants.leftStoragePort, MotorType.kBrushless);
     private final CANSparkMax rightStorageMotor = new CANSparkMax(
@@ -38,8 +38,6 @@ public class Storage extends SubsystemBase {
         transitionMotor.restoreFactoryDefaults();
         leftStorageMotor.restoreFactoryDefaults();
         rightStorageMotor.restoreFactoryDefaults();
-
-        transitionMotor.setInverted(true);
 
         leftStorageMotor.setIdleMode(IdleMode.kCoast);
         rightStorageMotor.setIdleMode(IdleMode.kCoast);

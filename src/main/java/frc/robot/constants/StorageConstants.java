@@ -9,9 +9,9 @@ public class StorageConstants {
     public static final int enterStorageMotorPort = 1;
     public static final int exitStorageMotorPort = 2;
 
-    public static final double transitionSpeed = 0.5;
+    public static final double transitionSpeed = 1;
     public static final double reverseTransitionSpeed = -1;
-    public static final double storageSpeed = 0.5;
+    public static final double storageSpeed = 1;
     public static final double reverseStorageSpeed = -1;
 
     public static final double defaultTimeToRun = 0.5;

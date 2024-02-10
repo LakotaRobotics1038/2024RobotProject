@@ -1,13 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Storage;
 
 public class FullAcquireSequenceCommand extends Command {
     private Storage storage = Storage.getInstance();
     private Acquisition acquisition = Acquisition.getInstance();
-    private boolean isFinished;
 
     public FullAcquireSequenceCommand() {
         addRequirements(storage, acquisition);
@@ -20,33 +19,26 @@ public class FullAcquireSequenceCommand extends Command {
 
     @Override
     public void execute() {
-        isFinished = false;
         acquisition.acquire();
-
-        if (acquisition.isNotePresent()) {
-            storage.runTransition();
-            acquisition.reverseMotors();
-
-            if (storage.noteEnteringStorage()) {
-                storage.stopTransition();
-                storage.runStorage();
-
-                if (storage.noteExitingStorage()) {
-                    isFinished = true;
-                }
-            }
-
-        }
+        acquisition.runSushi();
+        storage.runTransition();
+        storage.runStorage();
     }
 
     @Override
     public boolean isFinished() {
-        return isFinished;
+        if (storage.noteExitingStorage()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void end(boolean isFinished) {
         storage.stopStorage();
         storage.stopTransition();
+        acquisition.stopIntake();
+        acquisition.stopSushi();
     }
 }

@@ -29,20 +29,20 @@ public class ScoreInAmp extends Auton {
         super.addCommands(
 
                 new ParallelRaceGroup(
-                        new DriveVisionCommand(VisionTarget.APT4.getValue()),
+                        new DriveVisionCommand(VisionTarget.APT4),
                         AutoBuilder.followPath(pathToAmpFromStart)),
                 new ScoreNoteAmpCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.NOTES.getValue()),
+                                new DriveVisionCommand(VisionTarget.NOTES),
                                 AutoBuilder.followPath(pathToNote1FromAmp)),
-                        new ScoringPositionCommand(ElevatorSetpoints.ground)),
+                        new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.APT4.getValue()),
+                                new DriveVisionCommand(VisionTarget.APT4),
                                 AutoBuilder.followPath(pathToAmpFromNote1)),
-                        new ScoringPositionCommand(ElevatorSetpoints.amp)),
+                        new ScoringPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
                 new ScoreNoteAmpCommand(),
                 AutoBuilder.followPath(pathToMidlineFromAmp));

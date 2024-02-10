@@ -18,9 +18,6 @@ import frc.robot.commands.StorageRunCommand;
 
 public class ScoreInAmp extends Auton {
 
-    private VisionTarget targetAmp = VisionTarget.APT4;
-    private VisionTarget targetNotes = VisionTarget.NOTES;
-
     public ScoreInAmp(Alliance alliance) {
         super(alliance);
 
@@ -32,8 +29,7 @@ public class ScoreInAmp extends Auton {
         super.addCommands(
 
                 new ParallelRaceGroup(
-                        new DriveVisionCommand(
-                                VisionTarget.APT4.getValue()),
+                        new DriveVisionCommand(VisionTarget.APT4.getValue()),
                         AutoBuilder.followPath(pathToAmpFromStart)),
                 new ScoreNoteAmpCommand(),
                 new ParallelCommandGroup(

@@ -2,7 +2,7 @@ package frc.robot.constants;
 
 public class AcquisitionConstants {
     public static final int intakeMotorPort = 57;
-    public static final int sushiMotorPort = 0;
+    // public static final int sushiMotorPort = 15;
     public static final int acqLaserPort = 0;
 
     public static final double motorSpeed = 0.5;

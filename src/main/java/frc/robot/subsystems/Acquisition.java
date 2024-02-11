@@ -11,19 +11,20 @@ import frc.robot.constants.AcquisitionConstants;
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
 
-    private static CANSparkMax sushiMotor = new CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
+    // private static CANSparkMax sushiMotor = new
+    // CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
     private static CANSparkMax intakeMotor = new CANSparkMax(AcquisitionConstants.intakeMotorPort,
             MotorType.kBrushed);
     private static DigitalInput acqLaser = new DigitalInput(AcquisitionConstants.acqLaserPort);
 
     private Acquisition() {
-        sushiMotor.restoreFactoryDefaults();
+        // sushiMotor.restoreFactoryDefaults();
         intakeMotor.restoreFactoryDefaults();
 
-        sushiMotor.setIdleMode(IdleMode.kBrake);
+        // sushiMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setIdleMode(IdleMode.kBrake);
 
-        sushiMotor.burnFlash();
+        // sushiMotor.burnFlash();
         intakeMotor.burnFlash();
     }
 
@@ -50,14 +51,14 @@ public class Acquisition extends SubsystemBase {
      * Runs the acquisition sushi motor at a constant speed.
      */
     public void runSushi() {
-        sushiMotor.set(AcquisitionConstants.sushiSpeed);
+        // sushiMotor.set(AcquisitionConstants.sushiSpeed);
     }
 
     /**
      * Reverses both acquisition motors at a constant speed.
      */
     public void reverseMotors() {
-        sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
+        // sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
@@ -65,7 +66,7 @@ public class Acquisition extends SubsystemBase {
      * Stops the acquisition sushi motor.
      */
     public void stopSushi() {
-        sushiMotor.stopMotor();
+        // sushiMotor.stopMotor();
     }
 
     /**

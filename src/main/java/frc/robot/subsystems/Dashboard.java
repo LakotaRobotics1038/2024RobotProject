@@ -22,7 +22,6 @@ import frc.robot.autons.AutonSelector.AutonChoices;
 public class Dashboard extends SubsystemBase {
     // Inputs
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private Compressor1038 compressor = Compressor1038.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
     private Vision vision = Vision.getInstance();
 
@@ -113,11 +112,6 @@ public class Dashboard extends SubsystemBase {
 
         controlsTab.addNumber("Roll", driveTrain::getRoll)
                 .withPosition(1, 0);
-
-        driversTab.addNumber("Air Pressure", compressor::getPressure)
-                .withPosition(4, 0)
-                .withWidget(BuiltInWidgets.kDial)
-                .withProperties(Map.of("min", 0, "max", 120));
 
         driversTab.add(field)
                 .withPosition(2, 1)

@@ -15,27 +15,31 @@ import edu.wpi.first.math.MathUtil;
 
 public class Scoring extends PIDSubsystem {
 
-    private final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(ScoringConstants.leftScoringElevatorMotorPort,
-            MotorType.kBrushless);
-    private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
-            ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
+    /*
+     * private final CANSparkMax leftScoringElevatorMotor = new
+     * CANSparkMax(ScoringConstants.leftScoringElevatorMotorPort,
+     * MotorType.kBrushless);
+     * private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
+     * ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
+     */
     private final CANSparkMax rollerMotor = new CANSparkMax(
             ScoringConstants.rollerMotorPort, MotorType.kBrushed);
 
-    private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
-
-    public enum ElevatorSetpoints {
-        Ground(ScoringConstants.groundSetpoint),
-        Amp(ScoringConstants.ampSetpoint),
-        Trap(ScoringConstants.trapSetpoint);
-
-        public final double value;
-
-        ElevatorSetpoints(double value) {
-            this.value = value;
-        }
-    }
-
+    // private AbsoluteEncoder leftScoringElevatorEncoder =
+    // leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    /*
+     * public enum ElevatorSetpoints {
+     * Ground(ScoringConstants.groundSetpoint),
+     * Amp(ScoringConstants.ampSetpoint),
+     * Trap(ScoringConstants.trapSetpoint);
+     *
+     * public final double value;
+     *
+     * ElevatorSetpoints(double value) {
+     * this.value = value;
+     * }
+     * }
+     */
     private static Scoring instance;
 
     public static Scoring getInstance() {
@@ -50,24 +54,24 @@ public class Scoring extends PIDSubsystem {
         super(new PIDController(ScoringConstants.kP, ScoringConstants.kI, ScoringConstants.kD));
 
         rollerMotor.restoreFactoryDefaults();
-        rightScoringElevatorMotor.restoreFactoryDefaults();
-        leftScoringElevatorMotor.restoreFactoryDefaults();
+        // rightScoringElevatorMotor.restoreFactoryDefaults();
+        // leftScoringElevatorMotor.restoreFactoryDefaults();
 
         rollerMotor.setIdleMode(IdleMode.kBrake);
-        rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
-        leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
+        // rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
+        // leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
 
-        rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+        // rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
 
         rollerMotor.burnFlash();
-        rightScoringElevatorMotor.burnFlash();
-        leftScoringElevatorMotor.burnFlash();
+        // rightScoringElevatorMotor.burnFlash();
+        // leftScoringElevatorMotor.burnFlash();
     }
 
     @Override
     protected void useOutput(double output, double setpoint) {
         double power = MathUtil.clamp(output, -ScoringConstants.maxSpeed, ScoringConstants.maxSpeed);
-        leftScoringElevatorMotor.set(power);
+        // leftScoringElevatorMotor.set(power);
     }
 
     @Override
@@ -90,9 +94,11 @@ public class Scoring extends PIDSubsystem {
      *
      * @param ElevatorSetpoints - desired setpoint
      */
-    public void setSetpoint(ElevatorSetpoints setpoint) {
-        setSetpoint(setpoint.value);
-    }
+    /*
+     * public void setSetpoint(ElevatorSetpoints setpoint) {
+     * setSetpoint(setpoint.value);
+     * }
+     */
 
     /**
      * Returns the position of the scoring elevator encoder.
@@ -100,7 +106,8 @@ public class Scoring extends PIDSubsystem {
      * @return double - current encoder position
      */
     public double getPosition() {
-        return leftScoringElevatorEncoder.getPosition();
+        // return leftScoringElevatorEncoder.getPosition();
+        return 0.0;
     }
 
     /**

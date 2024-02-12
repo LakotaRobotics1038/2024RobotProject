@@ -13,11 +13,6 @@ public class FullAcquireSequenceCommand extends Command {
     }
 
     @Override
-    public void initialize() {
-
-    }
-
-    @Override
     public void execute() {
         acquisition.acquire();
         acquisition.runSushi();

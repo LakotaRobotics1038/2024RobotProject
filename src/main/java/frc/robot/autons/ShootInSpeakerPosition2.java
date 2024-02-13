@@ -41,20 +41,20 @@ public class ShootInSpeakerPosition2 extends Auton {
                         new ParallelRaceGroup(
                                 AutoBuilder.followPath(noteTwoToShooting),
                                 new DriveVisionCommand(VisionTarget.APR1)),
-                        new ScoringPositionCommand(ElevatorSetpoints.trap)),
+                        new ScoringPositionCommand(ElevatorSetpoints.Trap)),
                 new StorageRunCommand(),
                 new ShootNoteCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 AutoBuilder.followPath(shootingToNoteThree),
                                 new DriveVisionCommand(VisionTarget.NOTES)),
-                        new ScoringPositionCommand(ElevatorSetpoints.ground)),
+                        new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 AutoBuilder.followPath(noteThreeToShooting),
                                 new DriveVisionCommand(VisionTarget.APR1)),
-                        new ScoringPositionCommand(ElevatorSetpoints.trap)),
+                        new ScoringPositionCommand(ElevatorSetpoints.Trap)),
                 new StorageRunCommand(),
                 new ShootNoteCommand(),
                 AutoBuilder.followPath(shootingToMidline)

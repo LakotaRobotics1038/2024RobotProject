@@ -1,0 +1,42 @@
+package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Scoring;
+
+public class ScoreNoteAmpCommand extends Command {
+    private Scoring scoring = Scoring.getInstance();
+    private Timer timer = new Timer();
+    private int secondsToScore;
+
+    public ScoreNoteAmpCommand(int secondsToScore) {
+        this.addRequirements(scoring);
+        this.secondsToScore = secondsToScore;
+    }
+
+    public ScoreNoteAmpCommand() {
+        this.addRequirements(scoring);
+    }
+
+    @Override
+    public void initialize() {
+        timer.start();
+    }
+
+    @Override
+    public void execute() {
+        scoring.runRoller();
+    }
+
+    @Override
+    public boolean isFinished() {
+        return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        scoring.stopRoller();
+        timer.stop();
+        timer.reset();
+    }
+}

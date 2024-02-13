@@ -21,16 +21,13 @@ public class Scoring extends PIDSubsystem {
             ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
     private final CANSparkMax rollerMotor = new CANSparkMax(
             ScoringConstants.rollerMotorPort, MotorType.kBrushless);
-    private final CANSparkMax leftLoadingMotor = new CANSparkMax(
-            ScoringConstants.leftScoringElevatorMotorPort, MotorType.kBrushless);
-    private final CANSparkMax rightLoadingMotor = new CANSparkMax(
-            ScoringConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
+
     private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
 
     public enum ElevatorSetpoints {
-        ground(ScoringConstants.groundSetpoint),
-        amp(ScoringConstants.ampSetpoint),
-        trap(ScoringConstants.trapSetpoint);
+        Ground(ScoringConstants.groundSetpoint),
+        Amp(ScoringConstants.ampSetpoint),
+        Trap(ScoringConstants.trapSetpoint);
 
         public final double value;
 
@@ -51,23 +48,20 @@ public class Scoring extends PIDSubsystem {
 
     public Scoring() {
         super(new PIDController(ScoringConstants.kP, ScoringConstants.kI, ScoringConstants.kD));
+
         rollerMotor.restoreFactoryDefaults();
         rightScoringElevatorMotor.restoreFactoryDefaults();
         leftScoringElevatorMotor.restoreFactoryDefaults();
-        leftLoadingMotor.restoreFactoryDefaults();
-        rightLoadingMotor.restoreFactoryDefaults();
+
         rollerMotor.setIdleMode(IdleMode.kCoast);
         rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
-        leftLoadingMotor.setIdleMode(IdleMode.kCoast);
-        rightLoadingMotor.setIdleMode(IdleMode.kCoast);
+
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
-        rightLoadingMotor.follow(leftLoadingMotor);
+
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();
         leftScoringElevatorMotor.burnFlash();
-        leftLoadingMotor.burnFlash();
-        rightLoadingMotor.burnFlash();
     }
 
     @Override
@@ -80,46 +74,80 @@ public class Scoring extends PIDSubsystem {
     protected double getMeasurement() {
         return getPosition();
     }
-
+    
+    /**
+     * Sets the Scoring PID setpoint to a clamped value.
+     *
+     * @param double - desired setpoint
+     */
     public void setClampSetpoint(double setpoint) {
         setpoint = MathUtil.clamp(setpoint, ScoringConstants.minSpeed, ScoringConstants.maxDistance);
         super.setSetpoint(setpoint);
     }
-
+    
+    /**
+     * Sets the Scoring PID setpoint to one of the constant setpoints.
+     *
+     * @param ElevatorSetpoints - desired setpoint
+     */
     public void setSetpoint(ElevatorSetpoints setpoint) {
         setSetpoint(setpoint.value);
     }
-
+   
+  
+    /**
+     * Returns the position of the scoring elevator encoder.
+     *
+     * @return double - current encoder position
+     */
     public double getPosition() {
         return leftScoringElevatorEncoder.getPosition();
     }
-
-    public void runLoader(double speed) {
-        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
-        leftLoadingMotor.set(speed);
+    
+    /**
+     * Runs the scoring roller at the constant speed designated for regular scoring.
+     */
+    public void runRoller() {
+        rollerMotor.set(ScoringConstants.rollerSpeed);
     }
-
-    public void runRoller(double speed) {
-        speed = MathUtil.clamp(speed, ScoringConstants.minSpeed, ScoringConstants.maxSpeed);
-        rollerMotor.set(speed);
+    
+    /**
+     * Runs the scoring roller at the constant speed designated for shooting.
+     */
+    public void rollerShoot() {
+        rollerMotor.set(-ScoringConstants.rollerSpeed);
     }
-
+    
+    /**
+     * Stops the scoring roller.
+     */
     public void stopRoller() {
         rollerMotor.stopMotor();
     }
-
-    public void stopLoader() {
-        leftLoadingMotor.stopMotor();
-    }
-
+    
+    /**
+     * Sets P value for scoring PID.     
+     *
+     * @param double - desired P value
+     */
     public void setP(double p) {
         getController().setP(p);
     }
-
+    
+    /**
+     * Sets I value for scoring PID.
+     *
+     * @param double - desired I value
+     */
     public void setI(double i) {
         getController().setI(i);
     }
-
+    
+    /**
+     * Sets D value for scoring PID.
+     *
+     * @param double - desired D value
+     */
     public void setD(double d) {
         getController().setD(d);
     }

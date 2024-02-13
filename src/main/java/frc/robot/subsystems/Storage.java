@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,11 +12,23 @@ import frc.robot.constants.StorageConstants;
 
 public class Storage extends SubsystemBase {
 
-    private final CANSparkMax storageMotor = new CANSparkMax(StorageConstants.motorPort,
+    private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
             MotorType.kBrushless);
+    private final CANSparkMax leftStorageMotor = new CANSparkMax(
+            StorageConstants.leftStoragePort, MotorType.kBrushless);
+    private final CANSparkMax rightStorageMotor = new CANSparkMax(
+            StorageConstants.rightStoragePort, MotorType.kBrushless);
+
+    private final DigitalInput enterStorageMotor = new DigitalInput(StorageConstants.enterStorageMotorPort);
+    private final DigitalInput exitStorageMotor = new DigitalInput(StorageConstants.exitStorageMotorPort);
 
     private static Storage instance;
 
+    /**
+     * Creates an instance of the Storage subsystem if it does not already exist.
+     *
+     * @return An instance of the Storage subsystem.
+     */
     public static Storage getInstance() {
         if (instance == null) {
             instance = new Storage();
@@ -24,6 +37,7 @@ public class Storage extends SubsystemBase {
     }
 
     private Storage() {
+<<<<<<< HEAD
         storageMotor.restoreFactoryDefaults();
         storageMotor.setInverted(true);
         storageMotor.setIdleMode(IdleMode.kBrake);
@@ -33,9 +47,54 @@ public class Storage extends SubsystemBase {
     public void run(double speed) {
         speed = MathUtil.clamp(speed, -StorageConstants.maxMotorSpeed, StorageConstants.maxMotorSpeed);
         storageMotor.set(speed);
+=======
+        transitionMotor.restoreFactoryDefaults();
+        leftStorageMotor.restoreFactoryDefaults();
+        rightStorageMotor.restoreFactoryDefaults();
+
+        transitionMotor.setInverted(true);
+
+        leftStorageMotor.setIdleMode(IdleMode.kCoast);
+        rightStorageMotor.setIdleMode(IdleMode.kCoast);
+        transitionMotor.setIdleMode(IdleMode.kBrake);
+
+        rightStorageMotor.follow(leftStorageMotor, true);
+
+        transitionMotor.burnFlash();
+        leftStorageMotor.burnFlash();
+        rightStorageMotor.burnFlash();
+>>>>>>> main
     }
 
-    public void stop() {
-        storageMotor.stopMotor();
+    public void runTransition() {
+        transitionMotor.set(StorageConstants.transitionSpeed);
+    }
+
+    public void reverseTransition() {
+        transitionMotor.set(StorageConstants.reverseTransitionSpeed);
+    }
+
+    public void runStorage() {
+        leftStorageMotor.set(StorageConstants.storageSpeed);
+    }
+
+    public void reverseStorage() {
+        leftStorageMotor.set(StorageConstants.reverseStorageSpeed);
+    }
+
+    public void stopStorage() {
+        leftStorageMotor.stopMotor();
+    }
+
+    public void stopTransition() {
+        transitionMotor.stopMotor();
+    }
+
+    public boolean noteEnteringStorage() {
+        return enterStorageMotor.get();
+    }
+
+    public boolean noteExitingStorage() {
+        return exitStorageMotor.get();
     }
 }

@@ -7,4 +7,17 @@ public final class VisionConstants {
     public static final String kStreamCam0 = "shouldStream0";
     public static final String kEnabled0Topic = "on0";
     public static final String kEnabled1Topic = "on1";
+
+    public static final double width = 640;
+    public static final double height = 480;
+
+    public static final double driveP = 0.005;
+    public static final double driveI = 0;
+    public static final double driveD = 0.0002;
+    public static final double spinP = 0.005;
+    public static final double spinI = 0;
+    public static final double spinD = 0.0002;
+    public static final double spinSetpoint = 0.0;
+    public static final double aprilTagArea = 28908;
+    public static final double maxSpeed = 0.5;
 }

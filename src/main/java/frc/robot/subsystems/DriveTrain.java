@@ -77,32 +77,6 @@ public class DriveTrain extends SubsystemBase {
     private DriveTrain() {
         super();
         gyro.reset();
-
-        // Auto Setup
-        AutoBuilder.configureHolonomic(
-                this::getPose,
-                this::resetOdometry,
-                this::getChassisSpeeds,
-                this::applyChassisSpeeds,
-                new HolonomicPathFollowerConfig(
-                        new PIDConstants(AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
-                        DriveConstants.kMaxSpeedMetersPerSecond,
-                        DriveConstants.kBaseRadius,
-                        new ReplanningConfig()),
-                () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red
-                    // alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                    var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this);
     }
 
     @Override
@@ -165,7 +139,7 @@ public class DriveTrain extends SubsystemBase {
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
-    private void applyChassisSpeeds(ChassisSpeeds speeds) {
+    public void applyChassisSpeeds(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         this.setModuleStates(swerveModuleStates);
     }

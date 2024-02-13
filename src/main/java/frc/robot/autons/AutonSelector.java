@@ -2,15 +2,18 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
     public enum AutonChoices {
-        NoAuto;
+        NoAuto,
+        Pos1Amp;
     }
 
     // Choosers
@@ -31,11 +34,14 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("2 Note in Amp", AutonChoices.Pos1Amp);
     }
 
-    public Auton chooseAuton() {
+    public Command chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
+            case Pos1Amp:
+                return new PathPlannerAuto("2 Notes in Amp");
             default:
                 return null;
         }

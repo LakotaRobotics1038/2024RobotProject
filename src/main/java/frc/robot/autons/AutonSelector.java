@@ -2,12 +2,15 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
@@ -18,6 +21,9 @@ public class AutonSelector {
 
     // Choosers
     SendableChooser<AutonChoices> autoChooser;
+
+    private Pose2d initialPose;
+    protected Alliance alliance;
 
     // Singleton Setup
     private static AutonSelector instance;
@@ -34,16 +40,30 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("2 Note in Amp", AutonChoices.Pos1Amp);
+        this.autoChooser.addOption("Amp Auto", AutonChoices.Pos1Amp);
     }
 
-    public Command chooseAuton() {
+    public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
-                return new PathPlannerAuto("2 Notes in Amp");
+                return new NotesInAmpAuto(alliance, Trajectories.NotesInAmp());
             default:
                 return null;
         }
     }
+
+    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
+        this.initialPose = initialTrajectory.getInitialTargetHolonomicPose();
+
+        // We need to invert the starting pose for the red alliance.
+        if (this.alliance == Alliance.Red) {
+            Translation2d transformedTranslation = new Translation2d(this.initialPose.getX(),
+                    FieldConstants.kFieldWidth - this.initialPose.getY());
+            Rotation2d transformedHeading = this.initialPose.getRotation().times(-1);
+
+            this.initialPose = new Pose2d(transformedTranslation, transformedHeading);
+        }
+    }
+
 }

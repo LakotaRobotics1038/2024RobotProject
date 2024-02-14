@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -26,7 +27,7 @@ public class Robot extends TimedRobot {
     // private Vision vision = Vision.getInstance();
 
     // Variables
-    private Command autonomousCommand;
+    private Auton autonomousCommand;
     private ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
@@ -68,13 +69,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {
         // vision.startRecording();
         // }
 
         if (autonomousCommand != null) {
+            Pose2d initialPose = autonomousCommand.getInitialPose();
             driveTrain.setDrivingIdleMode(SwerveModuleConstants.kAutoDrivingMotorIdleMode);
             autonomousCommand.schedule();
         }

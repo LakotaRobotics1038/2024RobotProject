@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision.VisionTarget;
 
 public class DriveVisionCommand extends Command {
     private DriveTrain driveTrain = DriveTrain.getInstance();
@@ -13,9 +14,9 @@ public class DriveVisionCommand extends Command {
 
     private int id;
 
-    public DriveVisionCommand(int id) {
+    public DriveVisionCommand(VisionTarget id) {
         addRequirements(vision);
-        this.id = id;
+        this.id = id.getValue();
     }
 
     @Override

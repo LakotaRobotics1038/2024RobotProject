@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveModuleConstants;
-import frc.robot.subsystems.Compressor1038;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
@@ -24,7 +23,6 @@ public class Robot extends TimedRobot {
     private SwagLights swagLights = SwagLights.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
     // private Vision vision = Vision.getInstance();
-    private Compressor1038 compressor = Compressor1038.getInstance();
 
     // Variables
     private Auton autonomousCommand;
@@ -69,8 +67,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-
-        compressor.disable();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {
         // vision.startRecording();
@@ -96,7 +92,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         Dashboard.getInstance().clearTrajectory();
-        compressor.enable();
         driveTrain.setDrivingIdleMode(SwerveModuleConstants.kTeleopDrivingMotorIdleMode);
     }
 

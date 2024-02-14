@@ -22,11 +22,7 @@ public class FullAcquireSequenceCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (storage.noteExitingStorage()) {
-            return true;
-        } else {
-            return false;
-        }
+        return storage.noteExitingStorage();
     }
 
     @Override

@@ -8,9 +8,7 @@ import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveModuleConstants;
@@ -76,6 +74,9 @@ public class Robot extends TimedRobot {
 
         if (autonomousCommand != null) {
             Pose2d initialPose = autonomousCommand.getInitialPose();
+            if (initialPose != null) {
+                driveTrain.resetOdometry(initialPose);
+            }
             driveTrain.setDrivingIdleMode(SwerveModuleConstants.kAutoDrivingMotorIdleMode);
             autonomousCommand.schedule();
         }

@@ -208,7 +208,7 @@ public class DriveTrain extends SubsystemBase {
 
     /** Zeroes the heading of the robot. */
     public void zeroHeading() {
-        gyro.reset();
+        gyro.setYaw(getHeading());
     }
 
     /**

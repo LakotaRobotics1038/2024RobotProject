@@ -211,6 +211,10 @@ public class DriveTrain extends SubsystemBase {
         gyro.setYaw(getHeading());
     }
 
+    public void zeroHeading(Double pose) {
+        gyro.setYaw(pose);
+    }
+
     /**
      * Returns the heading of the robot.
      *

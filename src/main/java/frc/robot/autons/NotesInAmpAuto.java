@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.path.PathPoint;
+import com.pathplanner.lib.path.RotationTarget;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -14,6 +16,7 @@ import frc.robot.subsystems.DriveTrain;
 
 public class NotesInAmpAuto extends Auton {
     private DriveTrain driveTrain = DriveTrain.getInstance();
+    private double rotationDistance = 270;
 
     public NotesInAmpAuto(Optional<Alliance> alliance, PathPlannerPath path) {
         super(alliance);
@@ -22,7 +25,8 @@ public class NotesInAmpAuto extends Auton {
                 Rotation2d.fromDegrees(driveTrain.getHeading()));
 
         Dashboard.getInstance().setTrajectory(trajectory);
-        // driveTrain.zeroHeading();
+        PathPoint point = path.getPoint(0);
+        driveTrain.zeroHeading(rotationDistance);
         super.addCommands(
                 new SequentialCommandGroup(
                         followPathCommand("Position 1 to amp"),

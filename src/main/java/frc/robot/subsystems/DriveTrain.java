@@ -4,14 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -20,10 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.libraries.MAXSwerveModule;
 
@@ -211,8 +202,9 @@ public class DriveTrain extends SubsystemBase {
         gyro.setYaw(getHeading());
     }
 
-    public void zeroHeading(Double pose) {
+    public void zeroHeading(double pose) {
         gyro.setYaw(pose);
+        // gyro.setYaw(initialPose.getRotation().getDegrees());
     }
 
     /**

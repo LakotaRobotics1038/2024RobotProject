@@ -30,7 +30,12 @@ public class ScoreNoteAmpCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return this.secondsToScore != 0 ? timer.get() > this.secondsToScore : false;
+        // return this.secondsToScore != 0 ? timer.get() > this.secondsToScore : false;
+        if (timer.get() >= 2) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

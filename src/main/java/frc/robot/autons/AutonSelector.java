@@ -2,15 +2,10 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
@@ -47,7 +42,7 @@ public class AutonSelector {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
-                return new NotesInAmpAuto(alliance, Trajectories.NotesInAmp());
+                return new NotesInAmpAuto(alliance, Trajectories.posOneToAmp());
             default:
                 return null;
         }

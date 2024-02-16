@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
+import frc.robot.autons.NotesInAmpAuto;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
     private AutonSelector autonSelector = AutonSelector.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
+    private double resetValue;
     // private Vision vision = Vision.getInstance();
 
     // Variables
@@ -71,9 +73,9 @@ public class Robot extends TimedRobot {
         // if (DriverStation.isFMSAttached()) {
         // vision.startRecording();
         // }
-
         if (autonomousCommand != null) {
             Pose2d initialPose = autonomousCommand.getInitialPose();
+            resetValue = driveTrain.getHeading();
             if (initialPose != null) {
                 driveTrain.resetOdometry(initialPose);
             }
@@ -91,6 +93,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
+        autonomousCommand.resetGyro(360 - resetValue);
     }
 
     @Override

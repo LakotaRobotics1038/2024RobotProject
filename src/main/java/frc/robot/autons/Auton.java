@@ -21,7 +21,7 @@ import frc.robot.subsystems.DriveTrain;
 
 public abstract class Auton extends SequentialCommandGroup {
     private Pose2d initialPose;
-    protected DriveTrain driveTrain = DriveTrain.getInstance();
+    protected static DriveTrain driveTrain = DriveTrain.getInstance();
     protected Alliance alliance;
 
     public Auton(Optional<Alliance> alliance) {
@@ -78,5 +78,9 @@ public abstract class Auton extends SequentialCommandGroup {
                 },
                 this.driveTrain // Reference to this subsystem to set requirements
         );
+    }
+
+    public void resetGyro(double degrees) {
+        driveTrain.zeroHeading(degrees);
     }
 }

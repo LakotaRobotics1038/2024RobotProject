@@ -26,10 +26,10 @@ public class NotesInAmpAuto extends Auton {
         super(alliance);
         double initialPose = 270;
         driveTrain.zeroHeading(initialPose - 180);
-        PathPlannerTrajectory trajectory1 = new PathPlannerTrajectory(Trajectories.posOneToAmp(),
+        PathPlannerTrajectory trajectory = new PathPlannerTrajectory(Trajectories.posOneToAmp(),
                 driveTrain.getChassisSpeeds(),
                 Rotation2d.fromDegrees(driveTrain.getHeading()));
-        Dashboard.getInstance().setTrajectory(trajectory1);
+        Dashboard.getInstance().setTrajectory(trajectory);
 
         super.addCommands(
                 new SequentialCommandGroup(
@@ -44,7 +44,7 @@ public class NotesInAmpAuto extends Auton {
                 // new ScoreNoteAmpCommand()
                 ));
 
-        this.setInitialPose(trajectory1);
+        this.setInitialPose(trajectory);
 
     }
 }

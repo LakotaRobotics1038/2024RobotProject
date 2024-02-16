@@ -22,27 +22,28 @@ import frc.robot.subsystems.DriveTrain;
 public class NotesInAmpAuto extends Auton {
     private static DriveTrain driveTrain = DriveTrain.getInstance();
 
-    public NotesInAmpAuto(Optional<Alliance> alliance, PathPlannerPath initialPath) {
+    public NotesInAmpAuto(Optional<Alliance> alliance) {
         super(alliance);
-        double initialPose = 90;
-        driveTrain.zeroHeading(initialPose);
-        PathPlannerTrajectory trajectory1 = new PathPlannerTrajectory(initialPath,
+        double initialPose = 270;
+        driveTrain.zeroHeading(initialPose - 180);
+        PathPlannerTrajectory trajectory1 = new PathPlannerTrajectory(Trajectories.posOneToAmp(),
                 driveTrain.getChassisSpeeds(),
                 Rotation2d.fromDegrees(driveTrain.getHeading()));
         Dashboard.getInstance().setTrajectory(trajectory1);
 
         super.addCommands(
                 new SequentialCommandGroup(
-                        new PosOneToAmp(alliance, Trajectories.posOneToAmp()),
+                        new PosOneToAmp(alliance),
                         new ScoreNoteAmpCommand(),
                         new WaitCommand(2),
                         new ParallelCommandGroup(
-                                new AmpToNoteOne(alliance, Trajectories.ampToNoteOne()),
+                                new AmpToNoteOne(alliance),
                                 new AcquireCommand()),
                         new WaitCommand(2)
-                // new NoteOneToAmp(alliance, Trajectories.noteOneToAmp()),
+                // new NoteOneToAmp(alliance),
                 // new ScoreNoteAmpCommand()
                 ));
+
         this.setInitialPose(trajectory1);
 
     }

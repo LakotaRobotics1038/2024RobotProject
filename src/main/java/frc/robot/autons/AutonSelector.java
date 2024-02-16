@@ -42,7 +42,7 @@ public class AutonSelector {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
-                return new NotesInAmpAuto(alliance, Trajectories.posOneToAmp());
+                return new NotesInAmpAuto(alliance);
             default:
                 return null;
         }

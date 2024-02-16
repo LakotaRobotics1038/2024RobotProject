@@ -23,7 +23,7 @@ public class Robot extends TimedRobot {
     private AutonSelector autonSelector = AutonSelector.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
-    private double resetValue;
+    private double resetValue = 0;
     // private Vision vision = Vision.getInstance();
 
     // Variables

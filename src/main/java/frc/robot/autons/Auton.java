@@ -34,8 +34,7 @@ public abstract class Auton extends SequentialCommandGroup {
         this.initialPose = initialTrajectory.getInitialTargetHolonomicPose();
 
         // We need to invert the starting pose for the red alliance.
-
-        if (Optional.of(alliance) == DriverStation.getAlliance()) {
+        if (alliance == Alliance.Red) {
             Translation2d transformedTranslation = new Translation2d(this.initialPose.getX(),
                     FieldConstants.kFieldWidth - this.initialPose.getY());
             Rotation2d transformedHeading = this.initialPose.getRotation().times(-1);
@@ -48,9 +47,7 @@ public abstract class Auton extends SequentialCommandGroup {
         return initialPose;
     }
 
-    protected Command followPathCommand(String pathName) {
-        PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
-
+    protected Command followPathCommand(PathPlannerPath path) {
         return new FollowPathHolonomic(
                 path,
                 this.driveTrain::getPose, // Robot pose supplier

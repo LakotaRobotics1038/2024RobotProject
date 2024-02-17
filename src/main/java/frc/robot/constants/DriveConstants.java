@@ -11,19 +11,13 @@ public final class DriveConstants {
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static final double kFineAdjustmentPercent = 0.2;
 
-    // Rotation PID Constants
-    public static final double kRotationLockP = 0.01;
-    public static final double kRotationLockI = 0.000;
-    public static final double kRotationLockD = 0.000;
-    public static final double kRotationLockTolerance = 1.0;
-
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(26);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(26);
-    // Drive base radius in meters. Distance from robot center to furthest module.
-    public static final double kBaseRadius = Units.inchesToMeters(13);
+    public static final double kTrackWidth = Units.inchesToMeters(25);
     // Distance between front and back wheels on robot
+    public static final double kWheelBase = Units.inchesToMeters(25);
+    // Drive base radius in meters. Distance from robot center to furthest module.
+    public static final double kBaseRadius = Units.inchesToMeters(17.6776);
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),

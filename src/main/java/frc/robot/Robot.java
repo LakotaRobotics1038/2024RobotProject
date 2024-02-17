@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -11,7 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
-import frc.robot.autons.NotesInAmpAuto;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -28,6 +29,7 @@ public class Robot extends TimedRobot {
 
     // Variables
     private Auton autonomousCommand;
+    // private PathPlannerAuto autonomousCommand;
     private ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
@@ -69,12 +71,16 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
+        // autonomousCommand = autonSelector.chooseCommand();
         // if (DriverStation.isFMSAttached()) {
         // vision.startRecording();
         // }
         if (autonomousCommand != null) {
             Pose2d initialPose = autonomousCommand.getInitialPose();
+            // Pose2d initialPose = autonomousCommand.getStaringPoseFromAutoFile("Position 1
+            // Amp");
             resetValue = driveTrain.getHeading();
             if (initialPose != null) {
                 driveTrain.resetOdometry(initialPose);
@@ -93,7 +99,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        autonomousCommand.resetGyro(360 - resetValue);
+        // autonomousCommand.resetGyro(360 - resetValue);
     }
 
     @Override

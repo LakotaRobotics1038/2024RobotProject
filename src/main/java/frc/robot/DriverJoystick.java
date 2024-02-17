@@ -1,13 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Vision;
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -61,11 +61,11 @@ public class DriverJoystick extends XboxController1038 {
                     break;
                 case Left:
                     forward = 0;
-                    sideways = DriveConstants.kFineAdjustmentPercent;
+                    sideways = -DriveConstants.kFineAdjustmentPercent;
                     break;
                 case Right:
                     forward = 0;
-                    sideways = -DriveConstants.kFineAdjustmentPercent;
+                    sideways = DriveConstants.kFineAdjustmentPercent;
                     break;
                 default:
                     break;
@@ -79,15 +79,15 @@ public class DriverJoystick extends XboxController1038 {
         }, driveTrain));
 
         // Re-orient robot to the field
-        super.startButton.whileTrue(new InstantCommand(driveTrain::zeroHeading, driveTrain));
+        super.startButton.onTrue(new InstantCommand(driveTrain::zeroHeading, driveTrain));
 
         // Lock the wheels into an X formation
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
         // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        // super.aButton
+        // .onTrue(new InstantCommand(vision::enable0, vision))
+        // .onFalse(new InstantCommand(vision::disable0, vision))
     }
 
     /**

@@ -2,16 +2,23 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.AcquireCommand;
+import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        Pos1Amp;
+        Pos1Amp,
+        Pos1Amp2,
+        np;
     }
 
     // Choosers
@@ -36,6 +43,9 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Amp Auto", AutonChoices.Pos1Amp);
+
+        NamedCommands.registerCommand("ScoreAmpCommand", new ScoreNoteAmpCommand());
+        NamedCommands.registerCommand("AcquireCommand", new AcquireCommand());
     }
 
     public Auton chooseAuton() {
@@ -43,6 +53,16 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
                 return new NotesInAmpAuto(alliance);
+            default:
+                return null;
+        }
+    }
+
+    public PathPlannerAuto chooseCommand() {
+        Optional<Alliance> alliance = DriverStation.getAlliance();
+        switch (this.autoChooser.getSelected()) {
+            case Pos1Amp2:
+                return new PathPlannerAuto("Position 1 Amp");
             default:
                 return null;
         }

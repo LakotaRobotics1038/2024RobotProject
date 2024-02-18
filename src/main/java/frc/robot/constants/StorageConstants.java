@@ -6,8 +6,8 @@ public class StorageConstants {
     public static final int leftStoragePort = 0;
     public static final int rightStoragePort = 0;
 
-    public static final int enterStorageMotorPort = 0;
-    public static final int exitStorageMotorPort = 0;
+    public static final int enterStorageLaserPort = 0;
+    public static final int exitStorageLaserPort = 0;
 
     public static final double transitionSpeed = 0.0;
     public static final double reverseTransitionSpeed = -1;

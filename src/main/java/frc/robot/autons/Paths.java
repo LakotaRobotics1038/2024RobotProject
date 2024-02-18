@@ -6,7 +6,7 @@ import java.util.List;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory.State;
 
-public class Trajectories {
+public class Paths {
     public static PathPlannerPath posOneToAmp() {
         return PathPlannerPath.fromPathFile("Position 1 to amp");
     }

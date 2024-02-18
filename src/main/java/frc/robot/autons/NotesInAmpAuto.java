@@ -4,13 +4,10 @@ import java.util.Optional;
 
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.path.PathPoint;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquireCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
@@ -25,8 +22,9 @@ public class NotesInAmpAuto extends Auton {
         double initialPose = 270;
         driveTrain.zeroHeading(initialPose - 180);
 
-        PathPlannerPath posOneToAmpPath = Trajectories.posOneToAmp();
-        PathPlannerPath apmToNoteOnePath = Trajectories.ampToNoteOne();
+        PathPlannerPath posOneToAmpPath = Paths.posOneToAmp();
+        PathPlannerPath apmToNoteOnePath = Paths.ampToNoteOne();
+        PathPlannerPath noteOneToAmpPath = Paths.noteOneToAmp();
 
         PathPlannerTrajectory trajectory = new PathPlannerTrajectory(posOneToAmpPath,
                 driveTrain.getChassisSpeeds(),
@@ -41,9 +39,9 @@ public class NotesInAmpAuto extends Auton {
                 new ParallelRaceGroup(
                         followPathCommand(apmToNoteOnePath),
                         new AcquireCommand()),
-                new WaitCommand(2)
-        // new NoteOneToAmp(alliance),
-        // new ScoreNoteAmpCommand()
-        );
+                new WaitCommand(2),
+                followPathCommand(noteOneToAmpPath),
+                new ScoreNoteAmpCommand());
     }
+    // Vinton Was Here :)
 }

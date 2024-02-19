@@ -10,7 +10,8 @@ import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
     public enum AutonChoices {
-        NoAuto;
+        NoAuto,
+        Test;
     }
 
     // Choosers
@@ -31,11 +32,14 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("test", AutonChoices.Test);
     }
 
     public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
+            case Test:
+                return new TestableScoreInAmp(alliance);
             default:
                 return null;
         }

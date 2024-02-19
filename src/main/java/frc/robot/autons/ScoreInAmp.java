@@ -1,6 +1,7 @@
 package frc.robot.autons;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -18,7 +19,7 @@ import frc.robot.commands.StorageRunCommand;
 
 public class ScoreInAmp extends Auton {
 
-    public ScoreInAmp(Alliance alliance) {
+    public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
         PathPlannerPath pathToAmpFromStart = PathPlannerPath.fromPathFile("From position 1 to amp");

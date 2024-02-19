@@ -28,18 +28,14 @@ public class TestableScoreInAmp extends Auton {
         PathPlannerPath pathToMidlineFromAmp = PathPlannerPath.fromPathFile("From amp to midline");
 
         super.addCommands(
-
-                new ParallelRaceGroup(
-                        AutoBuilder.followPath(pathToAmpFromStart)),
+                AutoBuilder.followPath(pathToAmpFromStart),
                 new ScoreNoteAmpCommand(),
                 new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                AutoBuilder.followPath(pathToNote1FromAmp)),
+                        AutoBuilder.followPath(pathToNote1FromAmp),
                         new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                AutoBuilder.followPath(pathToAmpFromNote1)),
+                        AutoBuilder.followPath(pathToAmpFromNote1),
                         new StorageRunCommand()),
                 new ScoringPositionCommand(ElevatorSetpoints.Amp),
                 new ScoreNoteAmpCommand(),

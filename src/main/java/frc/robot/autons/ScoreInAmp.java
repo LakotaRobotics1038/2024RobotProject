@@ -21,31 +21,26 @@ public class ScoreInAmp extends Auton {
     public ScoreInAmp(Alliance alliance) {
         super(alliance);
 
-        PathPlannerPath pathToAmpFromStart = PathPlannerPath.fromPathFile("From position 1 to amp");
-        PathPlannerPath pathToNote1FromAmp = PathPlannerPath.fromPathFile("From amp to top note");
-        PathPlannerPath pathToAmpFromNote1 = PathPlannerPath.fromPathFile("From note 1 to amp");
-        PathPlannerPath pathToMidlineFromAmp = PathPlannerPath.fromPathFile("From amp to midline");
-
         super.addCommands(
 
                 new ParallelRaceGroup(
-                        new DriveVisionCommand(VisionTarget.APT4),
-                        AutoBuilder.followPath(pathToAmpFromStart)),
+                        new DriveVisionCommand(VisionTarget.APR1),
+                        AutoBuilder.followPath(Paths.pathFromPosition1ToAmp)),
                 new ScoreNoteAmpCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 new DriveVisionCommand(VisionTarget.NOTES),
-                                AutoBuilder.followPath(pathToNote1FromAmp)),
+                                AutoBuilder.followPath(Paths.pathFromAmpToNote1)),
                         new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.APT4),
-                                AutoBuilder.followPath(pathToAmpFromNote1)),
+                                new DriveVisionCommand(VisionTarget.APR1),
+                                AutoBuilder.followPath(Paths.pathFromNote1ToAmp)),
                         new ScoringPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
                 new ScoreNoteAmpCommand(),
-                AutoBuilder.followPath(pathToMidlineFromAmp));
+                AutoBuilder.followPath(Paths.pathFromAmpToMidline));
 
     }
 

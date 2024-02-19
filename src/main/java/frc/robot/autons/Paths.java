@@ -1,10 +1,6 @@
 package frc.robot.autons;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory.State;
 
 public class Paths {
     public static PathPlannerPath posOneToAmp() {
@@ -19,4 +15,7 @@ public class Paths {
         return PathPlannerPath.fromPathFile("note 1 to amp");
     }
 
+    public static PathPlannerPath rotate() {
+        return PathPlannerPath.fromPathFile("rotate");
+    }
 }

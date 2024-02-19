@@ -26,8 +26,6 @@ public class NotesInAmpAuto extends Auton {
         PathPlannerPath apmToNoteOnePath = Paths.ampToNoteOne();
         PathPlannerPath noteOneToAmpPath = Paths.noteOneToAmp();
 
-        // why arent you doing this in the trajectories file
-        // why does your trajectories file actually return paths
         PathPlannerTrajectory trajectory = new PathPlannerTrajectory(posOneToAmpPath,
                 driveTrain.getChassisSpeeds(),
                 Rotation2d.fromDegrees(driveTrain.getHeading()));

@@ -16,9 +16,7 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        Pos1Amp,
-        Pos1Amp2,
-        np;
+        Pos1Amp;
     }
 
     // Choosers
@@ -53,16 +51,6 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
                 return new NotesInAmpAuto(alliance);
-            default:
-                return null;
-        }
-    }
-
-    public PathPlannerAuto chooseCommand() {
-        Optional<Alliance> alliance = DriverStation.getAlliance();
-        switch (this.autoChooser.getSelected()) {
-            case Pos1Amp2:
-                return new PathPlannerAuto("Position 1 Amp");
             default:
                 return null;
         }

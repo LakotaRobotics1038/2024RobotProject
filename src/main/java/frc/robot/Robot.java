@@ -24,7 +24,6 @@ public class Robot extends TimedRobot {
     private AutonSelector autonSelector = AutonSelector.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
     private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
-    private double resetValue = 0;
     // private Vision vision = Vision.getInstance();
 
     // Variables
@@ -73,15 +72,11 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
-        // autonomousCommand = autonSelector.chooseCommand();
         // if (DriverStation.isFMSAttached()) {
         // vision.startRecording();
         // }
         if (autonomousCommand != null) {
             Pose2d initialPose = autonomousCommand.getInitialPose();
-            // Pose2d initialPose = autonomousCommand.getStaringPoseFromAutoFile("Position 1
-            // Amp");
-            resetValue = driveTrain.getHeading();
             if (initialPose != null) {
                 driveTrain.resetOdometry(initialPose);
             }
@@ -99,7 +94,6 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-        // autonomousCommand.resetGyro(360 - resetValue);
     }
 
     @Override

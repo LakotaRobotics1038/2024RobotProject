@@ -100,7 +100,8 @@ public class Vision extends SubsystemBase {
                 JSONObject jsonObject = (JSONObject) data;
                 VisionData mappedData = new VisionData((String) jsonObject.get("x"), (String) jsonObject.get("y"),
                         (String) jsonObject.get("area"), (String) jsonObject.get("conf"),
-                        (String) jsonObject.get("id"));
+                        (String) jsonObject.get("id"), (String) jsonObject.get("xDistance"),
+                        (String) jsonObject.get("yDistance"));
                 visionData.add(mappedData);
             }
         } catch (ParseException ex) {
@@ -179,6 +180,24 @@ public class Vision extends SubsystemBase {
         return -1;
     }
 
+    public double getXDistance(int id) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getID() == id) {
+                return visionData.get(i).getXDistance();
+            }
+        }
+        return 0;
+    }
+
+    public double getYDistance(int id) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getID() == id) {
+                return visionData.get(i).getYDistance();
+            }
+        }
+        return 0;
+    }
+
     public double getAngle(int id) {
         double x = getX(id);
         double y = getY(id);
@@ -210,6 +229,17 @@ public class Vision extends SubsystemBase {
         } else {
             return 1;
         }
+    }
+
+    public ArrayList<Double> getRelativeDistanceFromObject(int id) {
+        double distance = Math.sqrt((getXDistance(id) * getXDistance(id)) + (getYDistance(id) * getYDistance(id)));
+        double angle = Math.tan(getYDistance(id) / getXDistance(id));
+
+        ArrayList<Double> values = new ArrayList<>();
+        values.add(distance);
+        values.add(angle);
+        return values;
+
     }
 
 }

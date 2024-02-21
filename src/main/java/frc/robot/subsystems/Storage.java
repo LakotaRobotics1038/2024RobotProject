@@ -17,8 +17,8 @@ public class Storage extends SubsystemBase {
     private final CANSparkMax rightStorageMotor = new CANSparkMax(
             StorageConstants.rightStoragePort, MotorType.kBrushless);
 
-    private final DigitalInput enterStorageMotor = new DigitalInput(StorageConstants.enterStorageMotorPort);
-    private final DigitalInput exitStorageMotor = new DigitalInput(StorageConstants.exitStorageMotorPort);
+    private final DigitalInput enterStorageLaser = new DigitalInput(StorageConstants.enterStorageLaserPort);
+    private final DigitalInput exitStorageLaser = new DigitalInput(StorageConstants.exitStorageLaserPort);
 
     private static Storage instance;
 
@@ -77,10 +77,10 @@ public class Storage extends SubsystemBase {
     }
 
     public boolean noteEnteringStorage() {
-        return enterStorageMotor.get();
+        return enterStorageLaser.get();
     }
 
     public boolean noteExitingStorage() {
-        return exitStorageMotor.get();
+        return exitStorageLaser.get();
     }
 }

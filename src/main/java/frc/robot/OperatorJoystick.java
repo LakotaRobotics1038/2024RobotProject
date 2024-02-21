@@ -43,7 +43,7 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
                 .onTrue(new ScoringPositionCommand(ElevatorSetpoints.Amp));
 
-        rightTrigger.onTrue(new ScoreNoteAmpCommand());
+        rightTrigger.whileTrue(new ScoreNoteAmpCommand());
         leftTrigger.onTrue(new ShootNoteCommand());
 
     }

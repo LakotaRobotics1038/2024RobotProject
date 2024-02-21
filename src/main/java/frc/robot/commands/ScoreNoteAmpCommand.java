@@ -3,9 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Scoring;
+import frc.robot.subsystems.Storage;
 
 public class ScoreNoteAmpCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
+    private Storage storage = Storage.getInstance();
     private Timer timer = new Timer();
     private int secondsToScore;
 
@@ -25,7 +27,11 @@ public class ScoreNoteAmpCommand extends Command {
 
     @Override
     public void execute() {
-        scoring.runRoller();
+        if (storage.noteExitingStorage()) {
+            scoring.rollerShoot();
+        } else {
+            scoring.runRoller();
+        }
     }
 
     @Override

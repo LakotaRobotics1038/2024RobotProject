@@ -165,7 +165,7 @@ public class DriveTrain extends SubsystemBase {
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
-    private void applyChassisSpeeds(ChassisSpeeds speeds) {
+    public void applyChassisSpeeds(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         this.setModuleStates(swerveModuleStates);
     }
@@ -235,6 +235,11 @@ public class DriveTrain extends SubsystemBase {
     /** Zeroes the heading of the robot. */
     public void zeroHeading() {
         gyro.reset();
+    }
+
+    /** Zeroes the heading of the robot manually by passing in a value. */
+    public void zeroHeadingManual(double degrees) {
+        gyro.setYaw(degrees);
     }
 
     /**

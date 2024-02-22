@@ -2,9 +2,14 @@ package frc.robot.autons;
 
 import java.nio.file.Path;
 
+import java.util.Optional;
+import java.util.*;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
 import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -18,34 +23,34 @@ import frc.robot.commands.StorageRunCommand;
 
 public class ScoreInAmp extends Auton {
 
-    public ScoreInAmp(Alliance alliance) {
+    private double initialPose;
+
+    public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
-        PathPlannerPath pathToAmpFromStart = PathPlannerPath.fromPathFile("From position 1 to amp");
-        PathPlannerPath pathToNote1FromAmp = PathPlannerPath.fromPathFile("From amp to top note");
-        PathPlannerPath pathToAmpFromNote1 = PathPlannerPath.fromPathFile("From note 1 to amp");
-        PathPlannerPath pathToMidlineFromAmp = PathPlannerPath.fromPathFile("From amp to midline");
-
+        this.resetGyro(initialPose);
+        Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
+        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
         super.addCommands(
 
                 new ParallelRaceGroup(
                         new DriveVisionCommand(VisionTarget.APT4),
-                        AutoBuilder.followPath(pathToAmpFromStart)),
+                        followPathCommand(Paths.pathFromPosition1ToAmp)),
                 new ScoreNoteAmpCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 new DriveVisionCommand(VisionTarget.NOTES),
-                                AutoBuilder.followPath(pathToNote1FromAmp)),
+                                followPathCommand(Paths.pathFromNote1ToAmp)),
                         new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 new DriveVisionCommand(VisionTarget.APT4),
-                                AutoBuilder.followPath(pathToAmpFromNote1)),
+                                followPathCommand(Paths.pathFromNote1ToAmp)),
                         new ScoringPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
                 new ScoreNoteAmpCommand(),
-                AutoBuilder.followPath(pathToMidlineFromAmp));
+                followPathCommand(Paths.pathFromAmpToMidline));
 
     }
 

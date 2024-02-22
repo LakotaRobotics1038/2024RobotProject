@@ -2,6 +2,7 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -15,6 +16,9 @@ public class AutonSelector {
 
     // Choosers
     SendableChooser<AutonChoices> autoChooser;
+
+    private Pose2d initialPose;
+    protected Alliance alliance;
 
     // Singleton Setup
     private static AutonSelector instance;

@@ -1,9 +1,9 @@
 package frc.robot.constants;
 
 public class ScoringConstants {
-    public static final int leftScoringElevatorMotorPort = 0;
-    public static final int rightScoringElevatorMotorPort = 0;
-    public static final int rollerMotorPort = 0;
+    public static final int leftScoringElevatorMotorPort = 6;
+    public static final int rightScoringElevatorMotorPort = 9;
+    public static final int rollerMotorPort = 12;
 
     public static final double groundSetpoint = 0;
     public static final double ampSetpoint = 0;

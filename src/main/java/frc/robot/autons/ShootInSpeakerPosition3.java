@@ -1,27 +1,20 @@
 package frc.robot.autons;
 
-import java.nio.file.Path;
-
 import java.util.Optional;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquireCommand;
-import frc.robot.commands.DriveVisionCommand;
 import frc.robot.commands.ScoringPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.StorageRunCommand;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
-import frc.robot.subsystems.Vision.VisionTarget;
 
 public class ShootInSpeakerPosition3 extends Auton {
 
+    //TODO: May need to move this instance into constructor
     private double initialPose;
 
     public ShootInSpeakerPosition3(Optional<Alliance> alliance) {
@@ -33,23 +26,33 @@ public class ShootInSpeakerPosition3 extends Auton {
 
         addCommands(
                 followPathCommand(Paths.pathFromPosition3ToSpeaker),
+                new WaitCommand(0.2),
                 new ShootNoteCommand(),
+                new WaitCommand(0.2),
                 followPathCommand(Paths.pathFromSpeakerToNote2),
+                new WaitCommand(0.2),
                 new AcquireCommand(),
+                new WaitCommand(0.2),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromNote2ToSpeaker),
                         new ScoringPositionCommand(ElevatorSetpoints.Trap)),
+                new WaitCommand(0.2),
                 new StorageRunCommand(),
                 new ShootNoteCommand(),
+                new WaitCommand(0.2),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromSpeakerToNote3),
                         new ScoringPositionCommand(ElevatorSetpoints.Ground)),
+                new WaitCommand(0.2),
                 new AcquireCommand(),
+                new WaitCommand(0.2),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromNote3ToSpeaker),
                         new ScoringPositionCommand(ElevatorSetpoints.Trap)),
+                new WaitCommand(0.2),
                 new StorageRunCommand(),
                 new ShootNoteCommand(),
+                new WaitCommand(0.2),
                 followPathCommand(Paths.pathFromSpeakerToMidline));
     }
 

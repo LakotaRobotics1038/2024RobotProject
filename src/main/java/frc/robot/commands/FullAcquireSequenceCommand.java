@@ -27,9 +27,9 @@ public class FullAcquireSequenceCommand extends Command {
 
     @Override
     public void end(boolean isFinished) {
-        storage.stopStorage();
-        storage.stopTransition();
         acquisition.stopIntake();
         acquisition.stopSushi();
+        storage.stopTransition();
+        storage.stopStorage();
     }
 }

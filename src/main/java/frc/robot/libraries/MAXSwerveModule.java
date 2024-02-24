@@ -14,13 +14,14 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.constants.SwerveModuleConstants;
 
 public class MAXSwerveModule {
-    private final CANSparkMax drivingSparkMax;
+    private final CANSparkFlex drivingSparkMax;
     private final CANSparkMax turningSparkMax;
 
     private final RelativeEncoder drivingEncoder;
@@ -39,7 +40,7 @@ public class MAXSwerveModule {
      * Encoder.
      */
     public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
-        drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
+        drivingSparkMax = new CANSparkFlex(drivingCANId, MotorType.kBrushless);
         turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
 
         // Factory reset, so we get the SPARKS MAX to a known state before configuring

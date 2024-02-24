@@ -7,7 +7,7 @@ import edu.wpi.first.math.util.Units;
 public final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.8;
+    public static final double kMaxSpeedMetersPerSecond = 6.77;
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
     public static final double kFineAdjustmentPercent = 0.2;
 
@@ -18,11 +18,11 @@ public final class DriveConstants {
     public static final double kRotationLockTolerance = 1.0;
 
     // Chassis configuration
-    public static final double kTrackWidth = Units.inchesToMeters(26);
+    public static final double kTrackWidth = Units.inchesToMeters(22.5);
     // Distance between centers of right and left wheels on robot
-    public static final double kWheelBase = Units.inchesToMeters(26);
+    public static final double kWheelBase = Units.inchesToMeters(22.5);
     // Drive base radius in meters. Distance from robot center to furthest module.
-    public static final double kBaseRadius = Units.inchesToMeters(13);
+    public static final double kBaseRadius = Units.inchesToMeters(15.91);
     // Distance between front and back wheels on robot
     public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),

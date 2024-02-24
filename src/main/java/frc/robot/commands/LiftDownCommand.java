@@ -17,8 +17,7 @@ public class LiftDownCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
-        // awaiting sensors
+        return lift.bothLowerLimitsReached();
     }
 
     @Override

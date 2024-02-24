@@ -11,6 +11,11 @@ public class LiftUpCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        lift.disableRatchets();
+    }
+
+    @Override
     public void execute() {
         lift.runUp();
     }
@@ -23,5 +28,6 @@ public class LiftUpCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         lift.stop();
+        lift.enableRatchets();
     }
 }

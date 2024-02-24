@@ -21,7 +21,6 @@ public class Robot extends TimedRobot {
     // Singleton Instances
     private AutonSelector autonSelector = AutonSelector.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
-    private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
     // private Vision vision = Vision.getInstance();
 
     // Variables
@@ -35,6 +34,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         // Singleton instances that need to be created but not referenced
         DriverJoystick.getInstance();
+        OperatorJoystick.getInstance();
         Dashboard.getInstance();
 
         addPeriodic(swagLights::periodic, 0.5);

@@ -8,7 +8,7 @@ import frc.robot.subsystems.Scoring;
 public class ShootNoteCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Timer timer = new Timer();
-    private int secondsToScore;
+    private int secondsToScore = 0;
 
     public ShootNoteCommand() {
         this.addRequirements(scoring);
@@ -36,7 +36,7 @@ public class ShootNoteCommand extends Command {
         if (scoring.getPosition() == ScoringConstants.groundSetpoint) {
             return true;
         }
-        return this.secondsToScore == 0 ? timer.get() > this.secondsToScore : false;
+        return this.secondsToScore != 0 ? timer.get() > this.secondsToScore : false;
     }
 
     @Override

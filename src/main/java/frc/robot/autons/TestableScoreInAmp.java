@@ -5,9 +5,12 @@ import java.util.Optional;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.Scoring.ElevatorSetpoints;
 import frc.robot.subsystems.Vision.VisionTarget;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
@@ -26,6 +29,12 @@ public class TestableScoreInAmp extends Auton {
         PathPlannerPath pathToNote1FromAmp = PathPlannerPath.fromPathFile("From amp to top note");
         PathPlannerPath pathToAmpFromNote1 = PathPlannerPath.fromPathFile("From note 1 to amp");
         PathPlannerPath pathToMidlineFromAmp = PathPlannerPath.fromPathFile("From amp to midline");
+
+        PathPlannerTrajectory trajectory = new PathPlannerTrajectory(pathToAmpFromStart,
+                driveTrain.getChassisSpeeds(),
+                Rotation2d.fromDegrees(driveTrain.getHeading()));
+        Dashboard.getInstance().setTrajectory(trajectory);
+        this.setInitialPose(trajectory);
 
         super.addCommands(
                 AutoBuilder.followPath(pathToAmpFromStart),

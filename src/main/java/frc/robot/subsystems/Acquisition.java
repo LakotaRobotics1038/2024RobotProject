@@ -49,7 +49,6 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.intakeSpeed);
     }
 
-    
     /**
      * Runs the acquisition sushi motor at a constant speed.
      */
@@ -72,7 +71,6 @@ public class Acquisition extends SubsystemBase {
         sushiMotor.stopMotor();
     }
 
-    
     /**
      * Stops the acquisition intake motor.
      */

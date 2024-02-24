@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 
+import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ScoringConstants;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -59,6 +60,10 @@ public class Scoring extends PIDSubsystem {
         leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
 
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+
+        leftScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rollerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
 
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();

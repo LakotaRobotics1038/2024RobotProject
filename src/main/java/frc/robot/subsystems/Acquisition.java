@@ -83,6 +83,6 @@ public class Acquisition extends SubsystemBase {
      * @return boolean - status of the acquisition laser
      */
     public boolean isNotePresent() {
-        return acqLaser.get();
+        return !acqLaser.get();
     }
 }

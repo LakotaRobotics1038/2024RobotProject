@@ -77,10 +77,10 @@ public class Storage extends SubsystemBase {
     }
 
     public boolean noteEnteringStorage() {
-        return enterStorageLaser.get();
+        return !enterStorageLaser.get();
     }
 
     public boolean noteExitingStorage() {
-        return exitStorageLaser.get();
+        return !exitStorageLaser.get();
     }
 }

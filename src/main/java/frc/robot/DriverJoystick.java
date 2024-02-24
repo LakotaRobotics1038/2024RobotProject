@@ -8,8 +8,8 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.LiftDepressCommand;
-import frc.robot.commands.LiftExtendCommand;
+import frc.robot.commands.LiftDownCommand;
+import frc.robot.commands.LiftUpCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -91,8 +91,8 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(vision::enable0, vision))
                 .onFalse(new InstantCommand(vision::disable0, vision));
 
-        leftTrigger.whileTrue(new LiftExtendCommand());
-        rightTrigger.whileTrue(new LiftDepressCommand());
+        leftTrigger.whileTrue(new LiftUpCommand());
+        rightTrigger.whileTrue(new LiftDownCommand());
     }
 
     /**

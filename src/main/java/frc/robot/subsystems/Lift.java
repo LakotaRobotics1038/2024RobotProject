@@ -48,7 +48,7 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
-     * 
+     *
      * Enables the lift ratchets (sets them to a contant maximum extension).
      */
     public void enableRatchets() {
@@ -67,14 +67,14 @@ public final class Lift extends SubsystemBase {
     /**
      * Runs the lift motor forwards at a constant speed.
      */
-    public void runPos() {
+    public void runUp() {
         leftLiftMotor.set(LiftConstants.motorSpeed);
     }
 
     /**
      * Runs the lift motor backwards at a constant speed.
      */
-    public void runNeg() {
+    public void runDown() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
 

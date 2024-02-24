@@ -48,20 +48,20 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
-
+     * 
      * Enables the lift ratchets (sets them to a contant maximum extension).
      */
     public void enableRatchets() {
-        leftRatchetServo.set(LiftConstants.ratchetMaxExtend);
-        rightRatchetServo.set(LiftConstants.ratchetMaxExtend);
+        leftRatchetServo.set(LiftConstants.leftRatchetLockPos);
+        rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
     }
 
     /**
      * Disables the lift ratchets (sets them to a constant minimum extension).
      */
     public void disableRatchets() {
-        leftRatchetServo.set(LiftConstants.ratchetMinExtend);
-        rightRatchetServo.set(LiftConstants.ratchetMinExtend);
+        leftRatchetServo.set(LiftConstants.leftRatchetUnlockPos);
+        rightRatchetServo.set(LiftConstants.rightRatchetUnlockPos);
     }
 
     /**
@@ -70,14 +70,14 @@ public final class Lift extends SubsystemBase {
     public void runPos() {
         leftLiftMotor.set(LiftConstants.motorSpeed);
     }
-    
+
     /**
      * Runs the lift motor backwards at a constant speed.
      */
     public void runNeg() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
-    
+
     /**
      * Stops both lift motors.
      *

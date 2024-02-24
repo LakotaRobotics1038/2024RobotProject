@@ -41,8 +41,8 @@ public class Storage extends SubsystemBase {
 
         transitionMotor.setInverted(true);
 
-        leftStorageMotor.setIdleMode(IdleMode.kCoast);
-        rightStorageMotor.setIdleMode(IdleMode.kCoast);
+        leftStorageMotor.setIdleMode(IdleMode.kBrake);
+        rightStorageMotor.setIdleMode(IdleMode.kBrake);
         transitionMotor.setIdleMode(IdleMode.kBrake);
 
         rightStorageMotor.follow(leftStorageMotor, true);

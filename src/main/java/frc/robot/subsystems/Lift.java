@@ -36,8 +36,8 @@ public final class Lift extends SubsystemBase {
     private Lift() {
         leftLiftMotor.restoreFactoryDefaults();
         rightLiftMotor.restoreFactoryDefaults();
-        leftLiftMotor.setIdleMode(IdleMode.kCoast);
-        rightLiftMotor.setIdleMode(IdleMode.kCoast);
+        leftLiftMotor.setIdleMode(IdleMode.kBrake);
+        rightLiftMotor.setIdleMode(IdleMode.kBrake);
         rightLiftMotor.follow(leftLiftMotor);
 
         leftRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);

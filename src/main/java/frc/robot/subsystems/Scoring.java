@@ -55,8 +55,8 @@ public class Scoring extends PIDSubsystem {
         leftScoringElevatorMotor.restoreFactoryDefaults();
 
         rollerMotor.setIdleMode(IdleMode.kCoast);
-        rightScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
-        leftScoringElevatorMotor.setIdleMode(IdleMode.kCoast);
+        rightScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
+        leftScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
 
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
 

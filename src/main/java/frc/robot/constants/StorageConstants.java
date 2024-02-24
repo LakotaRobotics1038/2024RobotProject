@@ -6,9 +6,9 @@ public class StorageConstants {
     public static final int leftStoragePort = 11;
     public static final int rightStoragePort = 8;
 
-    //TODO: placeholder ports
-    public static final int enterStorageLaserPort = 25;
-    public static final int exitStorageLaserPort = 26;
+    // TODO: placeholder ports
+    public static final int enterStorageLaserPort = 1;
+    public static final int exitStorageLaserPort = 0;
 
     public static final double transitionSpeed = 0.0;
     public static final double reverseTransitionSpeed = -1;

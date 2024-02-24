@@ -23,6 +23,9 @@ public class Acquisition extends SubsystemBase {
         sushiMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setIdleMode(IdleMode.kBrake);
 
+        intakeMotor.setInverted(false);
+        sushiMotor.setInverted(true);
+
         sushiMotor.burnFlash();
         intakeMotor.burnFlash();
     }

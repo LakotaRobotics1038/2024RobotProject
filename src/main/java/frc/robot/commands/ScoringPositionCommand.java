@@ -16,7 +16,6 @@ public class ScoringPositionCommand extends Command {
 
     @Override
     public void execute() {
-
         switch (scoringState) {
             case Amp:
                 scoring.setSetpoint(ElevatorSetpoints.Amp.value);
@@ -33,10 +32,5 @@ public class ScoringPositionCommand extends Command {
     @Override
     public boolean isFinished() {
         return scoring.getController().atSetpoint();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        scoring.stopRoller();
     }
 }

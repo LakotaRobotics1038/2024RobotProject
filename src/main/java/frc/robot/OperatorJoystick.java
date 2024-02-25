@@ -10,7 +10,7 @@ import frc.robot.commands.UnacquireCommand;
 import frc.robot.commands.ScoringPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
-import frc.robot.subsystems.Scoring.ElevatorSetpoints;
+import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class OperatorJoystick extends XboxController1038 {
     // Singleton Setup

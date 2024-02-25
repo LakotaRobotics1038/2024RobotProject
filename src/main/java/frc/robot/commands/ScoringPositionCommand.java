@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Scoring;
-import frc.robot.subsystems.Scoring.ElevatorSetpoints;
+import frc.robot.subsystems.ScoringElevator;
+import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class ScoringPositionCommand extends Command {
 
-    private Scoring scoring = Scoring.getInstance();
+    private ScoringElevator scoring = ScoringElevator.getInstance();
     private ElevatorSetpoints scoringState;
 
     public ScoringPositionCommand(ElevatorSetpoints scoringState) {
@@ -23,13 +23,13 @@ public class ScoringPositionCommand extends Command {
     public void execute() {
         switch (scoringState) {
             case Amp:
-                scoring.setSetpoint(ElevatorSetpoints.Amp.value);
+                scoring.setSetpoint(ElevatorSetpoints.Amp);
                 break;
             case Ground:
-                scoring.setSetpoint(ElevatorSetpoints.Ground.value);
+                scoring.setSetpoint(ElevatorSetpoints.Ground);
                 break;
             default:
-                scoring.setSetpoint(ElevatorSetpoints.Trap.value);
+                scoring.setSetpoint(ElevatorSetpoints.Trap);
                 break;
         }
     }

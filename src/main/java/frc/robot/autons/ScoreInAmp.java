@@ -1,11 +1,8 @@
 package frc.robot.autons;
 
-import java.nio.file.Path;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathPlannerPath;
 
-import frc.robot.subsystems.Scoring.ElevatorSetpoints;
+import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;

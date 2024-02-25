@@ -60,6 +60,7 @@ public class Scoring extends PIDSubsystem {
         rollerMotor.setInverted(false);
 
         rightScoringElevatorMotor.follow(leftScoringElevatorMotor);
+        leftScoringElevatorEncoder.setPositionConversionFactor(ScoringConstants.elevatorEncoderConversionFactor);
 
         rollerMotor.burnFlash();
         rightScoringElevatorMotor.burnFlash();

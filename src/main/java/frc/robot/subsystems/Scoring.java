@@ -1,10 +1,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 
 import frc.robot.constants.ScoringConstants;
@@ -23,7 +22,7 @@ public class Scoring extends PIDSubsystem {
     private final CANSparkFlex rollerMotor = new CANSparkFlex(
             ScoringConstants.rollerMotorPort, MotorType.kBrushless);
 
-    private AbsoluteEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    private RelativeEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getEncoder();
 
     public enum ElevatorSetpoints {
         Ground(ScoringConstants.groundSetpoint),

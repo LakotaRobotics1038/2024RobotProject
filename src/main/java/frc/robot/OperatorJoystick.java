@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.FullAcquireSequenceCommand;
 import frc.robot.commands.ReverseStorageCommand;
 import frc.robot.commands.UnacquireCommand;
-import frc.robot.commands.ScoringPositionCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
@@ -34,13 +34,13 @@ public class OperatorJoystick extends XboxController1038 {
         xButton.whileTrue(new UnacquireCommand());
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
-                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Trap));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
-                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Ground));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
-                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Amp));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp));
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());
         leftTrigger.whileTrue(new ShootNoteCommand());

@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ScoringElevator;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
-public class ScoringPositionCommand extends Command {
+public class ScoringElevatorPositionCommand extends Command {
 
     private ScoringElevator scoring = ScoringElevator.getInstance();
     private ElevatorSetpoints scoringState;
 
-    public ScoringPositionCommand(ElevatorSetpoints scoringState) {
+    public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState) {
         addRequirements(scoring);
         this.scoringState = scoringState;
     }
@@ -36,7 +36,7 @@ public class ScoringPositionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return scoring.getController().atSetpoint();
+        return false;
     }
 
     @Override

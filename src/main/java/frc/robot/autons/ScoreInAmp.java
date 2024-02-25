@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.AcquireCommand;
 import frc.robot.commands.DriveVisionCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
-import frc.robot.commands.ScoringPositionCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.StorageRunCommand;
 
 public class ScoreInAmp extends Auton {
@@ -28,13 +28,13 @@ public class ScoreInAmp extends Auton {
                         new ParallelRaceGroup(
                                 new DriveVisionCommand(VisionTarget.NOTES),
                                 AutoBuilder.followPath(Paths.pathFromAmpToNote1)),
-                        new ScoringPositionCommand(ElevatorSetpoints.Ground)),
+                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground)),
                 new AcquireCommand(),
                 new ParallelCommandGroup(
                         new ParallelRaceGroup(
                                 new DriveVisionCommand(VisionTarget.APR1),
                                 AutoBuilder.followPath(Paths.pathFromNote1ToAmp)),
-                        new ScoringPositionCommand(ElevatorSetpoints.Amp)),
+                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
                 new ScoreNoteAmpCommand(),
                 AutoBuilder.followPath(Paths.pathFromAmpToMidline));

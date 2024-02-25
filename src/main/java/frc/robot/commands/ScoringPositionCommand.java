@@ -15,6 +15,11 @@ public class ScoringPositionCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        scoring.enable();
+    }
+
+    @Override
     public void execute() {
         switch (scoringState) {
             case Amp:
@@ -32,5 +37,10 @@ public class ScoringPositionCommand extends Command {
     @Override
     public boolean isFinished() {
         return scoring.getController().atSetpoint();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        scoring.disable();
     }
 }

@@ -3,7 +3,6 @@ package frc.robot;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.constants.IOConstants;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.libraries.XboxController1038.PovPositions;
 
 import frc.robot.commands.FullAcquireSequenceCommand;
 import frc.robot.commands.ReverseStorageCommand;
@@ -35,13 +34,13 @@ public class OperatorJoystick extends XboxController1038 {
         xButton.whileTrue(new UnacquireCommand());
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
-                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.Trap));
+                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Trap));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
-                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.Ground));
+                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Ground));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
-                .onTrue(new ScoringPositionCommand(ElevatorSetpoints.Amp));
+                .toggleOnTrue(new ScoringPositionCommand(ElevatorSetpoints.Amp));
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());
         leftTrigger.whileTrue(new ShootNoteCommand());

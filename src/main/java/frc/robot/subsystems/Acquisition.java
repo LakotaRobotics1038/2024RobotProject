@@ -27,6 +27,9 @@ public class Acquisition extends SubsystemBase {
         sushiMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
         intakeMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
+        intakeMotor.setInverted(false);
+        sushiMotor.setInverted(true);
+
         sushiMotor.burnFlash();
         intakeMotor.burnFlash();
     }
@@ -85,6 +88,6 @@ public class Acquisition extends SubsystemBase {
      * @return boolean - status of the acquisition laser
      */
     public boolean isNotePresent() {
-        return acqLaser.get();
+        return !acqLaser.get();
     }
 }

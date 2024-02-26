@@ -1,14 +1,13 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkBase.IdleMode;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.LiftConstants;
 
 public final class Lift extends SubsystemBase {
@@ -65,16 +64,22 @@ public final class Lift extends SubsystemBase {
      *
      * Enables the lift ratchets (sets them to a constant maximum extension).
      */
-    public void enableRatchets() {
+    public void enableLeftRatchet() {
         leftRatchetServo.set(LiftConstants.leftRatchetLockPos);
+    }
+
+    public void enableRightRatchet() {
         rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
     }
 
     /**
      * Disables the lift ratchets (sets them to a constant minimum extension).
      */
-    public void disableRatchets() {
+    public void disableLeftRatchet() {
         leftRatchetServo.set(LiftConstants.leftRatchetUnlockPos);
+    }
+
+    public void disableRightRatchet() {
         rightRatchetServo.set(LiftConstants.rightRatchetUnlockPos);
     }
 
@@ -91,7 +96,7 @@ public final class Lift extends SubsystemBase {
     /**
      * Runs the lift motor forwards at a constant speed.
      */
-    public void runUp() {
+    public void runLeftUp() {
         if (this.ratchetsUnlocked()) {
             System.out.println("LEFT " + leftLiftEncoder.getPosition() + " RIGHT " + rightLiftEncoder.getPosition());
             if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
@@ -99,21 +104,31 @@ public final class Lift extends SubsystemBase {
             } else {
                 leftLiftMotor.stopMotor();
             }
+        } else {
+            leftLiftMotor.stopMotor();
+        }
+    }
+
+    public void runRightUp() {
+        if (rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos) {
             if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
                 rightLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 rightLiftMotor.stopMotor();
             }
         } else {
-            this.stop();
+            rightLiftMotor.stopMotor();
         }
     }
 
     /**
      * Runs the lift motor backwards at a constant speed.
      */
-    public void runDown() {
+    public void runLeftDown() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
+    }
+
+    public void runRightDown() {
         rightLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
 
@@ -121,18 +136,26 @@ public final class Lift extends SubsystemBase {
      * Stops both lift motors.
      *
      */
-    public void stop() {
+    public void stopLeftMotor() {
         leftLiftMotor.stopMotor();
+    }
+
+    public void stopRightMotor() {
         rightLiftMotor.stopMotor();
     }
 
     /**
      * Determines if both limit switches are pressed
-     * 
+     *
      * @return are both limit switches pressed
      */
-    public boolean bothLowerLimitsReached() {
-        return leftLimitSwitch.isPressed() && rightLimitSwitch.isPressed();
+
+    public boolean leftLowerLimitReached() {
+        return leftLimitSwitch.isPressed();
+    }
+
+    public boolean rightLowerLimitReached() {
+        return rightLimitSwitch.isPressed();
     }
 
     @Override

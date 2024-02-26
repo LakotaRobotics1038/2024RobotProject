@@ -1,16 +1,16 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import frc.robot.constants.ScoringElevatorConstants;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.MathUtil;
+import frc.robot.constants.NeoMotorConstants;
+import frc.robot.constants.ScoringElevatorConstants;
 
 public class ScoringElevator extends SubsystemBase {
 
@@ -74,6 +74,9 @@ public class ScoringElevator extends SubsystemBase {
                 .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
         rightScoringElevatorEncoder
                 .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
+
+        leftScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
 
         leftScoringElevatorLimitSwitch.enableLimitSwitch(true);
         rightScoringElevatorLimitSwitch.enableLimitSwitch(true);

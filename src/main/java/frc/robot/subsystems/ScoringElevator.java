@@ -1,16 +1,16 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import frc.robot.constants.ScoringElevatorConstants;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.math.MathUtil;
+import frc.robot.constants.NeoMotorConstants;
+import frc.robot.constants.ScoringElevatorConstants;
 
 public class ScoringElevator extends SubsystemBase {
 
@@ -68,12 +68,15 @@ public class ScoringElevator extends SubsystemBase {
         leftScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
 
         rightScoringElevatorMotor.setInverted(false);
-        leftScoringElevatorMotor.setInverted(false);
+        leftScoringElevatorMotor.setInverted(true);
 
         leftScoringElevatorEncoder
                 .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
         rightScoringElevatorEncoder
                 .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
+
+        leftScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
 
         leftScoringElevatorLimitSwitch.enableLimitSwitch(true);
         rightScoringElevatorLimitSwitch.enableLimitSwitch(true);
@@ -93,15 +96,17 @@ public class ScoringElevator extends SubsystemBase {
     public void periodic() {
         if (enabled) {
             double output = verticalController.calculate(getLeftPosition());
-            double error = errorController.calculate(getLeftPosition() - getRightPosition());
+            double diff = getLeftPosition() - getRightPosition();
+            double error = errorController.calculate(diff);
 
             double power = MathUtil.clamp(output, ScoringElevatorConstants.minSpeed, ScoringElevatorConstants.maxSpeed);
-            double clampedError = MathUtil.clamp(error, ScoringElevatorConstants.minSpeed * 0.2,
-                    ScoringElevatorConstants.maxSpeed * 0.2);
+            double clampedError = MathUtil.clamp(error, ScoringElevatorConstants.minSpeed,
+                    ScoringElevatorConstants.maxSpeed);
 
-            System.out.println("OUT " + output + " ERR " + error + " POW " + power + " CERR " + clampedError);
-            leftScoringElevatorMotor.set(power + clampedError);
-            rightScoringElevatorMotor.set(power - clampedError);
+            double left = diff > 0 ? power + clampedError : power;
+            double right = diff < 0 ? power - clampedError : power;
+            leftScoringElevatorMotor.set(left);
+            rightScoringElevatorMotor.set(right);
         }
 
         if (leftScoringElevatorLimitSwitch.isPressed() &&
@@ -156,7 +161,7 @@ public class ScoringElevator extends SubsystemBase {
      * @return double - current encoder position
      */
     public double getLeftPosition() {
-        return -leftScoringElevatorEncoder.getPosition();
+        return leftScoringElevatorEncoder.getPosition();
     }
 
     /**

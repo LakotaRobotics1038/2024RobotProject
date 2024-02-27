@@ -9,6 +9,7 @@ import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.LiftConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public final class Lift extends SubsystemBase {
     private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
@@ -55,6 +56,9 @@ public final class Lift extends SubsystemBase {
 
         leftRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
         rightRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+
+        leftLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
 
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();

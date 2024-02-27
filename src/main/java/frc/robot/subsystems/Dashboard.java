@@ -104,20 +104,20 @@ public class Dashboard extends SubsystemBase {
                 .withSize(8, 5)
                 .withWidget(BuiltInWidgets.kField);
 
-        driversTab.addDouble("LeftScoreLiftEnc", scoring::getLeftPosition)
-                .withPosition(0, 3);
-        driversTab.addDouble("RightScoreLiftEnc", scoring::getRightPosition)
-                .withPosition(1, 3);
+        // driversTab.addDouble("LeftScoreLiftEnc", scoring::getLeftPosition)
+        // .withPosition(0, 3);
+        // driversTab.addDouble("RightScoreLiftEnc", scoring::getRightPosition)
+        // .withPosition(1, 3);
 
-        driversTab.add("Vert Controller",
-                scoring.getVerticalController())
-                .withPosition(0, 1)
-                .withWidget(BuiltInWidgets.kPIDController);
+        // driversTab.add("Vert Controller",
+        // scoring.getVerticalController())
+        // .withPosition(0, 1)
+        // .withWidget(BuiltInWidgets.kPIDController);
 
-        driversTab.add("Err Controller",
-                scoring.getErrorController())
-                .withPosition(1, 1)
-                .withWidget(BuiltInWidgets.kPIDController);
+        // driversTab.add("Err Controller",
+        // scoring.getErrorController())
+        // .withPosition(1, 1)
+        // .withWidget(BuiltInWidgets.kPIDController);
     }
 
     @Override

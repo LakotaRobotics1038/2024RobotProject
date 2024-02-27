@@ -3,31 +3,25 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Lift;
 
-public class LiftUpCommand extends Command {
+public class LeftLiftDownCommand extends Command {
     private Lift lift = Lift.getInstance();
 
-    public LiftUpCommand() {
+    public LeftLiftDownCommand() {
         addRequirements(lift);
     }
 
     @Override
-    public void initialize() {
-        lift.disableRatchets();
-    }
-
-    @Override
     public void execute() {
-        lift.runUp();
+        lift.runLeftDown();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return lift.leftLowerLimitReached();
     }
 
     @Override
     public void end(boolean interrupted) {
-        lift.stop();
-        lift.enableRatchets();
+        lift.stopLeftMotor();
     }
 }

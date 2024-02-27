@@ -93,15 +93,17 @@ public class ScoringElevator extends SubsystemBase {
     public void periodic() {
         if (enabled) {
             double output = verticalController.calculate(getLeftPosition());
-            double error = errorController.calculate(getLeftPosition() - getRightPosition());
+            double diff = getLeftPosition() - getRightPosition();
+            double error = errorController.calculate(diff);
 
             double power = MathUtil.clamp(output, ScoringElevatorConstants.minSpeed, ScoringElevatorConstants.maxSpeed);
-            double clampedError = MathUtil.clamp(error, ScoringElevatorConstants.minSpeed * 0.2,
-                    ScoringElevatorConstants.maxSpeed * 0.2);
+            double clampedError = MathUtil.clamp(error, ScoringElevatorConstants.minSpeed,
+                    ScoringElevatorConstants.maxSpeed);
 
-            System.out.println("OUT " + output + " ERR " + error + " POW " + power + " CERR " + clampedError);
-            leftScoringElevatorMotor.set(power + clampedError);
-            rightScoringElevatorMotor.set(power - clampedError);
+            double left = diff > 0 ? power + clampedError : power;
+            double right = diff < 0 ? power - clampedError : power;
+            leftScoringElevatorMotor.set(left);
+            rightScoringElevatorMotor.set(right);
         }
 
         if (leftScoringElevatorLimitSwitch.isPressed() &&

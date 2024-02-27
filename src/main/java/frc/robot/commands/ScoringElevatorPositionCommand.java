@@ -9,6 +9,15 @@ public class ScoringElevatorPositionCommand extends Command {
     private ScoringElevator scoring = ScoringElevator.getInstance();
     private ElevatorSetpoints scoringState;
 
+    private boolean noFinish = false;
+
+    public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState, boolean noFinish) {
+        addRequirements(scoring);
+        this.scoringState = scoringState;
+        this.noFinish = noFinish;
+
+    }
+
     public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState) {
         addRequirements(scoring);
         this.scoringState = scoringState;
@@ -32,7 +41,7 @@ public class ScoringElevatorPositionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return !noFinish && scoring.onTarget();
     }
 
     @Override

@@ -199,4 +199,8 @@ public class ScoringElevator extends SubsystemBase {
     public boolean isEnabled() {
         return enabled;
     }
+
+    public boolean onTarget() {
+        return getVerticalController().atSetpoint();
+    }
 }

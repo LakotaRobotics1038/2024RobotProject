@@ -68,7 +68,7 @@ public class ScoringElevator extends SubsystemBase {
         leftScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
 
         rightScoringElevatorMotor.setInverted(false);
-        leftScoringElevatorMotor.setInverted(false);
+        leftScoringElevatorMotor.setInverted(true);
 
         leftScoringElevatorEncoder
                 .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
@@ -156,7 +156,7 @@ public class ScoringElevator extends SubsystemBase {
      * @return double - current encoder position
      */
     public double getLeftPosition() {
-        return -leftScoringElevatorEncoder.getPosition();
+        return leftScoringElevatorEncoder.getPosition();
     }
 
     /**

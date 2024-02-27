@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
 
+import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ScoringConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,8 +25,11 @@ public class Scoring extends SubsystemBase {
 
     public Scoring() {
         rollerMotor.restoreFactoryDefaults();
+
         rollerMotor.setIdleMode(IdleMode.kCoast);
+        rollerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
         rollerMotor.setInverted(false);
+
         rollerMotor.burnFlash();
     }
 

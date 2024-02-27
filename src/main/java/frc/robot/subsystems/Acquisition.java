@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
@@ -22,6 +23,9 @@ public class Acquisition extends SubsystemBase {
 
         sushiMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setIdleMode(IdleMode.kBrake);
+
+        sushiMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        intakeMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
         intakeMotor.setInverted(false);
         sushiMotor.setInverted(true);

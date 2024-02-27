@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.StorageConstants;
 
 public class Storage extends SubsystemBase {
@@ -48,6 +49,10 @@ public class Storage extends SubsystemBase {
         transitionMotor.setInverted(false);
 
         rightStorageMotor.follow(leftStorageMotor, true);
+
+        rightStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        leftStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        transitionMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
         transitionMotor.burnFlash();
         leftStorageMotor.burnFlash();

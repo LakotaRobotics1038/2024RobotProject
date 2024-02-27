@@ -1,44 +1,53 @@
 package frc.robot.autons;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import java.util.Optional;
 
-import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
-import frc.robot.subsystems.Vision.VisionTarget;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
+
+import frc.robot.subsystems.Dashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquireCommand;
-import frc.robot.commands.DriveVisionCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.StorageRunCommand;
+import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class ScoreInAmp extends Auton {
 
-    public ScoreInAmp(Alliance alliance) {
+    private double initialPose;
+
+    public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
-        super.addCommands(
+        this.resetGyro(initialPose);
+        Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
+        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
+        // try .concatenate a return and final trajectory later
 
-                new ParallelRaceGroup(
-                        new DriveVisionCommand(VisionTarget.APR1),
-                        AutoBuilder.followPath(Paths.pathFromPosition1ToAmp)),
+        super.addCommands(
+                followPathCommand(Paths.pathFromPosition1ToAmp),
+                new WaitCommand(0.2),
                 new ScoreNoteAmpCommand(),
+                new WaitCommand(0.2),
                 new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.NOTES),
-                                AutoBuilder.followPath(Paths.pathFromAmpToNote1)),
+                        followPathCommand(Paths.pathFromNote1ToAmp),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground)),
+                        // try stop robot command later
+                new WaitCommand(0.2),
                 new AcquireCommand(),
+                new WaitCommand(0.5),
                 new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.APR1),
-                                AutoBuilder.followPath(Paths.pathFromNote1ToAmp)),
+                        followPathCommand(Paths.pathFromNote1ToAmp),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
+                new WaitCommand(0.2),
                 new ScoreNoteAmpCommand(),
-                AutoBuilder.followPath(Paths.pathFromAmpToMidline));
-
+                new WaitCommand(0.2),
+                followPathCommand(Paths.pathFromAmpToMidline));
     }
 
 }

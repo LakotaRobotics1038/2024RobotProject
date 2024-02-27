@@ -4,11 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Storage;
 
-public class FullAcquireSequenceCommand extends Command {
+public class AcquisitionRunCommand extends Command {
     private Storage storage = Storage.getInstance();
     private Acquisition acquisition = Acquisition.getInstance();
 
-    public FullAcquireSequenceCommand() {
+    public AcquisitionRunCommand() {
         addRequirements(storage, acquisition);
     }
 
@@ -16,20 +16,16 @@ public class FullAcquireSequenceCommand extends Command {
     public void execute() {
         acquisition.acquire();
         acquisition.runSushi();
-        storage.runTransition();
-        storage.runStorage();
     }
 
     @Override
     public boolean isFinished() {
-        return storage.noteExitingStorage();
+        return acquisition.isNotePresent();
     }
 
     @Override
     public void end(boolean isFinished) {
-        acquisition.stopIntake();
         acquisition.stopSushi();
-        storage.stopTransition();
-        storage.stopStorage();
+        acquisition.stopIntake();
     }
 }

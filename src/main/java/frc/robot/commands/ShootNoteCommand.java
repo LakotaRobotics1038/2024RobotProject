@@ -29,7 +29,7 @@ public class ShootNoteCommand extends Command {
     @Override
     public void execute() {
         if (scoringElevator.getLeftPosition() != ElevatorSetpoints.Ground.value) {
-            scoring.rollerShoot();
+            scoring.scoreSpeaker();
         }
     }
 

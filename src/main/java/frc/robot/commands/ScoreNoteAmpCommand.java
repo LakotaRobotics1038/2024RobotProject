@@ -28,8 +28,10 @@ public class ScoreNoteAmpCommand extends Command {
     @Override
     public void execute() {
         if (storage.noteExitingStorage()) {
-            scoring.scoreSpeaker();
+            storage.runStorage();
+            scoring.feedForApm();
         } else {
+            storage.stopStorage();
             scoring.scoreAmp();
         }
     }
@@ -42,6 +44,7 @@ public class ScoreNoteAmpCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         scoring.stopRoller();
+        storage.stopStorage();
         timer.stop();
         timer.reset();
     }

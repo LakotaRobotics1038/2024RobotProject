@@ -17,10 +17,10 @@ public class ScoringElevatorConstants {
     public static final double maxSpeed = 0.5;
     public static final double minSpeed = -0.25;
 
-    public static final double kVerticalP = 0.8;
-    public static final double kVerticalI = 0.0;
+    public static final double kVerticalP = 0.15;
+    public static final double kVerticalI = 0.02;
     public static final double kVerticalD = 0.0;
-    public static final double kErrorP = 0.0;
-    public static final double kErrorI = 0.0;
+    public static final double kErrorP = 0.11;
+    public static final double kErrorI = 0.001;
     public static final double kErrorD = 0.0;
 }

@@ -28,9 +28,9 @@ public class ScoreNoteAmpCommand extends Command {
     @Override
     public void execute() {
         if (storage.noteExitingStorage()) {
-            scoring.rollerShoot();
+            scoring.scoreSpeaker();
         } else {
-            scoring.runRoller();
+            scoring.scoreAmp();
         }
     }
 

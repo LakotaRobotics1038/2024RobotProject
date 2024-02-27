@@ -34,17 +34,26 @@ public class Scoring extends SubsystemBase {
     }
 
     /**
-     * Runs the scoring roller at the constant speed designated for regular scoring.
+     * Runs the scoring roller at the constant speed designated for getting the note
+     * ready to score in amp.
      */
-    public void runRoller() {
-        rollerMotor.set(ScoringConstants.rollerSpeed);
+    public void feedForApm() {
+        rollerMotor.set(ScoringConstants.feedApmSpeed);
     }
 
     /**
-     * Runs the scoring roller at the constant speed designated for shooting.
+     * Runs the scoring roller at the constant speed designated for scoring in amp.
      */
-    public void rollerShoot() {
-        rollerMotor.set(-ScoringConstants.rollerSpeed);
+    public void scoreAmp() {
+        rollerMotor.set(ScoringConstants.scoreAmpSpeed);
+    }
+
+    /**
+     * Runs the scoring roller at the constant speed designated for shooting to
+     * speaker
+     */
+    public void scoreSpeaker() {
+        rollerMotor.set(-ScoringConstants.shootSpeakerSpeed);
     }
 
     /**

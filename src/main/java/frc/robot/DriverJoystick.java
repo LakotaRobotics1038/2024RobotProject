@@ -77,11 +77,11 @@ public class DriverJoystick extends XboxController1038 {
                     break;
             }
 
-            if (this.getRightBumper()) {
-                driveTrain.drive(y, -x, -z, true);
-            } else {
-                driveTrain.drive(forward, -sideways, -rotate, true);
-            }
+            // if (this.getRightBumper()) {
+            // driveTrain.drive(y, -x, -z, true);
+            // } else {
+            driveTrain.drive(forward, -sideways, -rotate, true);
+            // }
         }, driveTrain));
 
         // Re-orient robot to the field

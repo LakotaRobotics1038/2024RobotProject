@@ -13,7 +13,4 @@ public class StorageConstants {
     public static final double reverseTransitionSpeed = -0.5;
     public static final double storageSpeed = 0.5;
     public static final double reverseStorageSpeed = -0.5;
-
-    public static final double defaultTimeToRun = 0.5;
-
 }

@@ -7,7 +7,7 @@ public class AcquisitionConstants {
 
     public static final double reverseMotorSpeed = -0.5;
     public static final double sushiSpeed = 0.5;
-    public static final double intakeSpeed = 0.5;
+    public static final double intakeSpeed = 1.0;
 
     public static final double defaultTimeToAcquire = 0.5;
     public static final double timeToDrop = 1;

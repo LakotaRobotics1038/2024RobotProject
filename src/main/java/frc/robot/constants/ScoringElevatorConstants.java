@@ -9,7 +9,7 @@ public class ScoringElevatorConstants {
     public static final double elevatorEncoderConversionFactor = 1 / (maxElevatorEncoderCounts / maxElevatorInches);
 
     public static final double groundSetpoint = 0;
-    public static final double ampSetpoint = 10.0;
+    public static final double ampSetpoint = 4.0;
     public static final double trapSetpoint = 14.0;
 
     public static final double maxDistance = 0;

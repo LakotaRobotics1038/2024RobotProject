@@ -1,5 +1,7 @@
 package frc.robot.autons;
 
+import java.util.Optional;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
 
@@ -9,7 +11,7 @@ public class DriveToMidlinePosition1 extends Auton {
 
     PathPlannerPath position1ToMidline = PathPlannerPath.fromPathFile("From position 1 to the midline");
 
-    public DriveToMidlinePosition1(Alliance alliance) {
+    public DriveToMidlinePosition1(Optional<Alliance> alliance) {
         super(alliance);
 
         addCommands(

@@ -13,7 +13,7 @@ public class DriveToMidlinePosition1 extends Auton {
     public DriveToMidlinePosition1(Optional<Alliance> alliance) {
         super(alliance);
 
-        this.resetGyro(initialPose);
+        // this.resetGyro(initialPose);
         Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToMidlineTrajectory());
         this.setInitialPose(Trajectories.getFromPosition1ToMidlineTrajectory());
 

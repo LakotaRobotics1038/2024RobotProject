@@ -11,7 +11,7 @@ public class RotateAuton extends Auton {
     public RotateAuton(Optional<Alliance> alliance) {
         super(alliance);
 
-        this.resetGyro(initialPose);
+        // this.resetGyro(initialPose);
         Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
 

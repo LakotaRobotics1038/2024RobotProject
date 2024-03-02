@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.constants.AutoConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.DriveTrain;
 
@@ -56,10 +58,11 @@ public abstract class Auton extends SequentialCommandGroup {
                                                      // ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                        4.5, // Max module speed, in m/s
-                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new PIDConstants(AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+                        DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
+                        DriveConstants.kBaseRadius, // Drive base radius in meters. Distance from robot center to
+                                                    // furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
                 ),
                 () -> {
@@ -76,9 +79,4 @@ public abstract class Auton extends SequentialCommandGroup {
                 this.driveTrain // Reference to this subsystem to set requirements
         );
     }
-
-    public void resetGyro(double degrees) {
-        driveTrain.zeroHeadingManual(degrees);
-    }
-
 }

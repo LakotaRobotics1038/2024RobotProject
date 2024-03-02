@@ -9,9 +9,9 @@ public class ScoreNoteAmpCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Storage storage = Storage.getInstance();
     private Timer timer = new Timer();
-    private int secondsToScore = 0;
+    private double secondsToScore = 0;
 
-    public ScoreNoteAmpCommand(int secondsToScore) {
+    public ScoreNoteAmpCommand(double secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;
     }

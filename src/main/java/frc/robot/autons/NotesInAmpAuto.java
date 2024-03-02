@@ -21,7 +21,7 @@ public class NotesInAmpAuto extends Auton {
     public NotesInAmpAuto(Optional<Alliance> alliance) {
         super(alliance);
         double initialPose = 270;
-        driveTrain.zeroHeadingManual(initialPose - 180);
+        // driveTrain.zeroHeadingManual(initialPose - 180);
 
         double degrees = 100;
 

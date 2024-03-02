@@ -23,30 +23,31 @@ public class ScoreInAmp extends Auton {
     public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
-        this.resetGyro(initialPose);
+        // this.resetGyro(initialPose);
         Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
         // try .concatenate a return and final trajectory later
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),
-                new WaitCommand(0.2),
-                new ScoreNoteAmpCommand(),
-                new WaitCommand(0.2),
+                // new WaitCommand(0.2),
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp),
+                new ScoreNoteAmpCommand(3),
+                // new WaitCommand(0.2),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromNote1ToAmp),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground)),
-                        // try stop robot command later
-                new WaitCommand(0.2),
+                // try stop robot command later
+                // new WaitCommand(0.2),
                 new AcquireCommand(),
-                new WaitCommand(0.5),
+                // new WaitCommand(0.5),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromNote1ToAmp),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp)),
                 new StorageRunCommand(),
-                new WaitCommand(0.2),
-                new ScoreNoteAmpCommand(),
-                new WaitCommand(0.2),
+                // new WaitCommand(0.2),
+                new ScoreNoteAmpCommand(3),
+                // new WaitCommand(0.2),
                 followPathCommand(Paths.pathFromAmpToMidline));
     }
 

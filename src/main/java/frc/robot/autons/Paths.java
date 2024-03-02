@@ -31,8 +31,10 @@ public class Paths {
     public static PathPlannerPath pathFromPosition3ToSpeaker = PathPlannerPath
             .fromPathFile("From position 3 to speaker");
 
-    public static PathPlannerPath pathFromSpeakerToNote2 = PathPlannerPath.fromPathFile("From speaker to middle note");
-    public static PathPlannerPath pathFromSpeakerToNote3 = PathPlannerPath.fromPathFile("From speaker to bottom note");
+    // public static PathPlannerPath pathFromSpeakerToNote2 =
+    // PathPlannerPath.fromPathFile("From speaker to middle note");
+    // public static PathPlannerPath pathFromSpeakerToNote3 =
+    // PathPlannerPath.fromPathFile("From speaker to bottom note");
 
     public static PathPlannerPath pathFromSpeakerToMidline = PathPlannerPath.fromPathFile("From speaker to midline");
 

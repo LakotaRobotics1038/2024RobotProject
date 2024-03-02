@@ -17,7 +17,8 @@ public class AutonSelector {
         AmpAuto1,
         AmpAuto2,
         Rotate,
-        Straight;
+        Straight,
+        Intake;
     }
 
     // Choosers
@@ -43,6 +44,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Score In Amp Position 1 (2)", AutonChoices.AmpAuto2);
         this.autoChooser.addOption("Rotate Auto", AutonChoices.Rotate);
         this.autoChooser.addOption("Straight Path Auto", AutonChoices.Straight);
+        this.autoChooser.addOption("Intake Auto", AutonChoices.Intake);
 
     }
 
@@ -52,13 +54,15 @@ public class AutonSelector {
             case ToMid:
                 return new DriveToMidlinePosition1(alliance);
             case AmpAuto1:
-                return new ScoreInAmp(alliance);
+                return new IntakeAuto(alliance);
             case AmpAuto2:
                 return new NotesInAmpAuto(alliance);
             case Rotate:
                 return new RotateAuton(alliance);
             case Straight:
                 return new StraightAuton(alliance);
+            case Intake:
+                return new IntakeAuto(alliance);
             default:
                 return null;
         }

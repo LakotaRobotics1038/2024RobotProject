@@ -161,7 +161,7 @@ public class DriveTrain extends SubsystemBase {
         this.applyChassisSpeeds(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                Rotation2d.fromDegrees(gyro.getAngle()))
+                                Rotation2d.fromDegrees(-gyro.getAngle()))
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 

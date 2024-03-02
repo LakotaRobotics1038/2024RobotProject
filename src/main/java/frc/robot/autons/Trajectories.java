@@ -82,15 +82,17 @@ public class Trajectories {
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
 
-    public static PathPlannerTrajectory getFromSpeakerToNote3Trajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromSpeakerToNote3, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromSpeakerToNote3Trajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromSpeakerToNote3,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
-    public static PathPlannerTrajectory getFromSpeakerToNote2Trajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromSpeakerToNote2, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromSpeakerToNote2Trajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromSpeakerToNote2,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     public static PathPlannerTrajectory getFromPosition3ToSpeakerTrajectory() {
         return new PathPlannerTrajectory(Paths.pathFromPosition3ToSpeaker, DriveTrain.getInstance().getChassisSpeeds(),

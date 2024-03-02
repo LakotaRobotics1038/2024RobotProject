@@ -67,11 +67,11 @@ public class DriverJoystick extends XboxController1038 {
                     break;
                 case Left:
                     forward = 0;
-                    sideways = DriveConstants.kFineAdjustmentPercent;
+                    sideways = -DriveConstants.kFineAdjustmentPercent;
                     break;
                 case Right:
                     forward = 0;
-                    sideways = -DriveConstants.kFineAdjustmentPercent;
+                    sideways = DriveConstants.kFineAdjustmentPercent;
                     break;
                 default:
                     break;

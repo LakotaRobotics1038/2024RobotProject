@@ -13,13 +13,10 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        ToMid,
-        AmpAuto1,
-        AmpAuto2,
-        Rotate,
-        Straight,
-        Intake,
-        StraightToMidFromAmp;
+        AmpAuto,
+        TaxiPos1,
+        TaxiPos2,
+        TaxiPos3;
     }
 
     // Choosers
@@ -40,33 +37,23 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Drive to Midline Position 1", AutonChoices.ToMid);
-        this.autoChooser.addOption("Score In Amp Position 1 (1)", AutonChoices.AmpAuto1);
-        this.autoChooser.addOption("Score In Amp Position 1 (2)", AutonChoices.AmpAuto2);
-        this.autoChooser.addOption("Rotate Auto", AutonChoices.Rotate);
-        this.autoChooser.addOption("Straight Path Auto", AutonChoices.Straight);
-        this.autoChooser.addOption("Intake Auto", AutonChoices.Intake);
-        this.autoChooser.addOption("AmpToMidStraight", AutonChoices.StraightToMidFromAmp);
-
+        this.autoChooser.addOption("Score In Amp Position 1", AutonChoices.AmpAuto);
+        this.autoChooser.addOption("Taxi Position 1", AutonChoices.TaxiPos1);
+        this.autoChooser.addOption("Taxi Position 2", AutonChoices.TaxiPos2);
+        this.autoChooser.addOption("Taxi Position 3", AutonChoices.TaxiPos3);
     }
 
     public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         switch (this.autoChooser.getSelected()) {
-            case ToMid:
-                return new DriveToMidlinePosition1(alliance);
-            case AmpAuto1:
+            case AmpAuto:
                 return new ScoreInAmp(alliance);
-            case AmpAuto2:
-                return new NotesInAmpAuto(alliance);
-            case Rotate:
-                return new RotateAuton(alliance);
-            case Straight:
-                return new StraightAuton(alliance);
-            case Intake:
-                return new IntakeAuto(alliance);
-            case StraightToMidFromAmp:
-                return new FromAmpToMidOverNote(alliance);
+            case TaxiPos1:
+                return new TaxiPos1(alliance);
+            case TaxiPos2:
+                return new TaxiPos2(alliance);
+            case TaxiPos3:
+                return new TaxiPos3(alliance);
             default:
                 return null;
         }

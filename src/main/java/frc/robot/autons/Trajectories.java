@@ -7,26 +7,43 @@ import frc.robot.subsystems.DriveTrain;
 
 public class Trajectories {
 
-    public static PathPlannerTrajectory getFromAmpToMidlineOverNoteTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromAmpRollingOverNoteToMidline,
-                DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromAmpToMidlineOverNoteTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromAmpRollingOverNoteToMidline,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
-    public static PathPlannerTrajectory getFromAmpToMidlineTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromAmpToMidline, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromAmpToMidlineTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromAmpToMidline,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     public static PathPlannerTrajectory getFromAmpToNote1Trajectory() {
         return new PathPlannerTrajectory(Paths.pathFromAmpToNote1, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
 
-    public static PathPlannerTrajectory getFromNote3ToAmpTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromNote3ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
+    public static PathPlannerTrajectory getFromPos1TaxiTrajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromNote1ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
+
+    public static PathPlannerTrajectory getFromPos2TaxiTrajectory() {
+        return new PathPlannerTrajectory(Paths.taxiPath2, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
+    public static PathPlannerTrajectory getFromPos3TaxiTrajectory() {
+        return new PathPlannerTrajectory(Paths.taxiPath3, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
+    // public static PathPlannerTrajectory getFromNote3ToAmpTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromNote3ToAmp,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     // public static PathPlannerTrajectory getFromNote3ToSpeakerTrajectory() {
     // return new PathPlannerTrajectory(Paths.pathFromNote3ToSpeaker,
@@ -34,10 +51,11 @@ public class Trajectories {
     // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     // }
 
-    public static PathPlannerTrajectory getFromNote2ToAmpTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromNote2ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromNote2ToAmpTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromNote2ToAmp,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     // public static PathPlannerTrajectory getFromNote2ToSpeakerTrajectory() {
     // return new PathPlannerTrajectory(Paths.pathFromNote2ToSpeaker,
@@ -61,15 +79,11 @@ public class Trajectories {
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
 
-    public static PathPlannerTrajectory getFromPosition1ToMidlineTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromPosition1ToMidline, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
-
-    public static PathPlannerTrajectory getFromPosition2ToAmpTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromPosition2ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromPosition2ToAmpTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromPosition2ToAmp,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     // public static PathPlannerTrajectory getFromPosition2ToMidlineTrajectory() {
     // return new PathPlannerTrajectory(Paths.pathFromPosition2ToMidline,
@@ -83,10 +97,11 @@ public class Trajectories {
     // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     // }
 
-    public static PathPlannerTrajectory getFromPosition3ToAmpTrajectory() {
-        return new PathPlannerTrajectory(Paths.pathFromPosition3ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory getFromPosition3ToAmpTrajectory() {
+    // return new PathPlannerTrajectory(Paths.pathFromPosition3ToAmp,
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
     // public static PathPlannerTrajectory getFromSpeakerToNote3Trajectory() {
     // return new PathPlannerTrajectory(Paths.pathFromSpeakerToNote3,
@@ -112,9 +127,10 @@ public class Trajectories {
     // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     // }
 
-    public static PathPlannerTrajectory rotateTrajectory() {
-        return new PathPlannerTrajectory(Paths.rotate(), DriveTrain.getInstance().getChassisSpeeds(),
-                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
-    }
+    // public static PathPlannerTrajectory rotateTrajectory() {
+    // return new PathPlannerTrajectory(Paths.rotate(),
+    // DriveTrain.getInstance().getChassisSpeeds(),
+    // Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    // }
 
 }

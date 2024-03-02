@@ -10,12 +10,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.GetHeading;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForward extends Auton {
+public class PathFollowing extends Auton {
 
-    public DriveForward(Optional<Alliance> alliance) {
+    public PathFollowing(Optional<Alliance> alliance) {
         super(alliance);
         // TODO Auto-generated constructor stub
         PathPlannerTrajectory trajectory = new PathPlannerTrajectory(Paths.splinePath(),

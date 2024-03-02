@@ -17,7 +17,7 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         Pos1Amp,
-        DriveForward;
+        PathFollowing;
     }
 
     // Choosers
@@ -42,7 +42,7 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Amp Auto", AutonChoices.Pos1Amp);
-        this.autoChooser.addOption("DriveForward", AutonChoices.DriveForward);
+        this.autoChooser.addOption("DriveForward", AutonChoices.PathFollowing);
 
         NamedCommands.registerCommand("ScoreAmpCommand", new ScoreNoteAmpCommand());
         NamedCommands.registerCommand("AcquireCommand", new AcquireCommand());
@@ -54,8 +54,8 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
                 return new NotesInAmpAuto(alliance);
-            case DriveForward:
-                return new DriveForward(alliance);
+            case PathFollowing:
+                return new PathFollowing(alliance);
             default:
                 return null;
         }

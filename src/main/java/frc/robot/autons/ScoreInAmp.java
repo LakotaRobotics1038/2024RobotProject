@@ -28,24 +28,25 @@ public class ScoreInAmp extends Auton {
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
 
         super.addCommands(
-                followPathCommand(Paths.pathFromPosition1ToAmp),
+                AutoBuilder.followPath(Paths.pathFromPosition1ToAmp),
                 new WaitCommand(0.2),
                 new ScoreNoteAmpCommand(),
                 new WaitCommand(0.2),
                 new ParallelCommandGroup(
-                        followPathCommand(Paths.pathFromNote1ToAmp),
+                        AutoBuilder.followPath(Paths.pathFromNote1ToAmp),
                         new ScoringPositionCommand(ElevatorSetpoints.Ground)),
                 new WaitCommand(0.2),
                 new AcquireCommand(),
                 new WaitCommand(0.5),
                 new ParallelCommandGroup(
-                        followPathCommand(Paths.pathFromNote1ToAmp),
+                        AutoBuilder.followPath(Paths.pathFromNote1ToAmp),
                         new ScoringPositionCommand(ElevatorSetpoints.Amp)),
+                new WaitCommand(0.2),
                 new StorageRunCommand(),
                 new WaitCommand(0.2),
                 new ScoreNoteAmpCommand(),
                 new WaitCommand(0.2),
-                followPathCommand(Paths.pathFromAmpToMidline));
+                AutoBuilder.followPath(Paths.pathFromAmpToMidline));
     }
 
 }

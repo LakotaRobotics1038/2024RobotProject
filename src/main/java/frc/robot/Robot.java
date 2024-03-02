@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
+import frc.robot.commands.OpenFlopsCommand;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledExit() {
         swagLights.setDisabled(false);
+        new OpenFlopsCommand().schedule();
     }
 
     @Override

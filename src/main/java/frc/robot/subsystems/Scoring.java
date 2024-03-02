@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ScoringConstants;
@@ -10,8 +11,8 @@ import frc.robot.constants.ScoringConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Scoring extends SubsystemBase {
-    private final CANSparkFlex rollerMotor = new CANSparkFlex(
-            ScoringConstants.rollerMotorPort, MotorType.kBrushless);
+    private final CANSparkFlex rollerMotor = new CANSparkFlex(ScoringConstants.rollerMotorPort, MotorType.kBrushless);
+    private final RelativeEncoder rollerEncoder = rollerMotor.getEncoder();
 
     private static Scoring instance;
 
@@ -26,11 +27,19 @@ public class Scoring extends SubsystemBase {
     public Scoring() {
         rollerMotor.restoreFactoryDefaults();
 
-        rollerMotor.setIdleMode(IdleMode.kCoast);
+        rollerMotor.setIdleMode(IdleMode.kBrake);
         rollerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
         rollerMotor.setInverted(false);
 
         rollerMotor.burnFlash();
+        rollerEncoder.setPosition(0);
+    }
+
+    /**
+     * Get the encoder value of the roller encoder
+     */
+    public double getPosition() {
+        return rollerEncoder.getPosition();
     }
 
     /**

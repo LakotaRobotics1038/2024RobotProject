@@ -16,6 +16,11 @@ public class FullAcquireSequenceCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        scoringElevator.setSetpoint(ElevatorSetpoints.Ground);
+    }
+
+    @Override
     public void execute() {
         if (scoringElevator.getSetpoint() == ElevatorSetpoints.Ground.value) {
             acquisition.acquire();

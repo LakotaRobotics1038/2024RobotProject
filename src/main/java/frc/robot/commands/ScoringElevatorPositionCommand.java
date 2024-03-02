@@ -9,7 +9,7 @@ public class ScoringElevatorPositionCommand extends Command {
     private ScoringElevator scoring = ScoringElevator.getInstance();
     private ElevatorSetpoints scoringState;
 
-    private boolean noFinish = false;
+    private boolean noFinish = true;
 
     public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState, boolean noFinish) {
         addRequirements(scoring);

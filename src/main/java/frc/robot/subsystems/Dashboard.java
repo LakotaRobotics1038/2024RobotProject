@@ -101,7 +101,7 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(0, 0)
                 .withSize(2, 1);
 
-        driversTab.addNumber("Gyro", () -> {
+        driversTab.addNumber("Gyro Heading", () -> {
             double angle = driveTrain.getHeading();
             angle %= 360;
             return angle < 0 ? angle + 360 : angle;
@@ -109,6 +109,20 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 0)
                 .withSize(2, 1);
         // .withWidget(BuiltInWidgets.kGyro);
+
+        driversTab.addNumber("Pose X", () -> {
+            double poseX = driveTrain.getPose().getX();
+            return poseX;
+        })
+                .withPosition(0, 1)
+                .withSize(2, 1);
+
+        driversTab.addNumber("Pose Y", () -> {
+            double poseY = driveTrain.getPose().getY();
+            return poseY;
+        })
+                .withPosition(0, 2)
+                .withSize(2, 1);
 
         controlsTab.addNumber("Roll", driveTrain::getRoll)
                 .withPosition(1, 0);

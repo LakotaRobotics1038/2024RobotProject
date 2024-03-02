@@ -16,10 +16,7 @@ public class RotateCommand extends Command {
 
     @Override
     public void execute() {
-        timer.restart();
-        while (timer.get() < .05) {
-            driveTrain.drive(0, 0, 0.75, false);
-        }
+        driveTrain.drive(0, 0, 0.75, false);
     }
 
     @Override

@@ -47,6 +47,10 @@ public abstract class Auton extends SequentialCommandGroup {
         return initialPose;
     }
 
+    public Pose2d getPose2d() {
+        return driveTrain.getPose();
+    }
+
     protected Command followPathCommand(PathPlannerPath path) {
         return new FollowPathHolonomic(
                 path,

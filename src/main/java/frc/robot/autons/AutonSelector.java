@@ -16,7 +16,8 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        Pos1Amp;
+        Pos1Amp,
+        DriveForward;
     }
 
     // Choosers
@@ -41,9 +42,11 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Amp Auto", AutonChoices.Pos1Amp);
+        this.autoChooser.addOption("DriveForward", AutonChoices.DriveForward);
 
         NamedCommands.registerCommand("ScoreAmpCommand", new ScoreNoteAmpCommand());
         NamedCommands.registerCommand("AcquireCommand", new AcquireCommand());
+
     }
 
     public Auton chooseAuton() {
@@ -51,6 +54,8 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case Pos1Amp:
                 return new NotesInAmpAuto(alliance);
+            case DriveForward:
+                return new DriveForward(alliance);
             default:
                 return null;
         }

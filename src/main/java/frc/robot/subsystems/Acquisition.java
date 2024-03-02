@@ -68,6 +68,10 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
+    public void reverseSushi() {
+        sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
+    }
+
     /**
      * Stops the acquisition sushi motor.
      */

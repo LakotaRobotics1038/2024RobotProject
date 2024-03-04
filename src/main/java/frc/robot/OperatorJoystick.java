@@ -4,13 +4,15 @@ import frc.robot.libraries.XboxController1038;
 import frc.robot.constants.IOConstants;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import frc.robot.commands.FullAcquireSequenceCommand;
 import frc.robot.commands.ReverseStorageCommand;
 import frc.robot.commands.UnacquireCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
+import frc.robot.commands.AcquisitionRunCommand;
+import frc.robot.commands.FullAcquireCommand;
 
 public class OperatorJoystick extends XboxController1038 {
     // Singleton Setup
@@ -29,18 +31,19 @@ public class OperatorJoystick extends XboxController1038 {
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
 
-        aButton.whileTrue(new FullAcquireSequenceCommand());
+        // aButton.whileTrue(new FullAcquireCommand());
+        aButton.whileTrue(new AcquisitionRunCommand());
         bButton.whileTrue(new ReverseStorageCommand());
         xButton.whileTrue(new UnacquireCommand());
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
-                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
-                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
-                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp));
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoFinish));
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());
         leftTrigger.whileTrue(new ShootNoteCommand());

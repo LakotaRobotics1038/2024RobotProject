@@ -9,6 +9,21 @@ public class ScoringElevatorPositionCommand extends Command {
     private ScoringElevator scoring = ScoringElevator.getInstance();
     private ElevatorSetpoints scoringState;
 
+    public enum FinishActions {
+        NoFinish,
+        NoDisable,
+        Default
+    }
+
+    private FinishActions finishAction = FinishActions.Default;
+
+    public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState, FinishActions finishAction) {
+        addRequirements(scoring);
+        this.scoringState = scoringState;
+        this.finishAction = finishAction;
+
+    }
+
     public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState) {
         addRequirements(scoring);
         this.scoringState = scoringState;
@@ -32,11 +47,13 @@ public class ScoringElevatorPositionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return finishAction != FinishActions.NoFinish && scoring.onTarget();
     }
 
     @Override
     public void end(boolean interrupted) {
-        scoring.disable();
+        if (finishAction != FinishActions.NoDisable) {
+            scoring.disable();
+        }
     }
 }

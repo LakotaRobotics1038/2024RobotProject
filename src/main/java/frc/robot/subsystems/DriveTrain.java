@@ -55,7 +55,7 @@ public class DriveTrain extends SubsystemBase {
     // Odometry class for tracking robot pose
     private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
-            Rotation2d.fromDegrees(gyro.getAngle()),
+            Rotation2d.fromDegrees(-gyro.getAngle()),
             new SwerveModulePosition[] {
                     frontLeft.getPosition(),
                     frontRight.getPosition(),
@@ -108,7 +108,7 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-                Rotation2d.fromDegrees(gyro.getAngle()),
+                Rotation2d.fromDegrees(-gyro.getAngle()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),
                         frontRight.getPosition(),
@@ -133,7 +133,7 @@ public class DriveTrain extends SubsystemBase {
      */
     public void resetOdometry(Pose2d pose) {
         odometry.resetPosition(
-                Rotation2d.fromDegrees(gyro.getAngle()),
+                Rotation2d.fromDegrees(-gyro.getAngle()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),
                         frontRight.getPosition(),
@@ -161,11 +161,11 @@ public class DriveTrain extends SubsystemBase {
         this.applyChassisSpeeds(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                Rotation2d.fromDegrees(gyro.getAngle()))
+                                Rotation2d.fromDegrees(-gyro.getAngle()))
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
-    private void applyChassisSpeeds(ChassisSpeeds speeds) {
+    public void applyChassisSpeeds(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         this.setModuleStates(swerveModuleStates);
     }
@@ -243,7 +243,7 @@ public class DriveTrain extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
-        return Rotation2d.fromDegrees(gyro.getAngle()).getDegrees();
+        return Rotation2d.fromDegrees(-gyro.getAngle()).getDegrees();
     }
 
     /**

@@ -6,12 +6,12 @@ import frc.robot.subsystems.ScoringElevator;
 import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
-public class FullAcquireSequenceCommand extends Command {
+public class AcquisitionRunCommand extends Command {
     private Storage storage = Storage.getInstance();
     private Acquisition acquisition = Acquisition.getInstance();
     private ScoringElevator scoringElevator = ScoringElevator.getInstance();
 
-    public FullAcquireSequenceCommand() {
+    public AcquisitionRunCommand() {
         addRequirements(storage, acquisition);
     }
 
@@ -32,14 +32,15 @@ public class FullAcquireSequenceCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        // return acquisition.isNotePresent();
         return storage.noteExitingStorage();
     }
 
     @Override
-    public void end(boolean interrupted) {
-        acquisition.stopIntake();
+    public void end(boolean isFinished) {
         acquisition.stopSushi();
-        storage.stopTransition();
+        acquisition.stopIntake();
         storage.stopStorage();
+        storage.stopTransition();
     }
 }

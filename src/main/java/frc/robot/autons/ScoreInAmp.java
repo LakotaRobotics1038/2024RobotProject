@@ -1,44 +1,41 @@
 package frc.robot.autons;
 
-import com.pathplanner.lib.auto.AutoBuilder;
+import java.util.Optional;
 
-import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
-import frc.robot.subsystems.Vision.VisionTarget;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Dashboard;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import frc.robot.commands.AcquireCommand;
-import frc.robot.commands.DriveVisionCommand;
+import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
-import frc.robot.commands.StorageRunCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
+import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class ScoreInAmp extends Auton {
 
-    public ScoreInAmp(Alliance alliance) {
+    private Acquisition acquisition = Acquisition.getInstance();
+
+    public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
+        Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
+        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
+        // try .concatenate a return and final trajectory later
+
         super.addCommands(
-
-                new ParallelRaceGroup(
-                        new DriveVisionCommand(VisionTarget.APR1),
-                        AutoBuilder.followPath(Paths.pathFromPosition1ToAmp)),
-                new ScoreNoteAmpCommand(),
+                followPathCommand(Paths.pathFromPosition1ToAmp),
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
+                new ScoreNoteAmpCommand(1.5),
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
                 new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.NOTES),
-                                AutoBuilder.followPath(Paths.pathFromAmpToNote1)),
-                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground)),
-                new AcquireCommand(),
-                new ParallelCommandGroup(
-                        new ParallelRaceGroup(
-                                new DriveVisionCommand(VisionTarget.APR1),
-                                AutoBuilder.followPath(Paths.pathFromNote1ToAmp)),
-                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp)),
-                new StorageRunCommand(),
-                new ScoreNoteAmpCommand(),
-                AutoBuilder.followPath(Paths.pathFromAmpToMidline));
-
+                        followPathCommand(Paths.pathFromAmpToNote1)
+                                .until(acquisition::isNotePresent)
+                                .andThen(followPathCommand(Paths.pathFromNote1ToAmp)),
+                        // new FullAcquireCommand()),
+                        new AcquisitionRunCommand()),
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
+                new ScoreNoteAmpCommand(3),
+                followPathCommand(Paths.pathFromAmpToMidline));
     }
-
 }

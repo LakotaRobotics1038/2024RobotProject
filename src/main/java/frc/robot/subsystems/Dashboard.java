@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
@@ -89,6 +90,14 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 1)
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
+
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+            field.getObject("target pose").setPose(pose);
+        });
+
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            field.getObject("poses").setPoses(poses);
+        });
 
         driversTab.add("Camera Stream", camera)
                 .withPosition(6, 0)

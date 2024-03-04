@@ -16,16 +16,21 @@ public class AcquisitionRunCommand extends Command {
     public void execute() {
         acquisition.acquire();
         acquisition.runSushi();
+        storage.runTransition();
+        storage.runStorage();
     }
 
     @Override
     public boolean isFinished() {
-        return acquisition.isNotePresent();
+        // return acquisition.isNotePresent();
+        return storage.noteExitingStorage();
     }
 
     @Override
     public void end(boolean isFinished) {
         acquisition.stopSushi();
         acquisition.stopIntake();
+        storage.stopStorage();
+        storage.stopTransition();
     }
 }

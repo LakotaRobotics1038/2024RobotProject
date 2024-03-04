@@ -9,7 +9,6 @@ public class TaxiPos1 extends Auton {
     public TaxiPos1(Optional<Alliance> alliance) {
         super(alliance);
 
-        // this.resetGyro(initialPose);
         Dashboard.getInstance().setTrajectory(Trajectories.getFromPos1TaxiTrajectory());
         this.setInitialPose(Trajectories.getFromPos1TaxiTrajectory());
 

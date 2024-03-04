@@ -2,8 +2,6 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
-import org.ejml.interfaces.decomposition.TridiagonalSimilarDecomposition;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;

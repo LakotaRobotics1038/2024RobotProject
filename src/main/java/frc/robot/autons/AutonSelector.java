@@ -9,10 +9,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.AcquireCommand;
+import frc.robot.commands.AcquisitionRunCommand;
+import frc.robot.commands.FullAcquireCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
-import frc.robot.commands.ScoringPositionCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand;
+import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.StorageRunCommand;
+import frc.robot.commands.TransitionRunCommand;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
@@ -56,9 +60,11 @@ public class AutonSelector {
 
         NamedCommands.registerCommand("ScoreNoteAmpCommand", new ScoreNoteAmpCommand());
         NamedCommands.registerCommand("ShootNoteCommand", new ShootNoteCommand());
-        NamedCommands.registerCommand("AcquireCommand", new AcquireCommand());
-        NamedCommands.registerCommand("ScoringPositionCommand", new ScoringPositionCommand(null));
+        NamedCommands.registerCommand("AcquisitionRunCommand", new AcquisitionRunCommand());
+        NamedCommands.registerCommand("TransitionRunCommand", new TransitionRunCommand());
+        NamedCommands.registerCommand("ScoringElevatorPositionCommand", new ScoringElevatorPositionCommand(null));
         NamedCommands.registerCommand("StorageRunCommand", new StorageRunCommand());
+        NamedCommands.registerCommand("FullAcquireCommand", new FullAcquireCommand());
     }
 
     public Auton chooseAuton() {

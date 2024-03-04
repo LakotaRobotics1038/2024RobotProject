@@ -31,7 +31,6 @@ public class UnacquireCommand extends Command {
 
     @Override
     public boolean isFinished() {
-
         return timeToDrop == 0 || timeToDrop < timer.get();
     }
 

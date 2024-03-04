@@ -8,8 +8,12 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.LiftDepressCommand;
-import frc.robot.commands.LiftExtendCommand;
+import frc.robot.commands.LeftLiftDownCommand;
+import frc.robot.commands.LeftLiftUpCommand;
+import frc.robot.commands.LiftDownCommand;
+import frc.robot.commands.LiftUpCommand;
+import frc.robot.commands.RightLiftDownCommand;
+import frc.robot.commands.RightLiftUpCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -73,11 +77,11 @@ public class DriverJoystick extends XboxController1038 {
                     break;
             }
 
-            if (this.getRightBumper()) {
-                driveTrain.drive(y, -x, -z, true);
-            } else {
-                driveTrain.drive(forward, -sideways, -rotate, true);
-            }
+            // if (this.getRightBumper()) {
+            // driveTrain.drive(y, -x, -z, true);
+            // } else {
+            driveTrain.drive(forward, -sideways, -rotate, true);
+            // }
         }, driveTrain));
 
         // Re-orient robot to the field
@@ -91,8 +95,14 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(vision::enable0, vision))
                 .onFalse(new InstantCommand(vision::disable0, vision));
 
-        leftTrigger.whileTrue(new LiftExtendCommand());
-        rightTrigger.whileTrue(new LiftDepressCommand());
+        leftBumper.and(rightBumper.negate()).whileTrue(new LeftLiftUpCommand());
+        leftTrigger.and(rightTrigger.negate()).whileTrue(new LeftLiftDownCommand());
+
+        rightBumper.and(leftBumper.negate()).whileTrue(new RightLiftUpCommand());
+        rightTrigger.and(leftTrigger.negate()).whileTrue(new RightLiftDownCommand());
+
+        leftBumper.and(rightBumper).whileTrue(new LiftUpCommand());
+        leftTrigger.and(rightTrigger).whileTrue(new LiftDownCommand());
     }
 
     /**

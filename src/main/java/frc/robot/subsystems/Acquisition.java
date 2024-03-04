@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
@@ -22,6 +23,12 @@ public class Acquisition extends SubsystemBase {
 
         sushiMotor.setIdleMode(IdleMode.kBrake);
         intakeMotor.setIdleMode(IdleMode.kBrake);
+
+        sushiMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        intakeMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+
+        intakeMotor.setInverted(false);
+        sushiMotor.setInverted(true);
 
         sushiMotor.burnFlash();
         intakeMotor.burnFlash();
@@ -46,7 +53,6 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.intakeSpeed);
     }
 
-    
     /**
      * Runs the acquisition sushi motor at a constant speed.
      */
@@ -62,6 +68,10 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
+    public void reverseSushi() {
+        sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
+    }
+
     /**
      * Stops the acquisition sushi motor.
      */
@@ -69,7 +79,6 @@ public class Acquisition extends SubsystemBase {
         sushiMotor.stopMotor();
     }
 
-    
     /**
      * Stops the acquisition intake motor.
      */
@@ -83,6 +92,6 @@ public class Acquisition extends SubsystemBase {
      * @return boolean - status of the acquisition laser
      */
     public boolean isNotePresent() {
-        return acqLaser.get();
+        return !acqLaser.get();
     }
 }

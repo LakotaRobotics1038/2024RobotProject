@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.StorageConstants;
 
 public class Storage extends SubsystemBase {
@@ -39,13 +40,19 @@ public class Storage extends SubsystemBase {
         leftStorageMotor.restoreFactoryDefaults();
         rightStorageMotor.restoreFactoryDefaults();
 
-        transitionMotor.setInverted(true);
-
-        leftStorageMotor.setIdleMode(IdleMode.kCoast);
-        rightStorageMotor.setIdleMode(IdleMode.kCoast);
+        leftStorageMotor.setIdleMode(IdleMode.kBrake);
+        rightStorageMotor.setIdleMode(IdleMode.kBrake);
         transitionMotor.setIdleMode(IdleMode.kBrake);
 
+        leftStorageMotor.setInverted(false);
+        rightStorageMotor.setInverted(false);
+        transitionMotor.setInverted(false);
+
         rightStorageMotor.follow(leftStorageMotor, true);
+
+        rightStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        leftStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        transitionMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
         transitionMotor.burnFlash();
         leftStorageMotor.burnFlash();
@@ -77,10 +84,10 @@ public class Storage extends SubsystemBase {
     }
 
     public boolean noteEnteringStorage() {
-        return enterStorageLaser.get();
+        return !enterStorageLaser.get();
     }
 
     public boolean noteExitingStorage() {
-        return exitStorageLaser.get();
+        return !exitStorageLaser.get();
     }
 }

@@ -19,5 +19,4 @@ public final class VisionConstants {
     public static final double spinD = 0.0002;
     public static final double spinSetpoint = 0.0;
     public static final double aprilTagArea = 28908;
-    public static final double maxSpeed = 0.5;
 }

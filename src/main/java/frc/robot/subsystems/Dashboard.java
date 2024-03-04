@@ -16,13 +16,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.OperatorJoystick;
 import frc.robot.autons.AutonSelector.AutonChoices;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
+    private ScoringElevator scoring = ScoringElevator.getInstance();
     private Vision vision = Vision.getInstance();
 
     // Choosers
@@ -49,33 +48,6 @@ public class Dashboard extends SubsystemBase {
             .withPosition(0, 0)
             .withWidget(BuiltInWidgets.kToggleButton)
             .getEntry();
-    // private GenericEntry shoulderP = driversTab.add("Shoulder P",
-    // ShoulderConstants.kP)
-    // .withPosition(2, 2)
-    // .withSize(1, 1)
-    // .getEntry();
-    // private GenericEntry shoulderI = driversTab.add("Shoulder I",
-    // ShoulderConstants.kI)
-    // .withPosition(3, 2)
-    // .withSize(1, 1)
-    // .getEntry();
-    // private GenericEntry shoulderD = driversTab.add("Shoulder D",
-    // ShoulderConstants.kD)
-    // .withPosition(4, 2)
-    // .withSize(1, 1)
-    // .getEntry();
-    // private GenericEntry wristP = driversTab.add("Wrist P", WristConstants.kP)
-    // .withPosition(2, 3)
-    // .withSize(1, 1)
-    // .getEntry();
-    // private GenericEntry wristI = driversTab.add("Wrist I", WristConstants.kI)
-    // .withPosition(3, 3)
-    // .withSize(1, 1)
-    // .getEntry();
-    // private GenericEntry wristD = driversTab.add("Wrist D", WristConstants.kD)
-    // .withPosition(4, 3)
-    // .withSize(1, 1)
-    // .getEntry();
 
     // Singleton Setup
     private static Dashboard instance;
@@ -131,6 +103,21 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 0)
                 .withSize(8, 5)
                 .withWidget(BuiltInWidgets.kField);
+
+        // driversTab.addDouble("LeftScoreLiftEnc", scoring::getLeftPosition)
+        // .withPosition(0, 3);
+        // driversTab.addDouble("RightScoreLiftEnc", scoring::getRightPosition)
+        // .withPosition(1, 3);
+
+        // driversTab.add("Vert Controller",
+        // scoring.getVerticalController())
+        // .withPosition(0, 1)
+        // .withWidget(BuiltInWidgets.kPIDController);
+
+        // driversTab.add("Err Controller",
+        // scoring.getErrorController())
+        // .withPosition(1, 1)
+        // .withWidget(BuiltInWidgets.kPIDController);
     }
 
     @Override

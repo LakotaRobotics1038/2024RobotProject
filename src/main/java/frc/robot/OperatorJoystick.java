@@ -12,6 +12,8 @@ import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 import frc.robot.commands.AcquisitionRunCommand;
+import frc.robot.commands.DrawbridgeDownCommand;
+import frc.robot.commands.DrawbridgeUpCommand;
 import frc.robot.commands.FullAcquireCommand;
 
 public class OperatorJoystick extends XboxController1038 {
@@ -47,6 +49,7 @@ public class OperatorJoystick extends XboxController1038 {
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());
         leftTrigger.whileTrue(new ShootNoteCommand());
-
+        leftBumper.onTrue(new DrawbridgeUpCommand());
+        rightBumper.onTrue(new DrawbridgeDownCommand());
     }
 }

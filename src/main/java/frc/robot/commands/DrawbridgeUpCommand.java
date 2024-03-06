@@ -12,13 +12,17 @@ public class DrawbridgeUpCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        drawbridge.DrawbridgeUp();
+    public void initialize() {
+        drawbridge.up();
+        System.out.println("START UP");
     }
 
     @Override
     public boolean isFinished() {
-        return (drawbridge.getDrawbridgePos() >= DrawbridgeConstants.maxDrawbridgeExtension - 0.05
-                && drawbridge.getDrawbridgePos() <= DrawbridgeConstants.maxDrawbridgeExtension + 0.05);
+        return true;
+        // return drawbridge.getPosition() >= DrawbridgeConstants.maxDrawbridgeExtension
+        // - 0.05
+        // && drawbridge.getPosition() <= DrawbridgeConstants.maxDrawbridgeExtension +
+        // 0.05;
     }
 }

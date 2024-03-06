@@ -3,11 +3,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.DrawbridgeConstants;
-import frc.robot.constants.LiftConstants;
 
 public class Drawbridge extends SubsystemBase {
-    private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
-    private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
+    private Servo leftDrawbridgeServo = new Servo(DrawbridgeConstants.leftServoPort);
+    private Servo rightDrawbridgeServo = new Servo(DrawbridgeConstants.rightServoPort);
 
     private static Drawbridge instance;
 
@@ -19,21 +18,22 @@ public class Drawbridge extends SubsystemBase {
     }
 
     private Drawbridge() {
-        leftRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
-        rightRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        leftDrawbridgeServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        rightDrawbridgeServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        this.up();
     }
 
-    public void DrawbridgeDown() {
-        leftRatchetServo.set(DrawbridgeConstants.maxDrawbridgeExtension);
-        rightRatchetServo.set(DrawbridgeConstants.maxDrawbridgeExtension);
+    public void down() {
+        leftDrawbridgeServo.set(DrawbridgeConstants.maxLeftDrawbridgeExtension);
+        rightDrawbridgeServo.set(DrawbridgeConstants.maxRightDrawbridgeExtension);
     }
 
-    public void DrawbridgeUp() {
-        leftRatchetServo.set(DrawbridgeConstants.minDrawbridgeExtension);
-        rightRatchetServo.set(DrawbridgeConstants.minDrawbridgeExtension);
+    public void up() {
+        leftDrawbridgeServo.set(DrawbridgeConstants.minLeftDrawbridgeExtension);
+        rightDrawbridgeServo.set(DrawbridgeConstants.minRightDrawbridgeExtension);
     }
 
-    public double getDrawbridgePos() {
-        return leftRatchetServo.get();
+    public double getPosition() {
+        return leftDrawbridgeServo.get();
     }
 }

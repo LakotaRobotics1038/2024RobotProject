@@ -1,6 +1,12 @@
 package frc.robot.constants;
 
 public class DrawbridgeConstants {
-    public static final double minDrawbridgeExtension = 0.0;
-    public static final double maxDrawbridgeExtension = 1.0;
+
+    public static final int leftServoPort = 2;
+    public static final int rightServoPort = 3;
+
+    public static final double minLeftDrawbridgeExtension = 0.0;
+    public static final double maxLeftDrawbridgeExtension = 0.3;
+    public static final double minRightDrawbridgeExtension = 0.08;
+    public static final double maxRightDrawbridgeExtension = 0.45;
 }

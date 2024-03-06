@@ -12,13 +12,16 @@ public class DrawbridgeDownCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        drawbridge.DrawbridgeDown();
+    public void initialize() {
+        drawbridge.down();
     }
 
     @Override
     public boolean isFinished() {
-        return (drawbridge.getDrawbridgePos() >= DrawbridgeConstants.minDrawbridgeExtension - 0.05
-                && drawbridge.getDrawbridgePos() <= DrawbridgeConstants.minDrawbridgeExtension + 0.05);
+        return true;
+        // return drawbridge.getPosition() >= DrawbridgeConstants.minDrawbridgeExtension
+        // - 0.05
+        // && drawbridge.getPosition() <= DrawbridgeConstants.minDrawbridgeExtension +
+        // 0.05;
     }
 }

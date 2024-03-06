@@ -14,7 +14,6 @@ public class DrawbridgeUpCommand extends Command {
     @Override
     public void initialize() {
         drawbridge.up();
-        System.out.println("START UP");
     }
 
     @Override

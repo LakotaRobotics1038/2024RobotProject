@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From position 1 to amp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From amp to top note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From note 1 to amp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From amp to midline"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

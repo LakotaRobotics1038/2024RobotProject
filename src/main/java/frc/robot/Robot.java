@@ -65,7 +65,6 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledExit() {
         swagLights.setDisabled(false);
-        new OpenFlopsCommand().schedule();
     }
 
     @Override

@@ -10,6 +10,7 @@ import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ShootNoteCommand;
 import frc.robot.commands.ScoreNoteAmpCommand;
+import frc.robot.subsystems.Storage;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.DrawbridgeDownCommand;
@@ -21,6 +22,7 @@ public class OperatorJoystick extends XboxController1038 {
     private static OperatorJoystick instance;
     private final int OperatorJoystickPort = 1;
     private XboxController1038 operatorJoystick = new XboxController1038(OperatorJoystickPort);
+    private Storage storage = Storage.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -39,12 +41,14 @@ public class OperatorJoystick extends XboxController1038 {
         xButton.whileTrue(new UnacquireCommand());
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
+                .and(storage::noteExitingStorage)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
+                .and(storage::noteExitingStorage)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoFinish));
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());

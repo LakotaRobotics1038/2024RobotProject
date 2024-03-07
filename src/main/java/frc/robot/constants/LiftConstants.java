@@ -12,7 +12,7 @@ public class LiftConstants {
     public static final double rightRatchetLockPos = 0.55;
     public static final double rightRatchetUnlockPos = 0.65;
 
-    public static final double motorSpeed = 0.4;
+    public static final double motorSpeed = 0.55;
     public static final double backwardsMotorSpeed = -0.9;
 
     public static final double maxExtension = 195;

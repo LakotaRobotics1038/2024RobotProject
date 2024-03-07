@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.libraries.XboxController1038;
 import frc.robot.constants.IOConstants;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.ReverseStorageCommand;
@@ -23,6 +24,7 @@ public class OperatorJoystick extends XboxController1038 {
     private final int OperatorJoystickPort = 1;
     private XboxController1038 operatorJoystick = new XboxController1038(OperatorJoystickPort);
     private Storage storage = Storage.getInstance();
+    private boolean scoringElevatorLock = true;
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -36,19 +38,24 @@ public class OperatorJoystick extends XboxController1038 {
         super(IOConstants.kOperatorControllerPort);
 
         // aButton.whileTrue(new FullAcquireCommand());
-        aButton.whileTrue(new AcquisitionRunCommand());
+        aButton
+                .whileTrue(new AcquisitionRunCommand())
+                .onTrue(new InstantCommand(() -> scoringElevatorLock = true));
         bButton.whileTrue(new ReverseStorageCommand());
         xButton.whileTrue(new UnacquireCommand());
 
+        new Trigger(storage::noteExitingStorage)
+                .onTrue(new InstantCommand(() -> scoringElevatorLock = false));
+
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
-                .and(storage::noteExitingStorage)
+                .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
-                .and(storage::noteExitingStorage)
+                .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoFinish));
 
         rightTrigger.whileTrue(new ScoreNoteAmpCommand());

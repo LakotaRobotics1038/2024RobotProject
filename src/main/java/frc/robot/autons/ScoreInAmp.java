@@ -10,6 +10,7 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
+import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class ScoreInAmp extends Auton {
@@ -26,7 +27,7 @@ public class ScoreInAmp extends Auton {
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(1.5),
+                new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromAmpToNote1)
@@ -35,7 +36,7 @@ public class ScoreInAmp extends Auton {
                         // new FullAcquireCommand()),
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(3),
+                new ScoreNoteCommand(ScoringLocation.Amp, 3),
                 followPathCommand(Paths.pathFromAmpToMidline));
     }
 }

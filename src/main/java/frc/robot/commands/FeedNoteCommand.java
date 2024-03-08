@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.Scoring;
-import frc.robot.subsystems.Storage;
 
 public class FeedNoteCommand extends Command {
     private Scoring scoring = Scoring.getInstance();

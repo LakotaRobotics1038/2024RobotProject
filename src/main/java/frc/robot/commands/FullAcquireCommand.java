@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
 public class FullAcquireCommand extends SequentialCommandGroup {

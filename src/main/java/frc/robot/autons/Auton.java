@@ -40,7 +40,7 @@ public abstract class Auton extends SequentialCommandGroup {
             Translation2d transformedTranslation = new Translation2d(
                     FieldConstants.kFieldLength - this.initialPose.getX(),
                     this.initialPose.getY());
-            Rotation2d transformedHeading = this.initialPose.getRotation().times(-1);
+            Rotation2d transformedHeading = this.initialPose.getRotation().plus(new Rotation2d(Math.PI));
 
             this.initialPose = new Pose2d(transformedTranslation, transformedHeading);
         }

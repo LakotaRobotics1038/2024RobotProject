@@ -58,11 +58,18 @@ public class Scoring extends SubsystemBase {
     }
 
     /**
-     * Runs the scoring roller at the constant speed designated for shooting to
-     * speaker
+     * Runs the scoring roller at the constant speed designated for getting the note
+     * ready to score in trap.
      */
-    public void scoreSpeaker() {
-        rollerMotor.set(-ScoringConstants.shootSpeakerSpeed);
+    public void feedForTrap() {
+        rollerMotor.set(ScoringConstants.feedTrapSpeed);
+    }
+
+    /**
+     * Runs the scoring roller at the constant speed designated for scoring in amp.
+     */
+    public void scoreTrap() {
+        rollerMotor.set(ScoringConstants.scoreTrapSpeed);
     }
 
     /**

@@ -51,12 +51,12 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(storage::noteExitingStorage)
                 .whileTrue(new RunCommand(() -> scoringElevatorLock = false));
 
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground, FinishActions.NoFinish));
+
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
                 .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap, FinishActions.NoFinish));
-
-        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Down)
-                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground, FinishActions.NoFinish));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
                 .and(() -> !scoringElevatorLock)

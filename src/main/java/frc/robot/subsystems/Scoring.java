@@ -46,8 +46,8 @@ public class Scoring extends SubsystemBase {
      * Runs the scoring roller at the constant speed designated for getting the note
      * ready to score in amp.
      */
-    public void feedForApm() {
-        rollerMotor.set(ScoringConstants.feedApmSpeed);
+    public void feedForAmp() {
+        rollerMotor.set(ScoringConstants.feedAmpSpeed);
     }
 
     /**

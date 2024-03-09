@@ -35,7 +35,7 @@ public class ScoreNoteCommand extends Command {
             storage.runStorage();
             switch (scoringLoc) {
                 case Amp:
-                    scoring.feedForApm();
+                    scoring.feedForAmp();
                     break;
                 case Trap:
                     scoring.feedForTrap();

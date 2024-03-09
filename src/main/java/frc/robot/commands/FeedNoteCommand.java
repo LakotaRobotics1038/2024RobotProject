@@ -31,7 +31,7 @@ public class FeedNoteCommand extends Command {
     public void execute() {
         switch (scoringLoc) {
             case Amp:
-                scoring.feedForApm();
+                scoring.feedForAmp();
                 break;
             case Trap:
                 scoring.feedForTrap();

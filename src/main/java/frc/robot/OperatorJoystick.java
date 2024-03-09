@@ -4,6 +4,7 @@ import frc.robot.libraries.XboxController1038;
 import frc.robot.constants.IOConstants;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.ReverseStorageCommand;
@@ -48,7 +49,7 @@ public class OperatorJoystick extends XboxController1038 {
         xButton.whileTrue(new UnacquireCommand());
 
         new Trigger(storage::noteExitingStorage)
-                .onTrue(new InstantCommand(() -> scoringElevatorLock = false));
+                .whileTrue(new RunCommand(() -> scoringElevatorLock = false));
 
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Left)
                 .and(() -> !scoringElevatorLock)

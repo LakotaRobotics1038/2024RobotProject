@@ -19,7 +19,7 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.DrawbridgeDownCommand;
 import frc.robot.commands.DrawbridgeUpCommand;
 import frc.robot.commands.FeedNoteCommand;
-import frc.robot.commands.FullAcquireCommand;
+import frc.robot.commands.FeedNoteFineAdjCommand;
 
 public class OperatorJoystick extends XboxController1038 {
     // Singleton Setup
@@ -47,6 +47,7 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(() -> scoringElevatorLock = true));
         bButton.whileTrue(new ReverseStorageCommand());
         xButton.whileTrue(new UnacquireCommand());
+        yButton.onTrue(new FeedNoteFineAdjCommand());
 
         new Trigger(storage::noteExitingStorage)
                 .whileTrue(new RunCommand(() -> scoringElevatorLock = false));

@@ -8,6 +8,7 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.DriveToNoteCommand;
 import frc.robot.commands.LeftLiftDownCommand;
 import frc.robot.commands.LeftLiftUpCommand;
 import frc.robot.commands.LiftDownCommand;
@@ -90,10 +91,8 @@ public class DriverJoystick extends XboxController1038 {
         // Lock the wheels into an X formation
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
-        // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        // Lock rotation on a note
+        super.aButton.whileTrue(new DriveToNoteCommand(this));
 
         leftBumper.and(rightBumper.negate()).whileTrue(new LeftLiftUpCommand());
         leftTrigger.and(rightTrigger.negate()).whileTrue(new LeftLiftDownCommand());
@@ -113,7 +112,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return desired value rate limited and adjusted for sign changes using
      *         {@link #signChange Sign Change Function}
      */
-    private double limitRate(double value, double prevVal, SlewRateLimiter filter) {
+    public static double limitRate(double value, double prevVal, SlewRateLimiter filter) {
         if (value == 0 || signChange(value, prevVal)) {
             filter.reset(0);
         }
@@ -128,7 +127,7 @@ public class DriverJoystick extends XboxController1038 {
      * @param b second value to check sign
      * @return are the provided values different signs
      */
-    private boolean signChange(double a, double b) {
+    private static boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
     }
 }

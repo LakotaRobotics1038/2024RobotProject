@@ -28,7 +28,6 @@ public class Robot extends TimedRobot {
 
     // Variables
     private Auton autonomousCommand;
-    private Command fullLiftCommand = new LiftUpCommand();
     private ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
@@ -71,7 +70,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        fullLiftCommand.schedule();
+        new LiftUpCommand().schedule();
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {

@@ -8,10 +8,10 @@ import frc.robot.subsystems.Vision;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.LiftUpCommand;
 import frc.robot.commands.LeftLiftDownCommand;
 import frc.robot.commands.LeftLiftUpCommand;
 import frc.robot.commands.LiftDownCommand;
-import frc.robot.commands.LiftUpCommand;
 import frc.robot.commands.RightLiftDownCommand;
 import frc.robot.commands.RightLiftUpCommand;
 

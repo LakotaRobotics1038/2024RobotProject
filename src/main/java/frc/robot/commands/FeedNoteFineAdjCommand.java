@@ -23,7 +23,6 @@ public class FeedNoteFineAdjCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        System.out.println(this.startPos + " " + scoring.getPosition());
         return scoring.getPosition() <= this.startPos - 0.05;
     }
 

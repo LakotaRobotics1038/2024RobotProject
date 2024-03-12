@@ -5,9 +5,11 @@ import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.commands.DriveToAprilTagCommand;
 import frc.robot.commands.DriveToNoteCommand;
 import frc.robot.commands.LeftLiftDownCommand;
 import frc.robot.commands.LeftLiftUpCommand;
@@ -93,6 +95,9 @@ public class DriverJoystick extends XboxController1038 {
 
         // Lock rotation on a note
         super.aButton.whileTrue(new DriveToNoteCommand(this));
+
+        // Lock rotation and left/right on an april tag
+        super.bButton.whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
 
         leftBumper.and(rightBumper.negate()).whileTrue(new LeftLiftUpCommand());
         leftTrigger.and(rightTrigger.negate()).whileTrue(new LeftLiftDownCommand());

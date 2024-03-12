@@ -31,8 +31,8 @@ public class VisionData {
         return y;
     }
 
-    public int getID() {
-        return target.id;
+    public VisionTarget getTarget() {
+        return target;
     }
 
     public double getArea() {

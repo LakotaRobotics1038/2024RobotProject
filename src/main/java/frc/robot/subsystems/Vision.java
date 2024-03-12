@@ -150,7 +150,7 @@ public class Vision extends SubsystemBase {
 
     public double getX(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getID() == target.id) {
+            if (visionData.get(i).getTarget() == target) {
                 return visionData.get(i).getX();
             }
         }
@@ -159,16 +159,16 @@ public class Vision extends SubsystemBase {
 
     public double getY(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getID() == target.id) {
+            if (visionData.get(i).getTarget() == target) {
                 return visionData.get(i).getY();
             }
         }
         return -1;
     }
 
-    public double getArea(int id) {
+    public double getArea(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getID() == id) {
+            if (visionData.get(i).getTarget() == target) {
                 return visionData.get(i).getArea();
             }
         }
@@ -201,7 +201,7 @@ public class Vision extends SubsystemBase {
             }
 
         } else if (target.id >= VisionTarget.APR1.id && target.id <= VisionTarget.APT16.id) {
-            double area = getArea(target.id);
+            double area = getArea(target);
             return area;
         } else {
             return 1;

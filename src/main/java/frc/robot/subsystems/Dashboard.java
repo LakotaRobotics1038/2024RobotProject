@@ -7,6 +7,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -51,6 +52,10 @@ public class Dashboard extends SubsystemBase {
             .getEntry();
 
     // Drivers Tab Inputs
+    private GenericEntry autonDelay = driversTab.add("Auton Delay", 0)
+            .withPosition(0, 1)
+            .withSize(2, 1)
+            .getEntry();
     private GenericEntry feedAmpSpeed = driversTab.add("Feed Amp Speed", ScoringConstants.feedAmpSpeed)
             .withPosition(0, 2)
             .getEntry();
@@ -177,5 +182,14 @@ public class Dashboard extends SubsystemBase {
      */
     public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
+    }
+
+    /**
+     * Gets the number of seconds to delay the start of auton
+     *
+     * @return delay in seconds clamped between 0 and 10 seconds
+     */
+    public double getAutoDelay() {
+        return MathUtil.clamp(autonDelay.getDouble(0), 0, 10);
     }
 }

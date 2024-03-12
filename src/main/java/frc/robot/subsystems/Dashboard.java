@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PathPlannerLogging;
@@ -18,11 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.constants.ScoringConstants;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
     private DriveTrain driveTrain = DriveTrain.getInstance();
-    private ScoringElevator scoring = ScoringElevator.getInstance();
+    private Scoring scoring = Scoring.getInstance();
     private Vision vision = Vision.getInstance();
 
     // Choosers
@@ -48,6 +48,11 @@ public class Dashboard extends SubsystemBase {
             .withSize(1, 1)
             .withPosition(0, 0)
             .withWidget(BuiltInWidgets.kToggleButton)
+            .getEntry();
+
+    // Drivers Tab Inputs
+    private GenericEntry feedAmpSpeed = driversTab.add("Feed Amp Speed", ScoringConstants.feedAmpSpeed)
+            .withPosition(0, 2)
             .getEntry();
 
     // Singleton Setup
@@ -103,10 +108,10 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
-                .withPosition(6, 0)
-                .withWidget(BuiltInWidgets.kBooleanBox)
-                .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
+        // driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
+        // .withPosition(6, 0)
+        // .withWidget(BuiltInWidgets.kBooleanBox)
+        // .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
 
         controlsTab.add(field)
                 .withPosition(2, 0)
@@ -137,6 +142,7 @@ public class Dashboard extends SubsystemBase {
             resetGyro.setBoolean(false);
         }
         field.setRobotPose(driveTrain.getPose());
+        scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));
     }
 
     /**

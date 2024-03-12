@@ -37,9 +37,10 @@ public abstract class Auton extends SequentialCommandGroup {
 
         // We need to invert the starting pose for the red alliance.
         if (alliance == Alliance.Red) {
-            Translation2d transformedTranslation = new Translation2d(this.initialPose.getX(),
-                    FieldConstants.kFieldWidth - this.initialPose.getY());
-            Rotation2d transformedHeading = this.initialPose.getRotation().times(-1);
+            Translation2d transformedTranslation = new Translation2d(
+                    FieldConstants.kFieldLength - this.initialPose.getX(),
+                    this.initialPose.getY());
+            Rotation2d transformedHeading = this.initialPose.getRotation().plus(new Rotation2d(Math.PI));
 
             this.initialPose = new Pose2d(transformedTranslation, transformedHeading);
         }

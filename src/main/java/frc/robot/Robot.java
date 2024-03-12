@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
-import frc.robot.commands.FullLiftCommand;
+import frc.robot.commands.LiftUpCommand;
 import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
 
     // Variables
     private Auton autonomousCommand;
-    private Command fullLiftCommand = new FullLiftCommand();
+    private Command fullLiftCommand = new LiftUpCommand();
     private ControlWord controlWordCache = new ControlWord();
 
     // Subsystems

@@ -115,7 +115,7 @@ public final class Lift extends SubsystemBase {
      */
     public void runLeftUp() {
         if (this.leftRatchetUnlocked()) {
-            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+            if (getLiftEncoder()) {
                 leftLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 leftLiftMotor.stopMotor();
@@ -130,7 +130,7 @@ public final class Lift extends SubsystemBase {
      */
     public void runRightUp() {
         if (this.rightRatchetUnlocked()) {
-            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+            if ((getLiftEncoder())) {
                 rightLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 rightLiftMotor.stopMotor();
@@ -138,6 +138,10 @@ public final class Lift extends SubsystemBase {
         } else {
             rightLiftMotor.stopMotor();
         }
+    }
+
+    public boolean getLiftEncoder() {
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
     }
 
     /**

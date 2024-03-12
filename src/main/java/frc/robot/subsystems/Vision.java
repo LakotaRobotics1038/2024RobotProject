@@ -38,16 +38,12 @@ public class Vision extends SubsystemBase {
         APT15(14),
         APT16(15),
         GAVIN(16),
-        NOTES(17);
+        NOTE(17);
 
-        public final int value;
+        public final int id;
 
-        VisionTarget(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
+        VisionTarget(int id) {
+            this.id = id;
         }
     }
 
@@ -152,18 +148,18 @@ public class Vision extends SubsystemBase {
         return enabled1;
     }
 
-    public double getX(int id) {
+    public double getX(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getID() == id) {
+            if (visionData.get(i).getID() == target.id) {
                 return visionData.get(i).getX();
             }
         }
         return -1;
     }
 
-    public double getY(int id) {
+    public double getY(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getID() == id) {
+            if (visionData.get(i).getID() == target.id) {
                 return visionData.get(i).getY();
             }
         }
@@ -179,11 +175,11 @@ public class Vision extends SubsystemBase {
         return -1;
     }
 
-    public double getAngle(int id) {
-        double x = getX(id);
-        double y = getY(id);
+    public double getAngle(VisionTarget target) {
+        double x = getX(target);
+        double y = getY(target);
         if (x < VisionConstants.width / 2) {
-            x = -getX(id);
+            x = -getX(target);
         }
         if (y < VisionConstants.height / 2) {
             y = -y;
@@ -191,11 +187,11 @@ public class Vision extends SubsystemBase {
         return Math.toDegrees(Math.atan(x / y));
     }
 
-    public double getDistance(int id) {
-        double y = getY(id);
+    public double getDistance(VisionTarget target) {
+        double y = getY(target);
         double oldY = 0.0;
 
-        if (id == VisionTarget.NOTES.value) {
+        if (target == VisionTarget.NOTE) {
             if (y > oldY) {
                 oldY = y;
                 return 0;
@@ -204,8 +200,8 @@ public class Vision extends SubsystemBase {
                 return -1;
             }
 
-        } else if (id >= VisionTarget.APR1.value && id <= VisionTarget.APT16.value) {
-            double area = getArea(id);
+        } else if (target.id >= VisionTarget.APR1.id && target.id <= VisionTarget.APT16.id) {
+            double area = getArea(target.id);
             return area;
         } else {
             return 1;

@@ -32,7 +32,7 @@ public class VisionData {
     }
 
     public int getID() {
-        return target.getValue();
+        return target.id;
     }
 
     public double getArea() {

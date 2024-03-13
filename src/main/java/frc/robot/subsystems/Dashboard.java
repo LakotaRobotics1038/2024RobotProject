@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.autons.AutonSelector.DelayChoices;
 import frc.robot.constants.ScoringConstants;
 
 public class Dashboard extends SubsystemBase {
@@ -27,6 +28,7 @@ public class Dashboard extends SubsystemBase {
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
+    private SendableChooser<DelayChoices> delayChooser = new SendableChooser<>();
 
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
@@ -77,6 +79,10 @@ public class Dashboard extends SubsystemBase {
 
         driversTab.add("Auton Choices", autoChooser)
                 .withPosition(0, 0)
+                .withSize(2, 1);
+
+        driversTab.add("Delay Choices", delayChooser)
+                .withPosition(0, 1)
                 .withSize(2, 1);
 
         driversTab.addNumber("Gyro", () -> {
@@ -177,5 +183,9 @@ public class Dashboard extends SubsystemBase {
      */
     public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
+    }
+
+    public SendableChooser<DelayChoices> getDelayChooser() {
+        return delayChooser;
     }
 }

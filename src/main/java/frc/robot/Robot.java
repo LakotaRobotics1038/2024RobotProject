@@ -9,7 +9,7 @@ import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveModuleConstants;
@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        new WaitCommand(autonSelector.chooseDelay()).schedule();
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {

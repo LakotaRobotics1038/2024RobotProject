@@ -4,29 +4,43 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class SwagLights implements Subsystem {
+
+    private Acquisition acquisition = Acquisition.getInstance();
+    private Storage storage = Storage.getInstance();
+
+    private boolean noteSeenAcquire = false;
+    private boolean noteSeenStorage = false;
+
     // Enums
     public enum RobotStates {
         Enabled("A"),
         Disabled("D"),
         EmergencyStop("E");
 
-        public final String value;
+        private final String value;
 
         private RobotStates(String value) {
             this.value = value;
         }
+
+        public String getRobotValue() {
+            return this.value;
+        }
     }
 
     public enum OperatorStates {
-        Cone("Y"),
-        Cube("P"),
-        Hybrid("H"),
-        AcquireSuccess("G");
+        Default("X"),
+        NoteSeen("N"),
+        NoteAcquired("G");
 
-        public final String value;
+        private final String value;
 
         private OperatorStates(String value) {
             this.value = value;
+        }
+
+        public String getOperatorValue() {
+            return this.value;
         }
     }
 
@@ -35,7 +49,7 @@ public class SwagLights implements Subsystem {
 
     // States
     private RobotStates robotState = RobotStates.Disabled;
-    private OperatorStates operatorState = OperatorStates.Cube;
+    private OperatorStates operatorState = OperatorStates.Default;
 
     // Singleton Setup
     private static SwagLights instance;
@@ -59,11 +73,23 @@ public class SwagLights implements Subsystem {
     @Override
     public void periodic() {
         if (this.robotState == RobotStates.Enabled) {
+            if (acquisition.isNotePresent()) {
+                this.operatorState = OperatorStates.NoteAcquired;
+                noteSeenAcquire = true;
+            }
+            if (noteSeenAcquire && !noteSeenStorage && storage.noteExitingStorage()) {
+                noteSeenStorage = true;
+                noteSeenAcquire = false;
+            }
+            if (!noteSeenAcquire && noteSeenStorage && !storage.noteExitingStorage()) {
+                noteSeenStorage = false;
+                this.operatorState = OperatorStates.Default;
+            }
             setLedStates(
-                    this.robotState.value,
-                    this.operatorState.value);
+                    this.robotState.getRobotValue(),
+                    this.operatorState.getOperatorValue());
         } else {
-            setLedStates(this.robotState.value);
+            setLedStates(this.robotState.getRobotValue());
         }
     }
 

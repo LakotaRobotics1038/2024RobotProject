@@ -73,7 +73,7 @@ public class SwagLights implements Subsystem {
     @Override
     public void periodic() {
         if (this.robotState == RobotStates.Enabled) {
-            if (acquisition.isNotePresent()) {
+            if (acquisition.isNotePresent() && !noteSeenAcquire) {
                 this.operatorState = OperatorStates.NoteAcquired;
                 noteSeenAcquire = true;
             }

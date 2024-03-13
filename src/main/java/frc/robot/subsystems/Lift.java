@@ -141,11 +141,12 @@ public final class Lift extends SubsystemBase {
     }
 
     public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension 
+            && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
     }
 
     /**
-     * Runs the left lift motor down at a constant speed.
+     *  Runs the left lift motor down at a constant speed.
      */
     public void runLeftDown() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);

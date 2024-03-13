@@ -5,6 +5,11 @@ import com.pathplanner.lib.path.PathPlannerPath;
 public class Paths {
     public static PathPlannerPath pathFromPosition1ToAmp = PathPlannerPath.fromPathFile("From position 1 to amp");
 
+    public static PathPlannerPath pathFromAmpToMidlineWall = PathPlannerPath
+            .fromPathFile("Amp to midline behind notes");
+
+    public static PathPlannerPath pathFromMidlineToAmp = PathPlannerPath.fromPathFile("From Midline to Amp");
+
     public static PathPlannerPath pathFromAmpToNote1 = PathPlannerPath.fromPathFile("From amp to top note");
 
     public static PathPlannerPath pathFromNote1ToAmp = PathPlannerPath.fromPathFile("From note 1 to amp");

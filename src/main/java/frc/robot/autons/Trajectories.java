@@ -16,6 +16,16 @@ public class Trajectories {
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
 
+    public static PathPlannerTrajectory getFromAmpToMidlineWallTrajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromAmpToMidlineWall, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
+    public static PathPlannerTrajectory getFromMidlineToAmpTrajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromMidlineToAmp, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
     public static PathPlannerTrajectory getFromPos2TaxiTrajectory() {
         return new PathPlannerTrajectory(Paths.taxiPath2, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));

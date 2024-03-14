@@ -144,6 +144,14 @@ public final class Lift extends SubsystemBase {
         return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
     }
 
+    public double getRightHeight() {
+        return rightLiftEncoder.getPosition();
+    }
+
+    public double getLeftHeight() {
+        return leftLiftEncoder.getPosition();
+    }
+
     /**
      * Runs the left lift motor down at a constant speed.
      */

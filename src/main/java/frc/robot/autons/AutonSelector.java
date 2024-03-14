@@ -19,27 +19,9 @@ public class AutonSelector {
         TaxiPos3;
     }
 
-    public enum DelayChoices {
-        s0,
-        s1,
-        s2,
-        s3,
-        s4,
-        s5,
-        s6,
-        s7,
-        s8,
-        s9,
-        s10,
-        s11,
-        s12,
-        s13,
-        s14;
-    }
-
     // Choosers
     SendableChooser<AutonChoices> autoChooser;
-    SendableChooser<DelayChoices> delayChooser;
+    SendableChooser<String> delayChooser;
 
     // Singleton Setup
     private static AutonSelector instance;
@@ -65,21 +47,21 @@ public class AutonSelector {
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
-        this.delayChooser.setDefaultOption("0 Seconds", DelayChoices.s0);
-        this.delayChooser.addOption("1 Second", DelayChoices.s1);
-        this.delayChooser.addOption("2 Seconds", DelayChoices.s2);
-        this.delayChooser.addOption("3 Seconds", DelayChoices.s3);
-        this.delayChooser.addOption("4 Seconds", DelayChoices.s4);
-        this.delayChooser.addOption("5 Seconds", DelayChoices.s5);
-        this.delayChooser.addOption("6 Seconds", DelayChoices.s6);
-        this.delayChooser.addOption("7 Seconds", DelayChoices.s7);
-        this.delayChooser.addOption("8 Seconds", DelayChoices.s8);
-        this.delayChooser.addOption("9 Seconds", DelayChoices.s9);
-        this.delayChooser.addOption("10 Seconds", DelayChoices.s10);
-        this.delayChooser.addOption("11 Seconds", DelayChoices.s11);
-        this.delayChooser.addOption("12 Seconds", DelayChoices.s12);
-        this.delayChooser.addOption("13 Seconds", DelayChoices.s13);
-        this.delayChooser.addOption("14 Seconds", DelayChoices.s14);
+        this.delayChooser.setDefaultOption("0 Seconds", "0");
+        this.delayChooser.addOption("1 Second", "1");
+        this.delayChooser.addOption("2 Seconds", "2");
+        this.delayChooser.addOption("3 Seconds", "3");
+        this.delayChooser.addOption("4 Seconds", "4");
+        this.delayChooser.addOption("5 Seconds", "5");
+        this.delayChooser.addOption("6 Seconds", "6");
+        this.delayChooser.addOption("7 Seconds", "7");
+        this.delayChooser.addOption("8 Seconds", "8");
+        this.delayChooser.addOption("9 Seconds", "9");
+        this.delayChooser.addOption("10 Seconds", "10");
+        this.delayChooser.addOption("11 Seconds", "11");
+        this.delayChooser.addOption("12 Seconds", "12");
+        this.delayChooser.addOption("13 Seconds", "13");
+        this.delayChooser.addOption("14 Seconds", "14");
     }
 
     public Auton chooseAuton() {
@@ -104,33 +86,33 @@ public class AutonSelector {
 
     public double chooseDelay() {
         switch (this.delayChooser.getSelected()) {
-            case s1:
+            case "1":
                 return 1.0;
-            case s2:
+            case "2":
                 return 2.0;
-            case s3:
+            case "3":
                 return 3.0;
-            case s4:
+            case "4":
                 return 4.0;
-            case s5:
+            case "5":
                 return 5.0;
-            case s6:
+            case "6":
                 return 6.0;
-            case s7:
+            case "7":
                 return 7.0;
-            case s8:
+            case "8":
                 return 8.0;
-            case s9:
+            case "9":
                 return 9.0;
-            case s10:
+            case "10":
                 return 10.0;
-            case s11:
+            case "11":
                 return 11.0;
-            case s12:
+            case "12":
                 return 12.0;
-            case s13:
+            case "13":
                 return 13.0;
-            case s14:
+            case "14":
                 return 14.0;
             default:
                 return 0.0;

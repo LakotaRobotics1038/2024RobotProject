@@ -70,7 +70,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        new WaitCommand(autonSelector.chooseDelay()).schedule();
         new LiftUpCommand().schedule();
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();

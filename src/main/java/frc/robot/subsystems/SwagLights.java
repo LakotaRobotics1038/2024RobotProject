@@ -17,14 +17,10 @@ public class SwagLights implements Subsystem {
         Disabled("D"),
         EmergencyStop("E");
 
-        private final String value;
+        public final String value;
 
         private RobotStates(String value) {
             this.value = value;
-        }
-
-        public String getRobotValue() {
-            return this.value;
         }
     }
 
@@ -86,10 +82,10 @@ public class SwagLights implements Subsystem {
                 this.operatorState = OperatorStates.Default;
             }
             setLedStates(
-                    this.robotState.getRobotValue(),
-                    this.operatorState.getOperatorValue());
+                    this.robotState.value,
+                    this.operatorState.value);
         } else {
-            setLedStates(this.robotState.getRobotValue());
+            setLedStates(this.robotState.value);
         }
     }
 

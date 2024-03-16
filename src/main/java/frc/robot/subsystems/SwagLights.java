@@ -28,7 +28,7 @@ public class SwagLights implements Subsystem {
         NoteSeen("N"),
         NoteAcquired("G");
 
-        private final String value;
+        public final String value;
 
         private OperatorStates(String value) {
             this.value = value;

@@ -10,6 +10,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.LiftDownCommand;
 import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
@@ -123,8 +124,8 @@ public final class Lift extends SubsystemBase {
      */
     private void runLeftUp(double speed) {
         if (this.leftRatchetUnlocked()) {
-            if (isLiftUp()) {
-                leftLiftMotor.set(speed);
+            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+                leftLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 leftLiftMotor.stopMotor();
             }
@@ -138,8 +139,8 @@ public final class Lift extends SubsystemBase {
      */
     private void runRightUp(double speed) {
         if (this.rightRatchetUnlocked()) {
-            if ((isLiftUp())) {
-                rightLiftMotor.set(speed);
+            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+                rightLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 rightLiftMotor.stopMotor();
             }
@@ -147,7 +148,6 @@ public final class Lift extends SubsystemBase {
             rightLiftMotor.stopMotor();
         }
     }
-
     /**
      * Runs the left lift motor down at a constant speed.
      */

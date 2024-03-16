@@ -14,6 +14,8 @@ import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
 public final class Lift extends SubsystemBase {
+    private DriveTrain driveTrain = DriveTrain.getInstance();
+
     private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
     private RelativeEncoder leftLiftEncoder = leftLiftMotor.getEncoder();
@@ -121,13 +123,16 @@ public final class Lift extends SubsystemBase {
     /**
      * Runs the left lift motor up at a constant speed.
      */
-    private void runLeftUp(double speed) {
-        if (this.leftRatchetUnlocked()) {
-            if (isLiftUp()) {
+    private void runLeft(double speed) {
+        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
+        if (speed > 0 && this.leftRatchetUnlocked()) {
+            if (!isLiftUp()) {
                 leftLiftMotor.set(speed);
             } else {
                 leftLiftMotor.stopMotor();
             }
+        } else if (speed < 0) {
+            leftLiftMotor.set(speed);
         } else {
             leftLiftMotor.stopMotor();
         }
@@ -136,13 +141,16 @@ public final class Lift extends SubsystemBase {
     /**
      * Runs the right lift motor up at a constant speed.
      */
-    private void runRightUp(double speed) {
-        if (this.rightRatchetUnlocked()) {
-            if ((isLiftUp())) {
+    private void runRight(double speed) {
+        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
+        if (speed > 0 && this.rightRatchetUnlocked()) {
+            if ((!isLiftUp())) {
                 rightLiftMotor.set(speed);
             } else {
                 rightLiftMotor.stopMotor();
             }
+        } else if (speed < 0) {
+            rightLiftMotor.set(speed);
         } else {
             rightLiftMotor.stopMotor();
         }
@@ -152,14 +160,14 @@ public final class Lift extends SubsystemBase {
      * Runs the left lift motor down at a constant speed.
      */
     public void runLeftDown() {
-        leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
+        leftLiftMotor.set(LiftConstants.downSpeed);
     }
 
     /**
      * Runs the right lift motor down at a constant speed.
      */
     public void runRightDown() {
-        rightLiftMotor.set(LiftConstants.backwardsMotorSpeed);
+        rightLiftMotor.set(LiftConstants.downSpeed);
     }
 
     /**
@@ -184,15 +192,16 @@ public final class Lift extends SubsystemBase {
     public void periodic() {
         if (enabled) {
             double output = verticalController.calculate(getLeftPosition());
-            double error = errorController.calculate(DriveTrain.getInstance().getPitch());
+            double pitch = driveTrain.getPitch();
+            double error = errorController.calculate(pitch);
 
-            double power = MathUtil.clamp(output, LiftConstants.backwardsMotorSpeed, LiftConstants.motorSpeed);
-            double clampedError = MathUtil.clamp(error, LiftConstants.backwardsMotorSpeed, LiftConstants.motorSpeed);
+            double power = MathUtil.clamp(output, LiftConstants.downSpeed, LiftConstants.upSpeed);
+            double clampedError = MathUtil.clamp(error, LiftConstants.downSpeed, LiftConstants.upSpeed);
 
-            double left = DriveTrain.getInstance().getPitch() > 0 ? power + clampedError : power;
-            double right = DriveTrain.getInstance().getPitch() < 0 ? power - clampedError : power;
-            runLeftUp(left);
-            runRightUp(right);
+            double left = pitch > 0 ? power + clampedError : power;
+            double right = pitch < 0 ? power - clampedError : power;
+            runLeft(left);
+            runRight(right);
         }
         if (leftLimitSwitch.isPressed() && leftLiftEncoder.getPosition() != 0) {
             leftLiftEncoder.setPosition(0);

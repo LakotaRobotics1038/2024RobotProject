@@ -12,8 +12,12 @@ public class LiftDownCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         lift.enable();
+    }
+
+    @Override
+    public void execute() {
         lift.setSetpoint(LiftConstants.minLiftInches);
     }
 

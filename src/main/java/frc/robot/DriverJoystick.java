@@ -91,8 +91,8 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(vision::enable0, vision))
                 .onFalse(new InstantCommand(vision::disable0, vision));
 
-        rightBumper.and(leftBumper.negate()).whileTrue(new LiftUpCommand());
-        rightTrigger.and(leftTrigger.negate()).whileTrue(new LiftDownCommand());
+        rightBumper.whileTrue(new LiftUpCommand());
+        rightTrigger.whileTrue(new LiftDownCommand());
 
         leftBumper.and(rightBumper).whileTrue(new LiftUpCommand());
         leftTrigger.and(rightTrigger).whileTrue(new LiftDownCommand());

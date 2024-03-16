@@ -14,11 +14,11 @@ public class LiftUpCommand extends Command {
     @Override
     public void initialize() {
         lift.disableRatchets();
+        lift.enable();
     }
 
     @Override
     public void execute() {
-        lift.enable();
         lift.setSetpoint(LiftConstants.maxLiftInches);
     }
 

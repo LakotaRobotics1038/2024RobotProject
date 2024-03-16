@@ -9,11 +9,11 @@ import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj2.command.PIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
-public final class Lift extends PIDSubsystem {
+public final class Lift extends SubsystemBase {
     private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
     private RelativeEncoder leftLiftEncoder = leftLiftMotor.getEncoder();
@@ -24,6 +24,17 @@ public final class Lift extends PIDSubsystem {
 
     private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
+
+    private PIDController verticalController = new PIDController(
+            LiftConstants.kVerticalP,
+            LiftConstants.kVerticalI,
+            LiftConstants.kVerticalD);
+    private PIDController errorController = new PIDController(
+            LiftConstants.kErrorP,
+            LiftConstants.kErrorI,
+            LiftConstants.kErrorD);
+
+    private boolean enabled;
 
     private static Lift instance;
 
@@ -44,9 +55,6 @@ public final class Lift extends PIDSubsystem {
      * follow the left. Burns these settings to the flash of each motor.
      */
     private Lift() {
-        super(new PIDController(LiftConstants.kP, LiftConstants.kI, LiftConstants.kD));
-        getController().setTolerance(LiftConstants.tolerance);
-        getController().enableContinuousInput(0, LiftConstants.encoderConversion);
         leftLiftMotor.restoreFactoryDefaults();
         rightLiftMotor.restoreFactoryDefaults();
 
@@ -55,8 +63,6 @@ public final class Lift extends PIDSubsystem {
 
         leftLimitSwitch.enableLimitSwitch(true);
         rightLimitSwitch.enableLimitSwitch(true);
-
-        rightLiftMotor.follow(leftLiftMotor);
 
         leftLiftMotor.setInverted(false);
         rightLiftMotor.setInverted(true);
@@ -69,57 +75,91 @@ public final class Lift extends PIDSubsystem {
 
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();
+
+        verticalController.disableContinuousInput();
+        verticalController.setTolerance(LiftConstants.tolerance);
+
+        errorController.disableContinuousInput();
+        errorController.setTolerance(LiftConstants.tolerance);
+        errorController.setSetpoint(0);
     }
 
+    /**
+     * Enables the lift ratchets (sets them to a constant maximum extension).
+     */
     public void enableRatchets() {
-        rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
         leftRatchetServo.set(LiftConstants.leftRatchetLockPos);
+        rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
     }
 
+    /**
+     * Disables the lift ratchets (sets them to a constant minimum extension).
+     */
     public void disableRatchets() {
         leftRatchetServo.set(LiftConstants.leftRatchetUnlockPos);
         rightRatchetServo.set(LiftConstants.rightRatchetUnlockPos);
-
     }
 
-    public boolean ratchetsUnlocked() {
-        return rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos
-                && leftRatchetServo.get() == LiftConstants.leftRatchetUnlockPos;
+    /**
+     * Determines if the left ratchet is in the unlocked position
+     *
+     * @return is the ratchet unlocked
+     */
+    public boolean leftRatchetUnlocked() {
+        return leftRatchetServo.get() == LiftConstants.leftRatchetUnlockPos;
     }
 
-    public double getPosition() {
-        return leftLiftEncoder.getPosition();
+    /**
+     * Determines if the right ratchet is in the unlocked position
+     *
+     * @return is the ratchet unlocked
+     */
+    public boolean rightRatchetUnlocked() {
+        return rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos;
     }
 
-    public void runLiftUp() {
-        if (this.ratchetsUnlocked()) {
-            if ((isLiftUp())) {
-                leftLiftMotor.set(LiftConstants.motorSpeed);
+    /**
+     * Runs the left lift motor up at a constant speed.
+     */
+    private void runLeftUp(double speed) {
+        if (this.leftRatchetUnlocked()) {
+            if (isLiftUp()) {
+                leftLiftMotor.set(speed);
             } else {
-                stopMotors();
+                leftLiftMotor.stopMotor();
             }
         } else {
-            stopMotors();
+            leftLiftMotor.stopMotor();
         }
     }
 
-    public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
+    /**
+     * Runs the right lift motor up at a constant speed.
+     */
+    private void runRightUp(double speed) {
+        if (this.rightRatchetUnlocked()) {
+            if ((isLiftUp())) {
+                rightLiftMotor.set(speed);
+            } else {
+                rightLiftMotor.stopMotor();
+            }
+        } else {
+            rightLiftMotor.stopMotor();
+        }
     }
 
-    public boolean onTarget() {
-        return getController().atSetpoint();
-    }
-
-    public void runLiftDown() {
+    /**
+     * Runs the left lift motor down at a constant speed.
+     */
+    public void runLeftDown() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
 
     /**
-     * Stops left lift motor.
+     * Runs the right lift motor down at a constant speed.
      */
-    public void stopMotors() {
-        leftLiftMotor.stopMotor();
+    public void runRightDown() {
+        rightLiftMotor.set(LiftConstants.backwardsMotorSpeed);
     }
 
     /**
@@ -142,34 +182,130 @@ public final class Lift extends PIDSubsystem {
 
     @Override
     public void periodic() {
+        if (enabled) {
+            double output = verticalController.calculate(getLeftPosition());
+            double error = errorController.calculate(DriveTrain.getInstance().getPitch());
+
+            double power = MathUtil.clamp(output, LiftConstants.backwardsMotorSpeed, LiftConstants.motorSpeed);
+            double clampedError = MathUtil.clamp(error, LiftConstants.backwardsMotorSpeed, LiftConstants.motorSpeed);
+
+            double left = DriveTrain.getInstance().getPitch() > 0 ? power + clampedError : power;
+            double right = DriveTrain.getInstance().getPitch() < 0 ? power - clampedError : power;
+            runLeftUp(left);
+            runRightUp(right);
+        }
         if (leftLimitSwitch.isPressed() && leftLiftEncoder.getPosition() != 0) {
             leftLiftEncoder.setPosition(0);
         }
         if (rightLimitSwitch.isPressed() && rightLiftEncoder.getPosition() != 0) {
             rightLiftEncoder.setPosition(0);
         }
+
     }
 
-    @Override
-    protected double getMeasurement() {
-        return getPosition();
+    /**
+     * Returns the vertical PIDController.
+     *
+     * @return The vertical controller.
+     */
+    public PIDController getVerticalController() {
+        return verticalController;
     }
 
-    @Override
-    protected void useOutput(double output, double setpoint) {
-        double power = MathUtil.clamp(output, -LiftConstants.maxPower, LiftConstants.maxPower);
-        leftLiftMotor.set(power);
+    /**
+     * Returns the Right PIDController.
+     *
+     * @return The right controller.
+     */
+    public PIDController getErrorController() {
+        return errorController;
     }
 
-    public void setP(double p) {
-        getController().setP(p);
+    /**
+     * Sets the Scoring PID setpoint to one of the constant setpoints.
+     *
+     * @param ElevatorSetpoints - desired setpoint
+     */
+    public void setSetpoint(double setpoint) {
+        verticalController.setSetpoint(MathUtil.clamp(setpoint, 0, LiftConstants.maxExtension));
     }
 
-    public void setI(double i) {
-        getController().setI(i);
+    /**
+     * Returns the current setpoint of the subsystem.
+     *
+     * @return The current setpoint
+     */
+    public double getSetpoint() {
+        return verticalController.getSetpoint();
     }
 
-    public void setD(double d) {
-        getController().setD(d);
+    /**
+     * Returns the position of the left lift encoder.
+     *
+     * @return double - current encoder position
+     */
+    public double getLeftPosition() {
+        return leftLiftEncoder.getPosition();
+    }
+
+    /**
+     * Returns the position of the right lift encoder.
+     *
+     * @return double - current encoder position
+     */
+    public double getRightPosition() {
+        return rightLiftEncoder.getPosition();
+    }
+
+    public boolean isLiftUp() {
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
+    }
+
+    /**
+     * Stops left lift motor.
+     */
+    public void stopLeftMotor() {
+        leftLiftMotor.stopMotor();
+    }
+
+    /**
+     * Stops right lift motor.
+     */
+    public void stopRightMotor() {
+        rightLiftMotor.stopMotor();
+    }
+
+    /**
+     * Stops left lift motor.
+     */
+    public void stopMotors() {
+        leftLiftMotor.stopMotor();
+        rightLiftMotor.stopMotor();
+    }
+
+    /** Enables the PID control. Resets the controller. */
+    public void enable() {
+        enabled = true;
+        verticalController.reset();
+        errorController.reset();
+    }
+
+    /** Disables the PID control. Sets output to zero. */
+    public void disable() {
+        enabled = false;
+        this.stopMotors();
+    }
+
+    /**
+     * Returns whether the controller is enabled.
+     *
+     * @return Whether the controller is enabled.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public boolean onTarget() {
+        return getVerticalController().atSetpoint();
     }
 }

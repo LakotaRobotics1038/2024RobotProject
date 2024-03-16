@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.LiftConstants;
 import frc.robot.subsystems.Lift;
 
 public class LiftDownCommand extends Command {
@@ -12,7 +13,8 @@ public class LiftDownCommand extends Command {
 
     @Override
     public void execute() {
-        lift.runLiftDown();
+        lift.enable();
+        lift.setSetpoint(LiftConstants.minLiftInches);
     }
 
     @Override
@@ -22,6 +24,6 @@ public class LiftDownCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        lift.stopMotors();
+        lift.disable();
     }
 }

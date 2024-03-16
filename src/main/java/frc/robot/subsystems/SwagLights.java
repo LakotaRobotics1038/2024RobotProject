@@ -34,10 +34,6 @@ public class SwagLights implements Subsystem {
         private OperatorStates(String value) {
             this.value = value;
         }
-
-        public String getOperatorValue() {
-            return this.value;
-        }
     }
 
     // Inputs and Outputs

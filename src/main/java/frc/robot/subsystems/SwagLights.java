@@ -1,15 +1,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class SwagLights implements Subsystem {
 
     private Acquisition acquisition = Acquisition.getInstance();
     private Storage storage = Storage.getInstance();
-
-    private boolean noteSeenAcquire = false;
-    private boolean noteSeenStorage = false;
 
     // Enums
     public enum RobotStates {
@@ -60,23 +59,16 @@ public class SwagLights implements Subsystem {
         serialPort = new SerialPort(9600, SerialPort.Port.kMXP);
         serialPort.enableTermination();
         System.out.println("Created new serial reader");
+
+        new Trigger(acquisition::isNotePresent)
+                .onTrue(new InstantCommand(() -> operatorState = OperatorStates.NoteAcquired));
+        new Trigger(storage::noteExitingStorage)
+                .onFalse(new InstantCommand(() -> operatorState = OperatorStates.Default));
     }
 
     @Override
     public void periodic() {
         if (this.robotState == RobotStates.Enabled) {
-            if (acquisition.isNotePresent() && !noteSeenAcquire && !noteSeenStorage) {
-                this.operatorState = OperatorStates.NoteAcquired;
-                noteSeenAcquire = true;
-            }
-            if (noteSeenAcquire && !noteSeenStorage && storage.noteExitingStorage()) {
-                noteSeenStorage = true;
-                noteSeenAcquire = false;
-            }
-            if (!noteSeenAcquire && noteSeenStorage && !storage.noteExitingStorage()) {
-                noteSeenStorage = false;
-                this.operatorState = OperatorStates.Default;
-            }
             setLedStates(
                     this.robotState.value,
                     this.operatorState.value);

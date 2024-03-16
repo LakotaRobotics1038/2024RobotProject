@@ -8,6 +8,7 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.LiftDownCommand;
 import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
@@ -141,12 +142,20 @@ public final class Lift extends SubsystemBase {
     }
 
     public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension 
-            && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension
+                && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
+    }
+
+    public boolean isRightLiftUp() {
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
+    }
+
+    public boolean isLeftLiftUp() {
+        return leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
     }
 
     /**
-     *  Runs the left lift motor down at a constant speed.
+     * Runs the left lift motor down at a constant speed.
      */
     public void runLeftDown() {
         leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);

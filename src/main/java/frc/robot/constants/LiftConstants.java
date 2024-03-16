@@ -16,4 +16,13 @@ public class LiftConstants {
     public static final double backwardsMotorSpeed = -0.9;
 
     public static final double maxExtension = 195;
+
+    public static final double maxPower = 1.0;
+
+    public static final double kP = 0.01;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    public static final double tolerance = 2.0;
+    public static final double encoderConversion = 0.0;
 }

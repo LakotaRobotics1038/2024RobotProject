@@ -27,7 +27,7 @@ public class Dashboard extends SubsystemBase {
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
-    private SendableChooser<String> delayChooser = new SendableChooser<>();
+    private SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
@@ -184,7 +184,7 @@ public class Dashboard extends SubsystemBase {
         return autoChooser;
     }
 
-    public SendableChooser<String> getDelayChooser() {
+    public SendableChooser<Double> getDelayChooser() {
         return delayChooser;
     }
 }

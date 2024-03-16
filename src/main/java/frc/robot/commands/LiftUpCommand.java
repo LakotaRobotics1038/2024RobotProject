@@ -12,14 +12,12 @@ public class LiftUpCommand extends Command {
 
     @Override
     public void initialize() {
-        lift.disableLeftRatchet();
-        lift.disableRightRatchet();
+        lift.disableRatchets();
     }
 
     @Override
     public void execute() {
-        lift.runLeftUp();
-        lift.runRightUp();
+        lift.runLiftUp();
     }
 
     @Override
@@ -29,9 +27,7 @@ public class LiftUpCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        lift.stopLeftMotor();
-        lift.stopRightMotor();
-        lift.enableLeftRatchet();
-        lift.enableRightRatchet();
+        lift.stopMotors();
+        lift.enableRatchets();
     }
 }

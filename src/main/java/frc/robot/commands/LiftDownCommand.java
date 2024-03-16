@@ -12,8 +12,7 @@ public class LiftDownCommand extends Command {
 
     @Override
     public void execute() {
-        lift.runLeftDown();
-        lift.runRightDown();
+        lift.runLiftDown();
     }
 
     @Override
@@ -23,7 +22,6 @@ public class LiftDownCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        lift.stopLeftMotor();
-        lift.stopRightMotor();
+        lift.stopMotors();
     }
 }

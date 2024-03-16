@@ -160,4 +160,16 @@ public final class Lift extends PIDSubsystem {
         double power = MathUtil.clamp(output, -LiftConstants.maxPower, LiftConstants.maxPower);
         leftLiftMotor.set(power);
     }
+
+    public void setP(double p) {
+        getController().setP(p);
+    }
+
+    public void setI(double i) {
+        getController().setI(i);
+    }
+
+    public void setD(double d) {
+        getController().setD(d);
+    }
 }

@@ -24,6 +24,6 @@ public class LiftConstants {
     public static final double kI = 0.0;
     public static final double kD = 0.0;
 
-    public static final double tolerance = 2.0;
+    public static final double tolerance = 1.0;
     public static final double encoderConversion = 1 / (maxExtension / maxLiftInches);
 }

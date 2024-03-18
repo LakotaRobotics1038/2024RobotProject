@@ -8,7 +8,6 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.LiftDownCommand;
 import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
@@ -209,14 +208,10 @@ public final class Lift extends SubsystemBase {
             if (leftLimitSwitchBeenPressed == false) {
                 leftLimitSwitchBeenPressed = true;
             }
-            if (leftLiftEncoder.getPosition() != 0) {
-                leftLiftEncoder.setPosition(0);
-            }
+            leftLiftEncoder.setPosition(0);
         }
         if (rightLimitSwitch.isPressed()) {
-            if (rightLimitSwitchBeenPressed == false) {
-                rightLimitSwitchBeenPressed = true;
-            }
+            rightLimitSwitchBeenPressed = true;
             if (rightLiftEncoder.getPosition() != 0) {
             }
             rightLiftEncoder.setPosition(0);

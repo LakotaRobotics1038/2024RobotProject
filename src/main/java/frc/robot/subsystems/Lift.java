@@ -127,8 +127,8 @@ public final class Lift extends SubsystemBase {
     private void runLeft(double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && this.leftRatchetUnlocked()) {
-            if (!leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
-                leftLiftMotor.set(LiftConstants.motorSpeed);
+            if (!(leftLiftEncoder.getPosition() < LiftConstants.maxExtension)) {
+                leftLiftMotor.set(LiftConstants.maxExtension);
             } else {
                 leftLiftMotor.stopMotor();
             }
@@ -145,7 +145,7 @@ public final class Lift extends SubsystemBase {
     private void runRight(double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && this.rightRatchetUnlocked()) {
-            if ((!isLiftUp())) {
+            if ((!(rightLiftEncoder.getPosition() < LiftConstants.maxExtension))) {
                 rightLiftMotor.set(speed);
             } else {
                 rightLiftMotor.stopMotor();
@@ -237,7 +237,8 @@ public final class Lift extends SubsystemBase {
      * @param ElevatorSetpoints - desired setpoint
      */
     public void setSetpoint(double setpoint) {
-        verticalController.setSetpoint(MathUtil.clamp(setpoint, 0, LiftConstants.maxExtension));
+        verticalController
+                .setSetpoint(MathUtil.clamp(setpoint, LiftConstants.minExtension, LiftConstants.maxExtension));
     }
 
     /**
@@ -252,7 +253,7 @@ public final class Lift extends SubsystemBase {
     /**
      * Returns the position of the left lift encoder.
      *
-     * @return double - current encoder position
+     * @return current encoder position
      */
     public double getLeftPosition() {
         return leftLiftEncoder.getPosition();
@@ -267,8 +268,14 @@ public final class Lift extends SubsystemBase {
         return rightLiftEncoder.getPosition();
     }
 
+    /**
+     * Returns whether or not lift is up
+     *
+     * @return whether lift is up or not
+     */
     public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
+        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension
+                && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
     }
 
     /**
@@ -315,6 +322,11 @@ public final class Lift extends SubsystemBase {
         return enabled;
     }
 
+    /**
+     * Returns whether lift is at setpoint.
+     *
+     * @return whether lift is at setpoint
+     */
     public boolean onTarget() {
         return getVerticalController().atSetpoint();
     }

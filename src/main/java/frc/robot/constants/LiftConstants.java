@@ -16,6 +16,7 @@ public class LiftConstants {
     public static final double downSpeed = -0.9;
 
     public static final double maxExtension = 195;
+    public static final double minExtension = 0;
     public static final double maxLiftInches = 27;
     public static final double minLiftInches = 0;
 

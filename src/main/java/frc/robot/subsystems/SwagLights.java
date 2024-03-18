@@ -1,9 +1,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class SwagLights implements Subsystem {
+
+    private Acquisition acquisition = Acquisition.getInstance();
+    private Storage storage = Storage.getInstance();
+
     // Enums
     public enum RobotStates {
         Enabled("A"),
@@ -18,10 +24,9 @@ public class SwagLights implements Subsystem {
     }
 
     public enum OperatorStates {
-        Cone("Y"),
-        Cube("P"),
-        Hybrid("H"),
-        AcquireSuccess("G");
+        Default("X"),
+        NoteSeen("N"),
+        NoteAcquired("G");
 
         public final String value;
 
@@ -35,7 +40,7 @@ public class SwagLights implements Subsystem {
 
     // States
     private RobotStates robotState = RobotStates.Disabled;
-    private OperatorStates operatorState = OperatorStates.Cube;
+    private OperatorStates operatorState = OperatorStates.Default;
 
     // Singleton Setup
     private static SwagLights instance;
@@ -54,6 +59,11 @@ public class SwagLights implements Subsystem {
         serialPort = new SerialPort(9600, SerialPort.Port.kMXP);
         serialPort.enableTermination();
         System.out.println("Created new serial reader");
+
+        new Trigger(acquisition::isNotePresent)
+                .onTrue(new InstantCommand(() -> operatorState = OperatorStates.NoteAcquired));
+        new Trigger(storage::noteExitingStorage)
+                .onFalse(new InstantCommand(() -> operatorState = OperatorStates.Default));
     }
 
     @Override

@@ -29,12 +29,9 @@ public class ShootPasserCommand extends Command {
 
     @Override
     public void execute() {
-        if (storage.noteExitingStorage()) {
-            scoring.feedForAmp();
-        } else {
-            scoring.feedForPasser();
-            passer.shootNote();
-        }
+        scoring.feedForAmp();
+        scoring.feedForPasser();
+        passer.shootNote();
     }
 
     @Override

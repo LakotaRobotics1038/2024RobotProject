@@ -76,6 +76,14 @@ public class Scoring extends SubsystemBase {
     }
 
     /**
+     * Runs the scoring roller at the constant speed designated for getting the note
+     * ready to shoot in passer.
+     */
+    public void feedForPasser() {
+        rollerMotor.set(ScoringConstants.feedPasserSpeed);
+    }
+
+    /**
      * Runs the scoring roller at the constant speed designated for scoring in amp.
      */
     public void scoreTrap() {

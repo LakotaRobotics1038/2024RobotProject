@@ -13,10 +13,8 @@ public class Storage extends SubsystemBase {
 
     private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
             MotorType.kBrushless);
-    private final CANSparkMax leftStorageMotor = new CANSparkMax(
-            StorageConstants.leftStoragePort, MotorType.kBrushless);
-    private final CANSparkMax rightStorageMotor = new CANSparkMax(
-            StorageConstants.rightStoragePort, MotorType.kBrushless);
+    private final CANSparkMax storageMotor = new CANSparkMax(
+            StorageConstants.storagePort, MotorType.kBrushless);
 
     private final DigitalInput enterStorageLaser = new DigitalInput(StorageConstants.enterStorageLaserPort);
     private final DigitalInput exitStorageLaser = new DigitalInput(StorageConstants.exitStorageLaserPort);
@@ -37,26 +35,19 @@ public class Storage extends SubsystemBase {
 
     private Storage() {
         transitionMotor.restoreFactoryDefaults();
-        leftStorageMotor.restoreFactoryDefaults();
-        rightStorageMotor.restoreFactoryDefaults();
+        storageMotor.restoreFactoryDefaults();
 
-        leftStorageMotor.setIdleMode(IdleMode.kBrake);
-        rightStorageMotor.setIdleMode(IdleMode.kBrake);
+        storageMotor.setIdleMode(IdleMode.kBrake);
         transitionMotor.setIdleMode(IdleMode.kBrake);
 
-        leftStorageMotor.setInverted(false);
-        rightStorageMotor.setInverted(false);
+        storageMotor.setInverted(false);
         transitionMotor.setInverted(false);
 
-        rightStorageMotor.follow(leftStorageMotor, true);
-
-        rightStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
-        leftStorageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        storageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
         transitionMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
         transitionMotor.burnFlash();
-        leftStorageMotor.burnFlash();
-        rightStorageMotor.burnFlash();
+        storageMotor.burnFlash();
     }
 
     public void runTransition() {
@@ -68,15 +59,15 @@ public class Storage extends SubsystemBase {
     }
 
     public void runStorage() {
-        leftStorageMotor.set(StorageConstants.storageSpeed);
+        storageMotor.set(StorageConstants.storageSpeed);
     }
 
     public void reverseStorage() {
-        leftStorageMotor.set(StorageConstants.reverseStorageSpeed);
+        storageMotor.set(StorageConstants.reverseStorageSpeed);
     }
 
     public void stopStorage() {
-        leftStorageMotor.stopMotor();
+        storageMotor.stopMotor();
     }
 
     public void stopTransition() {

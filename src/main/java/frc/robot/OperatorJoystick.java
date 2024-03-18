@@ -11,6 +11,7 @@ import frc.robot.commands.ReverseStorageCommand;
 import frc.robot.commands.UnacquireCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.commands.ScoringElevatorPositionCommand;
+import frc.robot.commands.ShootPasserCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.subsystems.ScoringElevator;
 import frc.robot.subsystems.Storage;
@@ -78,6 +79,11 @@ public class OperatorJoystick extends XboxController1038 {
         leftTrigger
                 .and(() -> scoringElevator.getSetpoint() == ElevatorSetpoints.Trap.value)
                 .whileTrue(new FeedNoteCommand(ScoringLocation.Trap));
+
+        // Passer button
+        leftTrigger
+                .and(() -> scoringElevator.getSetpoint() == ElevatorSetpoints.Passer.value)
+                .whileTrue(new ShootPasserCommand());
 
         leftBumper.onTrue(new DrawbridgeUpCommand());
         rightBumper.onTrue(new DrawbridgeDownCommand());

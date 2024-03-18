@@ -24,6 +24,9 @@ public final class Lift extends SubsystemBase {
     private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
 
+    private boolean leftLimitSwitchBeenPressed = false;
+    private boolean rightLimitSwitchBeenPressed = false;
+
     private static Lift instance;
 
     /**
@@ -116,7 +119,7 @@ public final class Lift extends SubsystemBase {
      */
     public void runLeftUp() {
         if (this.leftRatchetUnlocked()) {
-            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension && leftLimitSwitchBeenPressed) {
                 leftLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 leftLiftMotor.stopMotor();
@@ -131,7 +134,7 @@ public final class Lift extends SubsystemBase {
      */
     public void runRightUp() {
         if (this.rightRatchetUnlocked()) {
-            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
+            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension && rightLimitSwitchBeenPressed) {
                 rightLiftMotor.set(LiftConstants.motorSpeed);
             } else {
                 rightLiftMotor.stopMotor();
@@ -202,10 +205,20 @@ public final class Lift extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (leftLimitSwitch.isPressed() && leftLiftEncoder.getPosition() != 0) {
-            leftLiftEncoder.setPosition(0);
+        if (leftLimitSwitch.isPressed()) {
+            if (leftLimitSwitchBeenPressed == false) {
+                leftLimitSwitchBeenPressed = true;
+            }
+            if (leftLiftEncoder.getPosition() != 0) {
+                leftLiftEncoder.setPosition(0);
+            }
         }
-        if (rightLimitSwitch.isPressed() && rightLiftEncoder.getPosition() != 0) {
+        if (rightLimitSwitch.isPressed()) {
+            if (rightLimitSwitchBeenPressed == false) {
+                rightLimitSwitchBeenPressed = true;
+            }
+            if (rightLiftEncoder.getPosition() != 0) {
+            }
             rightLiftEncoder.setPosition(0);
         }
     }

@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -30,6 +32,7 @@ public abstract class Auton extends SequentialCommandGroup {
         if (alliance.isPresent()) {
             this.alliance = alliance.get();
         }
+        this.addCommands(new WaitCommand(AutonSelector.getInstance().chooseDelay()));
     }
 
     protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {

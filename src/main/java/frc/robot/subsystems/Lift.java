@@ -142,8 +142,8 @@ public final class Lift extends SubsystemBase {
     }
 
     public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension
-                && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
+        return rightLiftEncoder.getPosition() >= LiftConstants.maxExtension
+                && leftLiftEncoder.getPosition() >= LiftConstants.maxExtension;
     }
 
     public boolean isRightLiftUp() {

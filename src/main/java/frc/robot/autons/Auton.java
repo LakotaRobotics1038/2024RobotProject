@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -62,7 +61,9 @@ public abstract class Auton extends SequentialCommandGroup {
                                                      // ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0), // Translation
+                                                                                                         // PID
+                                                                                                         // constants
                         new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
                         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
                         DriveConstants.kBaseRadius, // Drive base radius in meters. Distance from robot center to

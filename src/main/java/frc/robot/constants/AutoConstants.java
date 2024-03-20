@@ -7,8 +7,8 @@ public final class AutoConstants {
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
-    public static final double kPXController = 0.7;
-    public static final double kIXController = 0.05;
+    public static final double kPXController = 1.0;
+    public static final double kIXController = 0.35;
     public static final double kPThetaController = 2.5;
 
     // Constraint for the motion profiled robot angle controller

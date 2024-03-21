@@ -24,6 +24,7 @@ public class Dashboard extends SubsystemBase {
     private DriveTrain driveTrain = DriveTrain.getInstance();
     private Scoring scoring = Scoring.getInstance();
     private Vision vision = Vision.getInstance();
+    private Lift lift = Lift.getInstance();
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
@@ -32,6 +33,7 @@ public class Dashboard extends SubsystemBase {
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private final ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
+    private final ShuffleboardTab tempTab = Shuffleboard.getTab("Temp");
     private final NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
 
     // Variables
@@ -100,6 +102,11 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 1)
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
+
+        tempTab.add("Vert", lift.getVerticalController())
+                .withPosition(0, 0);
+        tempTab.add("Err", lift.getErrorController())
+                .withPosition(1, 0);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
 import frc.robot.commands.LiftDownCommand;
+import frc.robot.commands.LiftDownManualCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -94,8 +95,7 @@ public class DriverJoystick extends XboxController1038 {
         rightBumper.whileTrue(new LiftUpCommand());
         rightTrigger.whileTrue(new LiftDownCommand());
 
-        leftBumper.and(rightBumper).whileTrue(new LiftUpCommand());
-        leftTrigger.and(rightTrigger).whileTrue(new LiftDownCommand());
+        leftTrigger.whileTrue(new LiftDownManualCommand());
     }
 
     /**

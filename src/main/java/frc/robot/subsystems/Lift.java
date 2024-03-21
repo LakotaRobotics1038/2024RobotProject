@@ -75,6 +75,9 @@ public final class Lift extends SubsystemBase {
         leftLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
         rightLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
 
+        leftLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
+        rightLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
+
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();
 
@@ -126,7 +129,7 @@ public final class Lift extends SubsystemBase {
     private void runLeft(double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && this.leftRatchetUnlocked()) {
-            if (!(leftLiftEncoder.getPosition() < LiftConstants.maxExtension)) {
+            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
                 leftLiftMotor.set(LiftConstants.maxExtension);
             } else {
                 leftLiftMotor.stopMotor();
@@ -144,7 +147,7 @@ public final class Lift extends SubsystemBase {
     private void runRight(double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && this.rightRatchetUnlocked()) {
-            if ((!(rightLiftEncoder.getPosition() < LiftConstants.maxExtension))) {
+            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
                 rightLiftMotor.set(speed);
             } else {
                 rightLiftMotor.stopMotor();
@@ -200,6 +203,7 @@ public final class Lift extends SubsystemBase {
 
             double left = pitch > 0 ? power + clampedError : power;
             double right = pitch < 0 ? power - clampedError : power;
+
             runLeft(left);
             runRight(right);
         }
@@ -273,8 +277,8 @@ public final class Lift extends SubsystemBase {
      * @return whether lift is up or not
      */
     public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension
-                && leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
+        return rightLiftEncoder.getPosition() >= LiftConstants.maxExtension
+                && leftLiftEncoder.getPosition() >= LiftConstants.maxExtension;
     }
 
     /**

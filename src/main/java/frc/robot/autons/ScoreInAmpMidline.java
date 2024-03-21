@@ -14,11 +14,11 @@ import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
-public class ScoreInAmp extends Auton {
+public class ScoreInAmpMidline extends Auton {
 
     private Acquisition acquisition = Acquisition.getInstance();
 
-    public ScoreInAmp(Optional<Alliance> alliance) {
+    public ScoreInAmpMidline(Optional<Alliance> alliance) {
         super(alliance);
 
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
@@ -31,9 +31,9 @@ public class ScoreInAmp extends Auton {
                 new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
                 new ParallelCommandGroup(
-                        followPathCommand(Paths.pathFromAmpToNote1)
+                        followPathCommand(Paths.pathFromAmpToMidlineAcquire)
                                 .until(acquisition::isNotePresent)
-                                .andThen(followPathCommand(Paths.pathFromNote1ToAmp)),
+                                .andThen(followPathCommand(Paths.pathFromMidlineNoteToAmp)),
                         // new FullAcquireCommand()),
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),

@@ -3,66 +3,66 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.8,
-        "y": 7.7
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 1.943718987153074,
-        "y": 7.636282850913281
-      },
-      "isLocked": false,
-      "linkedName": "amp"
-    },
-    {
-      "anchor": {
-        "x": 3.884948624598104,
-        "y": 7.7
-      },
-      "prevControl": {
-        "x": 2.259461157098953,
-        "y": 7.735082463327321
-      },
-      "nextControl": {
-        "x": 5.507683848251913,
-        "y": 7.664976937618982
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.5629099919168485,
-        "y": 7.425966607658406
-      },
-      "prevControl": {
-        "x": 5.9262634242459375,
-        "y": 7.414771486716537
-      },
-      "nextControl": {
-        "x": 7.217782640693486,
-        "y": 7.437482225391801
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 8.531366477491225,
         "y": 7.425966607658406
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 8.6750854646443,
+        "y": 7.362249458571687
+      },
+      "isLocked": false,
+      "linkedName": "MidAcquireTopNote"
+    },
+    {
+      "anchor": {
+        "x": 6.56,
+        "y": 7.43
+      },
       "prevControl": {
-        "x": 7.896043598355003,
-        "y": 7.636282850913281
+        "x": 7.609881943207992,
+        "y": 7.54457361622522
+      },
+      "nextControl": {
+        "x": 4.914034215532818,
+        "y": 7.2503757543127625
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.8615603157132234,
+        "y": 7.7
+      },
+      "prevControl": {
+        "x": 4.334083055633112,
+        "y": 7.710695496296073
+      },
+      "nextControl": {
+        "x": 3.113134431397068,
+        "y": 7.68305946868304
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.8,
+        "y": 7.7
+      },
+      "prevControl": {
+        "x": 2.3647085470809115,
+        "y": 7.659671159798161
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MidAcquireTopNote"
+      "linkedName": "amp"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 2,
       "rotationDegrees": -90.0,
       "rotateFast": false
     }
@@ -77,13 +77,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -90.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -90.0,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -12,6 +12,7 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         AmpAuto,
+        AmpAutoMidline,
         AmpAutoAcquire,
         TaxiPos1,
         TaxiPos2,
@@ -38,6 +39,7 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Score 2 In Amp Position 1", AutonChoices.AmpAuto);
+        this.autoChooser.addOption("Score 2 in amp from midline Pos 1", AutonChoices.AmpAutoMidline);
         this.autoChooser.addOption("Score 2 in amp and acquire Pos 1", AutonChoices.AmpAutoAcquire);
         this.autoChooser.addOption("Taxi Position 1", AutonChoices.TaxiPos1);
         this.autoChooser.addOption("Taxi Position 2", AutonChoices.TaxiPos2);
@@ -67,6 +69,8 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case AmpAuto:
                 return new ScoreInAmp(alliance);
+            case AmpAutoMidline:
+                return new ScoreInAmpMidline(alliance);
             case AmpAutoAcquire:
                 return new ScoreInAmpAcquire(alliance);
             case TaxiPos1:

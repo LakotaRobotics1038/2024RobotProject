@@ -13,6 +13,7 @@ public class Paths {
     public static PathPlannerPath pathFromAmpToMidline = PathPlannerPath.fromPathFile("From amp to midline");
     public static PathPlannerPath pathFromAmpToMidlineAcquire = PathPlannerPath
             .fromPathFile("From amp to midline acquire");
+    public static PathPlannerPath pathFromMidlineNoteToAmp = PathPlannerPath.fromPathFile("From midline note to amp");
 
     public static PathPlannerPath taxiPath1 = PathPlannerPath.fromPathFile("Taxi Position 1");
     public static PathPlannerPath taxiPath2 = PathPlannerPath.fromPathFile("Taxi Position 2");

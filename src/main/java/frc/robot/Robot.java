@@ -73,8 +73,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         new SequentialCommandGroup(
-                new LiftDownCommand(),
-                new LiftUpCommand()).schedule();
+        new LiftDownCommand(),
+        new LiftUpCommand()).schedule();
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {

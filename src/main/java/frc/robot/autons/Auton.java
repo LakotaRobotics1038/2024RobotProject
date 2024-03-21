@@ -64,7 +64,9 @@ public abstract class Auton extends SequentialCommandGroup {
                         new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0), // Translation
                                                                                                          // PID
                                                                                                          // constants
-                        new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(AutoConstants.kPThetaController, AutoConstants.kIThetaController, 0.0), // Rotation
+                                                                                                                 // PID
+                                                                                                                 // constants
                         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
                         DriveConstants.kBaseRadius, // Drive base radius in meters. Distance from robot center to
                                                     // furthest module.

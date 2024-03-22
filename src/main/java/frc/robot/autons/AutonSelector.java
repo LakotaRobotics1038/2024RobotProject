@@ -14,6 +14,7 @@ public class AutonSelector {
         AmpAuto,
         AmpAutoMidline,
         AmpAutoAcquire,
+        AmpAutoTrap,
         TaxiPos1,
         TaxiPos2,
         TaxiPos3;
@@ -41,6 +42,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Score 2 In Amp Position 1", AutonChoices.AmpAuto);
         this.autoChooser.addOption("Score 2 in amp from midline Pos 1", AutonChoices.AmpAutoMidline);
         this.autoChooser.addOption("Score 2 in amp and acquire Pos 1", AutonChoices.AmpAutoAcquire);
+        this.autoChooser.addOption("Score 1 in amp trap pos 1", AutonChoices.AmpAutoTrap);
         this.autoChooser.addOption("Taxi Position 1", AutonChoices.TaxiPos1);
         this.autoChooser.addOption("Taxi Position 2", AutonChoices.TaxiPos2);
         this.autoChooser.addOption("Taxi Position 3", AutonChoices.TaxiPos3);
@@ -73,6 +75,8 @@ public class AutonSelector {
                 return new ScoreInAmpMidline(alliance);
             case AmpAutoAcquire:
                 return new ScoreInAmpAcquire(alliance);
+            case AmpAutoTrap:
+                return new ScoreInAmpTrap(alliance);
             case TaxiPos1:
                 return new TaxiPos1(alliance);
             case TaxiPos2:

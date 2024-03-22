@@ -38,6 +38,6 @@ public class ScoreInAmpMidline extends Auton {
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 3),
-                followPathCommand(Paths.pathFromAmpToMidline));
+                followPathCommand(Paths.pathFromAmpToMidlineAcquire));
     }
 }

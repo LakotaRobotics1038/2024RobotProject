@@ -11,6 +11,7 @@ import frc.robot.commands.ReverseStorageCommand;
 import frc.robot.commands.UnacquireCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.commands.ScoringElevatorPositionCommand;
+import frc.robot.commands.TrapSequenceCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.subsystems.ScoringElevator;
 import frc.robot.subsystems.Storage;

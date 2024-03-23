@@ -24,7 +24,7 @@ public class LiftUpCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return !lift.isLiftUp();
+        return lift.isLiftUp();
     }
 
     @Override

@@ -8,10 +8,8 @@ import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.commands.LiftDownCommand;
@@ -73,8 +71,8 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         new SequentialCommandGroup(
-        new LiftDownCommand(),
-        new LiftUpCommand()).schedule();
+                new LiftDownCommand(),
+                new LiftUpCommand()).schedule();
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {

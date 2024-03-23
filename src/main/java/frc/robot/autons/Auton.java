@@ -34,8 +34,8 @@ public abstract class Auton extends SequentialCommandGroup {
         this.addCommands(new WaitCommand(AutonSelector.getInstance().chooseDelay()));
     }
 
-    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
-        this.initialPose = initialTrajectory.getInitialTargetHolonomicPose();
+    private void setInitialPose(Pose2d initialPose) {
+        this.initialPose = initialPose;
 
         // We need to invert the starting pose for the red alliance.
         if (alliance == Alliance.Red) {
@@ -46,6 +46,15 @@ public abstract class Auton extends SequentialCommandGroup {
 
             this.initialPose = new Pose2d(transformedTranslation, transformedHeading);
         }
+    }
+
+    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
+        this.setInitialPose(initialTrajectory.getInitialTargetHolonomicPose());
+    }
+
+    protected void setInitialPose(PathPlannerTrajectory initialTrajectory, Rotation2d rotationOffset) {
+        Pose2d initialPose = initialTrajectory.getInitialTargetHolonomicPose();
+        this.setInitialPose(new Pose2d(initialPose.getTranslation(), initialPose.getRotation().plus(rotationOffset)));
     }
 
     public Pose2d getInitialPose() {

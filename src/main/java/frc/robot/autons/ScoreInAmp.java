@@ -3,7 +3,8 @@ package frc.robot.autons;
 import java.util.Optional;
 
 import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Dashboard;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AcquisitionRunCommand;
@@ -20,9 +21,8 @@ public class ScoreInAmp extends Auton {
     public ScoreInAmp(Optional<Alliance> alliance) {
         super(alliance);
 
-        Dashboard.getInstance().setTrajectory(Trajectories.getFromPosition1ToAmpTrajectory());
-        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
-        // try .concatenate a return and final trajectory later
+        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
+                new Rotation2d(Units.degreesToRadians(90)));
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),

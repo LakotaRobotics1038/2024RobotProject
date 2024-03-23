@@ -2,16 +2,23 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.LiftConstants;
 import frc.robot.constants.NeoMotorConstants;
 
 public final class Lift extends SubsystemBase {
+    private DriveTrain driveTrain = DriveTrain.getInstance();
+
     private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
     private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
     private RelativeEncoder leftLiftEncoder = leftLiftMotor.getEncoder();
@@ -22,6 +29,21 @@ public final class Lift extends SubsystemBase {
 
     private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
+
+    private PIDController verticalControllerLeft = new PIDController(
+            LiftConstants.kVerticalLeftUpP,
+            LiftConstants.kVerticalLeftUpI,
+            LiftConstants.kVerticalLeftUpD);
+    private PIDController verticalControllerRight = new PIDController(
+            LiftConstants.kVerticalRightUpP,
+            LiftConstants.kVerticalRightUpI,
+            LiftConstants.kVerticalRightUpD);
+    private PIDController errorController = new PIDController(
+            LiftConstants.kErrorP,
+            LiftConstants.kErrorI,
+            LiftConstants.kErrorD);
+
+    private boolean enabled;
 
     private static Lift instance;
 
@@ -60,35 +82,34 @@ public final class Lift extends SubsystemBase {
         leftLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
         rightLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
 
+        leftLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
+        rightLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
+
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();
+
+        verticalControllerLeft.disableContinuousInput();
+        verticalControllerLeft.setTolerance(LiftConstants.tolerance);
+        verticalControllerRight.disableContinuousInput();
+        verticalControllerRight.setTolerance(LiftConstants.tolerance);
+
+        errorController.disableContinuousInput();
+        errorController.setSetpoint(0);
     }
 
     /**
-     * Enables the left lift ratchet (sets them to a constant maximum extension).
+     * Enables the lift ratchets (sets them to a constant maximum extension).
      */
-    public void enableLeftRatchet() {
+    public void enableRatchets() {
         leftRatchetServo.set(LiftConstants.leftRatchetLockPos);
-    }
-
-    /**
-     * Enables the right lift ratchet (sets them to a constant maximum extension).
-     */
-    public void enableRightRatchet() {
         rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
     }
 
     /**
-     * Disables the left lift ratchet (sets them to a constant minimum extension).
+     * Disables the lift ratchets (sets them to a constant minimum extension).
      */
-    public void disableLeftRatchet() {
+    public void disableRatchets() {
         leftRatchetServo.set(LiftConstants.leftRatchetUnlockPos);
-    }
-
-    /**
-     * Disables the right lift ratchet (sets them to a constant minimum extension).
-     */
-    public void disableRightRatchet() {
         rightRatchetServo.set(LiftConstants.rightRatchetUnlockPos);
     }
 
@@ -110,75 +131,47 @@ public final class Lift extends SubsystemBase {
         return rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos;
     }
 
+    private void run(CANSparkMax motor, RelativeEncoder encoder, BooleanSupplier ratchetUnlocked, double speed) {
+        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
+        if (speed > 0 && ratchetUnlocked.getAsBoolean()) {
+            if (encoder.getPosition() < LiftConstants.maxExtension) {
+                motor.set(LiftConstants.maxExtension);
+            } else {
+                motor.stopMotor();
+            }
+        } else if (speed < 0) {
+            motor.set(speed);
+        } else {
+            motor.stopMotor();
+        }
+    }
+
     /**
      * Runs the left lift motor up at a constant speed.
      */
-    public void runLeftUp() {
-        if (this.leftRatchetUnlocked()) {
-            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
-                leftLiftMotor.set(LiftConstants.motorSpeed);
-            } else {
-                leftLiftMotor.stopMotor();
-            }
-        } else {
-            leftLiftMotor.stopMotor();
-        }
+    private void runLeft(double speed) {
+        this.run(leftLiftMotor, leftLiftEncoder, this::leftRatchetUnlocked, speed);
     }
 
     /**
      * Runs the right lift motor up at a constant speed.
      */
-    public void runRightUp() {
-        if (this.rightRatchetUnlocked()) {
-            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
-                rightLiftMotor.set(LiftConstants.motorSpeed);
-            } else {
-                rightLiftMotor.stopMotor();
-            }
-        } else {
-            rightLiftMotor.stopMotor();
-        }
-    }
-
-    public boolean isLiftUp() {
-        return rightLiftEncoder.getPosition() >= LiftConstants.maxExtension
-                && leftLiftEncoder.getPosition() >= LiftConstants.maxExtension;
-    }
-
-    public boolean isRightLiftUp() {
-        return rightLiftEncoder.getPosition() < LiftConstants.maxExtension;
-    }
-
-    public boolean isLeftLiftUp() {
-        return leftLiftEncoder.getPosition() < LiftConstants.maxExtension;
+    private void runRight(double speed) {
+        this.run(rightLiftMotor, rightLiftEncoder, this::rightRatchetUnlocked, speed);
     }
 
     /**
      * Runs the left lift motor down at a constant speed.
      */
     public void runLeftDown() {
-        leftLiftMotor.set(LiftConstants.backwardsMotorSpeed);
+        leftLiftMotor.set(LiftConstants.downSpeed);
     }
 
     /**
      * Runs the right lift motor down at a constant speed.
      */
     public void runRightDown() {
-        rightLiftMotor.set(LiftConstants.backwardsMotorSpeed);
-    }
-
-    /**
-     * Stops left lift motor.
-     */
-    public void stopLeftMotor() {
-        leftLiftMotor.stopMotor();
-    }
-
-    /**
-     * Stops right lift motor.
-     */
-    public void stopRightMotor() {
-        rightLiftMotor.stopMotor();
+        rightLiftMotor.set(LiftConstants.downSpeed);
     }
 
     /**
@@ -201,11 +194,184 @@ public final class Lift extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (enabled) {
+            double leftOutput = verticalControllerLeft.calculate(getLeftPosition());
+            double rightOutput = verticalControllerRight.calculate(getRightPosition());
+            double roll = driveTrain.getRoll();
+            double error = errorController.calculate(roll);
+
+            double leftPower = MathUtil.clamp(leftOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
+            double rightPower = MathUtil.clamp(rightOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
+            double clampedError = MathUtil.clamp(error, LiftConstants.downSpeed, LiftConstants.upSpeed);
+
+            double left = roll < 0 ? leftPower + clampedError : leftPower;
+            double right = roll > 0 ? rightPower - clampedError : rightPower;
+
+            runLeft(left);
+            runRight(right);
+        }
         if (leftLimitSwitch.isPressed() && leftLiftEncoder.getPosition() != 0) {
             leftLiftEncoder.setPosition(0);
         }
         if (rightLimitSwitch.isPressed() && rightLiftEncoder.getPosition() != 0) {
             rightLiftEncoder.setPosition(0);
         }
+
+    }
+
+    /**
+     * Returns the Left vertical PIDController.
+     *
+     * @return The Left vertical controller.
+     */
+    public PIDController getLeftVerticalController() {
+        return verticalControllerLeft;
+    }
+
+    /**
+     * Returns the RIght vertical PIDController.
+     *
+     * @return The Right vertical controller.
+     */
+    public PIDController getRightVerticalController() {
+        return verticalControllerRight;
+    }
+
+    /**
+     * Returns the Right PIDController.
+     *
+     * @return The right controller.
+     */
+    public PIDController getErrorController() {
+        return errorController;
+    }
+
+    /**
+     * Sets the Left Lift PID setpoint to one of the constant setpoints.
+     *
+     * @param Double - desired setpoint
+     */
+    public void setSetpointLeft(double setpoint) {
+        verticalControllerLeft
+                .setSetpoint(MathUtil.clamp(setpoint, LiftConstants.minExtension, LiftConstants.maxExtension));
+    }
+
+    /**
+     * Sets the Right Lift PID setpoint to one of the constant setpoints.
+     *
+     * @param Double - desired setpoint
+     */
+    public void setSetpointRight(double setpoint) {
+        verticalControllerRight
+                .setSetpoint(MathUtil.clamp(setpoint, LiftConstants.minExtension, LiftConstants.maxExtension));
+    }
+
+    /**
+     * Returns the current setpoint of the subsystem.
+     *
+     * @return The current setpoint of the Left Lift
+     */
+    public double getLeftSetpoint() {
+        return verticalControllerLeft.getSetpoint();
+    }
+
+    /**
+     * Returns the current setpoint of the subsystem.
+     *
+     * @return The current setpoint of the Right Lift
+     */
+    public double getRightSetpoint() {
+        return verticalControllerRight.getSetpoint();
+    }
+
+    /**
+     * Returns the position of the left lift encoder.
+     *
+     * @return current encoder position
+     */
+    public double getLeftPosition() {
+        return leftLiftEncoder.getPosition();
+    }
+
+    /**
+     * Returns the position of the right lift encoder.
+     *
+     * @return double - current encoder position
+     */
+    public double getRightPosition() {
+        return rightLiftEncoder.getPosition();
+    }
+
+    /**
+     * Returns whether or not lift is up
+     *
+     * @return whether lift is up or not
+     */
+    public boolean isLiftUp() {
+        return rightLiftEncoder.getPosition() >= LiftConstants.maxExtension
+                && leftLiftEncoder.getPosition() >= LiftConstants.maxExtension;
+    }
+
+    /**
+     * Stops left lift motor.
+     */
+    public void stopLeftMotor() {
+        leftLiftMotor.stopMotor();
+    }
+
+    /**
+     * Stops right lift motor.
+     */
+    public void stopRightMotor() {
+        rightLiftMotor.stopMotor();
+    }
+
+    /**
+     * Stops left lift motor.
+     */
+    public void stopMotors() {
+        leftLiftMotor.stopMotor();
+        rightLiftMotor.stopMotor();
+    }
+
+    /** Enables the PID control. Resets the controller. */
+    public void enable() {
+        enabled = true;
+        verticalControllerLeft.reset();
+        verticalControllerRight.reset();
+        errorController.reset();
+    }
+
+    /** Disables the PID control. Sets output to zero. */
+    public void disable() {
+        enabled = false;
+        this.stopMotors();
+    }
+
+    /**
+     * Returns whether the controller is enabled.
+     *
+     * @return Whether the controller is enabled.
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Returns whether left lift is at setpoint.
+     *
+     * @return whether left lift is at setpoint
+     */
+    public boolean leftOnTarget() {
+        return getLeftVerticalController().atSetpoint();
+    }
+
+    /**
+     * Returns whether right lift is at setpoint.
+     *
+     * @return whether right lift is at setpoint
+     */
+    public boolean rightOnTarget() {
+        return getRightVerticalController().atSetpoint();
     }
 }

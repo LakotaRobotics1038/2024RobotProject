@@ -9,11 +9,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
-import frc.robot.commands.LeftLiftDownCommand;
-import frc.robot.commands.LeftLiftUpCommand;
 import frc.robot.commands.LiftDownCommand;
-import frc.robot.commands.RightLiftDownCommand;
-import frc.robot.commands.RightLiftUpCommand;
+import frc.robot.commands.LiftDownManualCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -95,14 +92,10 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(vision::enable0, vision))
                 .onFalse(new InstantCommand(vision::disable0, vision));
 
-        leftBumper.and(rightBumper.negate()).whileTrue(new LeftLiftUpCommand());
-        leftTrigger.and(rightTrigger.negate()).whileTrue(new LeftLiftDownCommand());
+        rightBumper.whileTrue(new LiftUpCommand());
+        rightTrigger.whileTrue(new LiftDownCommand());
 
-        rightBumper.and(leftBumper.negate()).whileTrue(new RightLiftUpCommand());
-        rightTrigger.and(leftTrigger.negate()).whileTrue(new RightLiftDownCommand());
-
-        leftBumper.and(rightBumper).whileTrue(new LiftUpCommand());
-        leftTrigger.and(rightTrigger).whileTrue(new LiftDownCommand());
+        leftTrigger.whileTrue(new LiftDownManualCommand());
     }
 
     /**

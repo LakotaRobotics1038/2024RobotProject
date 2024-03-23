@@ -230,4 +230,13 @@ public class DriveTrain extends SubsystemBase {
     public double getRoll() {
         return -gyro.getRoll().getValue();
     }
+
+    /**
+     * Returns the pitch value of the robot.
+     *
+     * @return the robot's pitch in degrees, from ? to ?
+     */
+    public double getPitch() {
+        return gyro.getPitch().getValue();
+    }
 }

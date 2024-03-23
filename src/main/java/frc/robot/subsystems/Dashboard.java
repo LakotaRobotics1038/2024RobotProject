@@ -10,7 +10,6 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -33,7 +32,6 @@ public class Dashboard extends SubsystemBase {
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private final ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
-    private final ShuffleboardTab graphTab = Shuffleboard.getTab("Graph");
     private final NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
 
     // Variables
@@ -102,11 +100,6 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 1)
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
-        BuiltInAccelerometer acc = new BuiltInAccelerometer();
-        graphTab.addDouble("acc", acc::getZ)
-                .withPosition(0, 0)
-                .withSize(2, 2)
-                .withWidget(BuiltInWidgets.kGraph);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);

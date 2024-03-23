@@ -33,7 +33,6 @@ public class Dashboard extends SubsystemBase {
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private final ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
-    private final ShuffleboardTab tempTab = Shuffleboard.getTab("Temp");
     private final NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
 
     // Variables
@@ -102,23 +101,6 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 1)
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
-
-        tempTab.add("Vert-Left", lift.getLeftVerticalController())
-                .withPosition(0, 0);
-        tempTab.add("Vert-Right", lift.getRightVerticalController())
-                .withPosition(1, 0);
-        tempTab.add("Err", lift.getErrorController())
-                .withPosition(2, 0);
-        tempTab.addNumber("Left Pos", lift::getLeftPosition)
-                .withPosition(0, 2);
-        tempTab.addNumber("Right Pos", lift::getRightPosition)
-                .withPosition(1, 2);
-        tempTab.addNumber("Pitch", driveTrain::getRoll)
-                .withPosition(2, 2);
-        tempTab.addBoolean("Left lim", lift::leftLowerLimitReached)
-                .withPosition(0, 3);
-        tempTab.addBoolean("Right lim", lift::rightLowerLimitReached)
-                .withPosition(1, 3);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);

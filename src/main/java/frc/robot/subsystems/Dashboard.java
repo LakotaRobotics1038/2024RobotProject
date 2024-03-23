@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.cscore.HttpCamera;
@@ -10,11 +9,9 @@ import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,7 +31,6 @@ public class Dashboard extends SubsystemBase {
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private final ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
-    private final ShuffleboardTab graphTab = Shuffleboard.getTab("Graph");
     private final NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
 
     // Variables
@@ -103,11 +99,6 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(2, 1)
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
-        BuiltInAccelerometer acc = new BuiltInAccelerometer();
-        graphTab.addDouble("acc", acc::getZ)
-                .withPosition(0, 0)
-                .withSize(2, 2)
-                .withWidget(BuiltInWidgets.kGraph);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);
@@ -156,15 +147,6 @@ public class Dashboard extends SubsystemBase {
         }
         field.setRobotPose(driveTrain.getPose());
         scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));
-    }
-
-    /**
-     * Puts the given {@link PathPlannerTrajectory} on the dashboard
-     *
-     * @param trajectory
-     */
-    public void setTrajectory(PathPlannerTrajectory trajectory) {
-        // this.field.getObject("traj").setTrajectory(trajectory);
     }
 
     /**

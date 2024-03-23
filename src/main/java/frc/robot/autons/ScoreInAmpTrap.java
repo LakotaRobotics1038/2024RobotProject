@@ -23,7 +23,6 @@ public class ScoreInAmpTrap extends Auton {
 
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
                 new Rotation2d(Units.degreesToRadians(90)));
-        // this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),
@@ -34,7 +33,6 @@ public class ScoreInAmpTrap extends Auton {
                         followPathCommand(Paths.pathFromAmpToMidlineNote2)
                                 .until(acquisition::isNotePresent)
                                 .andThen(followPathCommand(Paths.pathFromNote2ToTrap)),
-                        // new FullAcquireCommand()),
                         new AcquisitionRunCommand()));
     }
 }

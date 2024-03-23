@@ -23,7 +23,6 @@ public class ScoreInAmp extends Auton {
 
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
                 new Rotation2d(Units.degreesToRadians(90)));
-        // this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),

@@ -23,7 +23,6 @@ public class ScoreInAmpMidline extends Auton {
 
         this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
                 new Rotation2d(Units.degreesToRadians(90)));
-        // this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory());
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),
@@ -34,7 +33,6 @@ public class ScoreInAmpMidline extends Auton {
                         followPathCommand(Paths.pathFromAmpToMidlineAcquire)
                                 .until(acquisition::isNotePresent)
                                 .andThen(followPathCommand(Paths.pathFromMidlineNoteToAmp)),
-                        // new FullAcquireCommand()),
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 3),

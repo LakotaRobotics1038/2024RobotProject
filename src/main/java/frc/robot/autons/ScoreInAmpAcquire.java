@@ -30,7 +30,6 @@ public class ScoreInAmpAcquire extends Auton {
                         followPathCommand(Paths.pathFromAmpToNote1)
                                 .until(acquisition::isNotePresent)
                                 .andThen(followPathCommand(Paths.pathFromNote1ToAmp)),
-                        // new FullAcquireCommand()),
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 3),

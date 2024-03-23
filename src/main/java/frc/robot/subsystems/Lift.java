@@ -27,10 +27,14 @@ public final class Lift extends SubsystemBase {
     private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
 
-    private PIDController verticalController = new PIDController(
-            LiftConstants.kVerticalP,
-            LiftConstants.kVerticalI,
-            LiftConstants.kVerticalD);
+    private PIDController verticalControllerLeft = new PIDController(
+            LiftConstants.kVerticalLeftP,
+            LiftConstants.kVerticalLeftI,
+            LiftConstants.kVerticalLeftD);
+    private PIDController verticalControllerRight = new PIDController(
+            LiftConstants.kVerticalRightP,
+            LiftConstants.kVerticalRightI,
+            LiftConstants.kVerticalRightD);
     private PIDController errorController = new PIDController(
             LiftConstants.kErrorP,
             LiftConstants.kErrorI,
@@ -81,8 +85,10 @@ public final class Lift extends SubsystemBase {
         leftLiftMotor.burnFlash();
         rightLiftMotor.burnFlash();
 
-        verticalController.disableContinuousInput();
-        verticalController.setTolerance(LiftConstants.tolerance);
+        verticalControllerLeft.disableContinuousInput();
+        verticalControllerLeft.setTolerance(LiftConstants.tolerance);
+        verticalControllerRight.disableContinuousInput();
+        verticalControllerRight.setTolerance(LiftConstants.tolerance);
 
         errorController.disableContinuousInput();
         errorController.setTolerance(LiftConstants.tolerance);
@@ -194,15 +200,17 @@ public final class Lift extends SubsystemBase {
     @Override
     public void periodic() {
         if (enabled) {
-            double output = verticalController.calculate(getLeftPosition());
+            double leftOutput = verticalControllerLeft.calculate(getLeftPosition());
+            double rightOutput = verticalControllerRight.calculate(getRightPosition());
             double pitch = driveTrain.getPitch();
             double error = errorController.calculate(pitch);
 
-            double power = MathUtil.clamp(output, LiftConstants.downSpeed, LiftConstants.upSpeed);
+            double leftPower = MathUtil.clamp(leftOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
+            double rightPower = MathUtil.clamp(rightOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
             double clampedError = MathUtil.clamp(error, LiftConstants.downSpeed, LiftConstants.upSpeed);
 
-            double left = pitch > 0 ? power + clampedError : power;
-            double right = pitch < 0 ? power - clampedError : power;
+            double left = pitch > 0 ? leftPower + clampedError : leftPower;
+            double right = pitch < 0 ? rightPower - clampedError : rightPower;
 
             runLeft(left);
             runRight(right);
@@ -217,12 +225,21 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
-     * Returns the vertical PIDController.
+     * Returns the Left vertical PIDController.
      *
-     * @return The vertical controller.
+     * @return The Left vertical controller.
      */
-    public PIDController getVerticalController() {
-        return verticalController;
+    public PIDController getLeftVerticalController() {
+        return verticalControllerLeft;
+    }
+
+    /**
+     * Returns the RIght vertical PIDController.
+     *
+     * @return The Right vertical controller.
+     */
+    public PIDController getRightVerticalController() {
+        return verticalControllerRight;
     }
 
     /**
@@ -235,22 +252,41 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
-     * Sets the Scoring PID setpoint to one of the constant setpoints.
+     * Sets the Left Lift PID setpoint to one of the constant setpoints.
      *
-     * @param ElevatorSetpoints - desired setpoint
+     * @param Double - desired setpoint
      */
-    public void setSetpoint(double setpoint) {
-        verticalController
+    public void setSetpointLeft(double setpoint) {
+        verticalControllerLeft
+                .setSetpoint(MathUtil.clamp(setpoint, LiftConstants.minExtension, LiftConstants.maxExtension));
+    }
+
+    /**
+     * Sets the Right Lift PID setpoint to one of the constant setpoints.
+     *
+     * @param Double - desired setpoint
+     */
+    public void setSetpointRight(double setpoint) {
+        verticalControllerRight
                 .setSetpoint(MathUtil.clamp(setpoint, LiftConstants.minExtension, LiftConstants.maxExtension));
     }
 
     /**
      * Returns the current setpoint of the subsystem.
      *
-     * @return The current setpoint
+     * @return The current setpoint of the Left Lift
      */
-    public double getSetpoint() {
-        return verticalController.getSetpoint();
+    public double getLeftSetpoint() {
+        return verticalControllerLeft.getSetpoint();
+    }
+
+    /**
+     * Returns the current setpoint of the subsystem.
+     *
+     * @return The current setpoint of the Right Lift
+     */
+    public double getRightSetpoint() {
+        return verticalControllerRight.getSetpoint();
     }
 
     /**
@@ -306,7 +342,8 @@ public final class Lift extends SubsystemBase {
     /** Enables the PID control. Resets the controller. */
     public void enable() {
         enabled = true;
-        verticalController.reset();
+        verticalControllerLeft.reset();
+        verticalControllerRight.reset();
         errorController.reset();
     }
 
@@ -326,11 +363,20 @@ public final class Lift extends SubsystemBase {
     }
 
     /**
-     * Returns whether lift is at setpoint.
+     * Returns whether left lift is at setpoint.
      *
-     * @return whether lift is at setpoint
+     * @return whether left lift is at setpoint
      */
-    public boolean onTarget() {
-        return getVerticalController().atSetpoint();
+    public boolean leftOnTarget() {
+        return getLeftVerticalController().atSetpoint();
+    }
+
+    /**
+     * Returns whether right lift is at setpoint.
+     *
+     * @return whether right lift is at setpoint
+     */
+    public boolean rightOnTarget() {
+        return getRightVerticalController().atSetpoint();
     }
 }

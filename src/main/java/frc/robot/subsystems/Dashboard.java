@@ -103,10 +103,12 @@ public class Dashboard extends SubsystemBase {
                 .withSize(4, 3)
                 .withWidget(BuiltInWidgets.kField);
 
-        tempTab.add("Vert", lift.getVerticalController())
+        tempTab.add("Vert-Left", lift.getLeftVerticalController())
                 .withPosition(0, 0);
-        tempTab.add("Err", lift.getErrorController())
+        tempTab.add("Vert-Right", lift.getRightVerticalController())
                 .withPosition(1, 0);
+        tempTab.add("Err", lift.getErrorController())
+                .withPosition(2, 0);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);

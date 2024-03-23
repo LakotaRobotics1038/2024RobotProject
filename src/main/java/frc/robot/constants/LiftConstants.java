@@ -22,9 +22,13 @@ public class LiftConstants {
 
     public static final double maxPower = 1.0;
 
-    public static final double kVerticalP = 0.01;
-    public static final double kVerticalI = 0.0;
-    public static final double kVerticalD = 0.0;
+    public static final double kVerticalLeftP = 0.01;
+    public static final double kVerticalLeftI = 0.0;
+    public static final double kVerticalLeftD = 0.0;
+
+    public static final double kVerticalRightP = 0.01;
+    public static final double kVerticalRightI = 0.0;
+    public static final double kVerticalRightD = 0.0;
 
     public static final double kErrorP = 0.01;
     public static final double kErrorI = 0.0;

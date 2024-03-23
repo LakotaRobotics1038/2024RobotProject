@@ -19,7 +19,8 @@ public class LiftUpCommand extends Command {
 
     @Override
     public void execute() {
-        lift.setSetpoint(LiftConstants.maxLiftInches);
+        lift.setSetpointLeft(LiftConstants.maxLiftInches);
+        lift.setSetpointRight(LiftConstants.maxLiftInches);
     }
 
     @Override

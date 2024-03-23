@@ -18,7 +18,8 @@ public class LiftDownCommand extends Command {
 
     @Override
     public void execute() {
-        lift.setSetpoint(LiftConstants.minLiftInches);
+        lift.setSetpointLeft(LiftConstants.minLiftInches);
+        lift.setSetpointRight(LiftConstants.minLiftInches);
     }
 
     @Override

@@ -109,6 +109,16 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(1, 0);
         tempTab.add("Err", lift.getErrorController())
                 .withPosition(2, 0);
+        tempTab.addNumber("Left Pos", lift::getLeftPosition)
+                .withPosition(0, 2);
+        tempTab.addNumber("Right Pos", lift::getRightPosition)
+                .withPosition(1, 2);
+        tempTab.addNumber("Pitch", driveTrain::getRoll)
+                .withPosition(2, 2);
+        tempTab.addBoolean("Left lim", lift::leftLowerLimitReached)
+                .withPosition(0, 3);
+        tempTab.addBoolean("Right lim", lift::rightLowerLimitReached)
+                .withPosition(1, 3);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
             field.getObject("target pose").setPose(pose);

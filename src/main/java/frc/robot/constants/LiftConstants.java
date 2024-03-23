@@ -22,18 +22,22 @@ public class LiftConstants {
 
     public static final double maxPower = 1.0;
 
-    public static final double kVerticalLeftP = 0.01;
-    public static final double kVerticalLeftI = 0.0;
-    public static final double kVerticalLeftD = 0.0;
+    public static final double kVerticalDownP = 0.06;
+    public static final double kVerticalDownI = 0.015;
+    public static final double kVerticalDownD = 0.0;
 
-    public static final double kVerticalRightP = 0.01;
-    public static final double kVerticalRightI = 0.0;
-    public static final double kVerticalRightD = 0.0;
+    public static final double kVerticalLeftUpP = 0.001;
+    public static final double kVerticalLeftUpI = 0.0;
+    public static final double kVerticalLeftUpD = 0.0;
 
-    public static final double kErrorP = 0.01;
+    public static final double kVerticalRightUpP = 0.0028;
+    public static final double kVerticalRightUpI = 0.0;
+    public static final double kVerticalRightUpD = 0.0;
+
+    public static final double kErrorP = 0.001;
     public static final double kErrorI = 0.0;
     public static final double kErrorD = 0.0;
 
-    public static final double tolerance = 1.0;
+    public static final double tolerance = 0;
     public static final double encoderConversion = 1 / (maxExtension / maxLiftInches);
 }

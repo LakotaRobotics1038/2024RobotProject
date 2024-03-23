@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
@@ -28,13 +31,13 @@ public final class Lift extends SubsystemBase {
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
 
     private PIDController verticalControllerLeft = new PIDController(
-            LiftConstants.kVerticalLeftP,
-            LiftConstants.kVerticalLeftI,
-            LiftConstants.kVerticalLeftD);
+            LiftConstants.kVerticalLeftUpP,
+            LiftConstants.kVerticalLeftUpI,
+            LiftConstants.kVerticalLeftUpD);
     private PIDController verticalControllerRight = new PIDController(
-            LiftConstants.kVerticalRightP,
-            LiftConstants.kVerticalRightI,
-            LiftConstants.kVerticalRightD);
+            LiftConstants.kVerticalRightUpP,
+            LiftConstants.kVerticalRightUpI,
+            LiftConstants.kVerticalRightUpD);
     private PIDController errorController = new PIDController(
             LiftConstants.kErrorP,
             LiftConstants.kErrorI,
@@ -91,7 +94,6 @@ public final class Lift extends SubsystemBase {
         verticalControllerRight.setTolerance(LiftConstants.tolerance);
 
         errorController.disableContinuousInput();
-        errorController.setTolerance(LiftConstants.tolerance);
         errorController.setSetpoint(0);
     }
 
@@ -129,40 +131,33 @@ public final class Lift extends SubsystemBase {
         return rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos;
     }
 
+    private void run(CANSparkMax motor, RelativeEncoder encoder, BooleanSupplier ratchetUnlocked, double speed) {
+        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
+        if (speed > 0 && ratchetUnlocked.getAsBoolean()) {
+            if (encoder.getPosition() < LiftConstants.maxExtension) {
+                motor.set(LiftConstants.maxExtension);
+            } else {
+                motor.stopMotor();
+            }
+        } else if (speed < 0) {
+            motor.set(speed);
+        } else {
+            motor.stopMotor();
+        }
+    }
+
     /**
      * Runs the left lift motor up at a constant speed.
      */
     private void runLeft(double speed) {
-        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
-        if (speed > 0 && this.leftRatchetUnlocked()) {
-            if (leftLiftEncoder.getPosition() < LiftConstants.maxExtension) {
-                leftLiftMotor.set(LiftConstants.maxExtension);
-            } else {
-                leftLiftMotor.stopMotor();
-            }
-        } else if (speed < 0) {
-            leftLiftMotor.set(speed);
-        } else {
-            leftLiftMotor.stopMotor();
-        }
+        this.run(leftLiftMotor, leftLiftEncoder, this::leftRatchetUnlocked, speed);
     }
 
     /**
      * Runs the right lift motor up at a constant speed.
      */
     private void runRight(double speed) {
-        speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
-        if (speed > 0 && this.rightRatchetUnlocked()) {
-            if (rightLiftEncoder.getPosition() < LiftConstants.maxExtension) {
-                rightLiftMotor.set(speed);
-            } else {
-                rightLiftMotor.stopMotor();
-            }
-        } else if (speed < 0) {
-            rightLiftMotor.set(speed);
-        } else {
-            rightLiftMotor.stopMotor();
-        }
+        this.run(rightLiftMotor, rightLiftEncoder, this::rightRatchetUnlocked, speed);
     }
 
     /**
@@ -202,15 +197,15 @@ public final class Lift extends SubsystemBase {
         if (enabled) {
             double leftOutput = verticalControllerLeft.calculate(getLeftPosition());
             double rightOutput = verticalControllerRight.calculate(getRightPosition());
-            double pitch = driveTrain.getPitch();
-            double error = errorController.calculate(pitch);
+            double roll = driveTrain.getRoll();
+            double error = errorController.calculate(roll);
 
             double leftPower = MathUtil.clamp(leftOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
             double rightPower = MathUtil.clamp(rightOutput, LiftConstants.downSpeed, LiftConstants.upSpeed);
             double clampedError = MathUtil.clamp(error, LiftConstants.downSpeed, LiftConstants.upSpeed);
 
-            double left = pitch > 0 ? leftPower + clampedError : leftPower;
-            double right = pitch < 0 ? rightPower - clampedError : rightPower;
+            double left = roll < 0 ? leftPower + clampedError : leftPower;
+            double right = roll > 0 ? rightPower - clampedError : rightPower;
 
             runLeft(left);
             runRight(right);

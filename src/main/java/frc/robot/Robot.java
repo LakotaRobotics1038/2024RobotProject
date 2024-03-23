@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
                 new LiftDownManualCommand(),
                 new LiftUpCommand())
                 .schedule();
+
         driveTrain.zeroHeading();
         autonomousCommand = autonSelector.chooseAuton();
         // if (DriverStation.isFMSAttached()) {

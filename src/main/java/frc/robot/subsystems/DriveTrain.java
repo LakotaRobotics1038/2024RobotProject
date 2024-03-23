@@ -4,11 +4,6 @@
 
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -20,10 +15,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.libraries.MAXSwerveModule;
 
@@ -236,5 +229,14 @@ public class DriveTrain extends SubsystemBase {
      */
     public double getRoll() {
         return -gyro.getRoll().getValue();
+    }
+
+    /**
+     * Returns the pitch value of the robot.
+     *
+     * @return the robot's pitch in degrees, from ? to ?
+     */
+    public double getPitch() {
+        return gyro.getPitch().getValue();
     }
 }

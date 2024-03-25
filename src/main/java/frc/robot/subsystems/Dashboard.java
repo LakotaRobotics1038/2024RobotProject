@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.cscore.HttpCamera;
@@ -27,6 +26,7 @@ public class Dashboard extends SubsystemBase {
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
+    private SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
@@ -77,6 +77,10 @@ public class Dashboard extends SubsystemBase {
 
         driversTab.add("Auton Choices", autoChooser)
                 .withPosition(0, 0)
+                .withSize(2, 1);
+
+        driversTab.add("Delay Choices", delayChooser)
+                .withPosition(0, 1)
                 .withSize(2, 1);
 
         driversTab.addNumber("Gyro", () -> {
@@ -146,15 +150,6 @@ public class Dashboard extends SubsystemBase {
     }
 
     /**
-     * Puts the given {@link PathPlannerTrajectory} on the dashboard
-     *
-     * @param trajectory
-     */
-    public void setTrajectory(PathPlannerTrajectory trajectory) {
-        // this.field.getObject("traj").setTrajectory(trajectory);
-    }
-
-    /**
      * Puts the given {@link Trajectory} on the dashboard
      *
      * @param trajectory
@@ -177,5 +172,9 @@ public class Dashboard extends SubsystemBase {
      */
     public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
+    }
+
+    public SendableChooser<Double> getDelayChooser() {
+        return delayChooser;
     }
 }

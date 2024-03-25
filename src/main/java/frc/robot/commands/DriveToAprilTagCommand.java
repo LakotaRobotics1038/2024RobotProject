@@ -40,7 +40,7 @@ public class DriveToAprilTagCommand extends Command {
     public void execute() {
         double y = joystick.getLeftY();
 
-        double forward = DriverJoystick.limitRate(y, prevY, forwardFilter);
+        double forward = DriverJoystick.getInstance().limitRate(y, prevY, forwardFilter);
         double sideways = sidewaysController.calculate(vision.getY(aprilVisionTarget));
         double rotate = rotateController.calculate(vision.getAngle(aprilVisionTarget));
 

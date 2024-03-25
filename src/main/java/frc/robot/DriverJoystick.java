@@ -5,18 +5,12 @@ import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.commands.DriveToAprilTagCommand;
-import frc.robot.commands.DriveToNoteCommand;
-import frc.robot.commands.LeftLiftDownCommand;
-import frc.robot.commands.LeftLiftUpCommand;
-import frc.robot.commands.LiftDownCommand;
 import frc.robot.commands.LiftUpCommand;
-import frc.robot.commands.RightLiftDownCommand;
-import frc.robot.commands.RightLiftUpCommand;
+import frc.robot.commands.LiftDownCommand;
+import frc.robot.commands.LiftDownManualCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -93,20 +87,15 @@ public class DriverJoystick extends XboxController1038 {
         // Lock the wheels into an X formation
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
-        // Lock rotation on a note
-        super.aButton.whileTrue(new DriveToNoteCommand(this));
+        // Enables Vision thing
+        super.aButton
+                .onTrue(new InstantCommand(vision::enable0, vision))
+                .onFalse(new InstantCommand(vision::disable0, vision));
 
-        // Lock rotation and left/right on an april tag
-        super.bButton.whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
+        rightBumper.whileTrue(new LiftUpCommand());
+        rightTrigger.whileTrue(new LiftDownCommand());
 
-        leftBumper.and(rightBumper.negate()).whileTrue(new LeftLiftUpCommand());
-        leftTrigger.and(rightTrigger.negate()).whileTrue(new LeftLiftDownCommand());
-
-        rightBumper.and(leftBumper.negate()).whileTrue(new RightLiftUpCommand());
-        rightTrigger.and(leftTrigger.negate()).whileTrue(new RightLiftDownCommand());
-
-        leftBumper.and(rightBumper).whileTrue(new LiftUpCommand());
-        leftTrigger.and(rightTrigger).whileTrue(new LiftDownCommand());
+        leftTrigger.whileTrue(new LiftDownManualCommand());
     }
 
     /**
@@ -117,7 +106,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return desired value rate limited and adjusted for sign changes using
      *         {@link #signChange Sign Change Function}
      */
-    public static double limitRate(double value, double prevVal, SlewRateLimiter filter) {
+    public double limitRate(double value, double prevVal, SlewRateLimiter filter) {
         if (value == 0 || signChange(value, prevVal)) {
             filter.reset(0);
         }
@@ -132,7 +121,7 @@ public class DriverJoystick extends XboxController1038 {
      * @param b second value to check sign
      * @return are the provided values different signs
      */
-    private static boolean signChange(double a, double b) {
+    private boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
     }
 }

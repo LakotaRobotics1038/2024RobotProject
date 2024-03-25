@@ -11,6 +11,11 @@ public class Trajectories {
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
 
+    public static PathPlannerTrajectory getFromTaxi3ToPos1Trajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromTaxi3ToPos1, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
     public static PathPlannerTrajectory getFromPos1TaxiTrajectory() {
         return new PathPlannerTrajectory(Paths.pathFromNote1ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));

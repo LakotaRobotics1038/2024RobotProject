@@ -40,8 +40,8 @@ public class DriveToNoteCommand extends Command {
         double x = joystick.getLeftX();
         double y = joystick.getLeftY();
 
-        double forward = DriverJoystick.limitRate(y, prevY, forwardFilter);
-        double sideways = DriverJoystick.limitRate(x, prevX, sidewaysFilter);
+        double forward = DriverJoystick.getInstance().limitRate(y, prevY, forwardFilter);
+        double sideways = DriverJoystick.getInstance().limitRate(x, prevX, sidewaysFilter);
         double rotate = controller.calculate(vision.getAngle(VisionTarget.NOTE));
 
         prevX = x;

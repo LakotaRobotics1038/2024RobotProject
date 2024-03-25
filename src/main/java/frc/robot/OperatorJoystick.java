@@ -63,6 +63,9 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Right)
                 .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoFinish));
+        new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Up)
+                .and(() -> scoringElevatorLock)
+                .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoFinish));
 
         // Amp buttons
         rightTrigger

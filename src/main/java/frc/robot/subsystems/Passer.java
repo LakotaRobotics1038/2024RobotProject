@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -10,8 +10,7 @@ import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.PasserConstants;
 
 public class Passer extends SubsystemBase {
-    private final CANSparkMax passerMotor = new CANSparkMax(
-            PasserConstants.passerMotorPort, MotorType.kBrushless);
+    private final CANSparkFlex passerMotor = new CANSparkFlex(PasserConstants.passerMotorPort, MotorType.kBrushless);
     private final RelativeEncoder passerEncoder = passerMotor.getEncoder();
 
     private static Passer instance;

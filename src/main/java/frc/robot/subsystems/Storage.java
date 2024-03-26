@@ -40,7 +40,7 @@ public class Storage extends SubsystemBase {
         storageMotor.setIdleMode(IdleMode.kBrake);
         transitionMotor.setIdleMode(IdleMode.kBrake);
 
-        storageMotor.setInverted(false);
+        storageMotor.setInverted(true);
         transitionMotor.setInverted(false);
 
         storageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);

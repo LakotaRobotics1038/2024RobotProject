@@ -33,7 +33,7 @@ public class Passer extends SubsystemBase {
 
         passerMotor.setIdleMode(IdleMode.kBrake);
         passerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
-        passerMotor.setInverted(false);
+        passerMotor.setInverted(true);
 
         passerMotor.burnFlash();
         passerEncoder.setPosition(0);

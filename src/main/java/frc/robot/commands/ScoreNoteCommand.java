@@ -61,7 +61,7 @@ public class ScoreNoteCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        scoring.stopRoller();
+        scoring.stop();
         storage.stopStorage();
         timer.stop();
         timer.reset();

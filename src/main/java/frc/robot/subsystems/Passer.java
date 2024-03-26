@@ -30,9 +30,11 @@ public class Passer extends SubsystemBase {
 
     private Passer() {
         passerMotor.restoreFactoryDefaults();
+
         passerMotor.setIdleMode(IdleMode.kBrake);
         passerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
         passerMotor.setInverted(false);
+
         passerMotor.burnFlash();
         passerEncoder.setPosition(0);
     }
@@ -44,11 +46,17 @@ public class Passer extends SubsystemBase {
         return passerEncoder.getPosition();
     }
 
-    public void shootNote() {
+    /**
+     * Runs the passer at a constant speed
+     */
+    public void shoot() {
         passerMotor.set(PasserConstants.shooterSpeed);
     }
 
-    public void stopPasser() {
+    /**
+     * Stops the passer
+     */
+    public void stop() {
         passerMotor.stopMotor();
     }
 }

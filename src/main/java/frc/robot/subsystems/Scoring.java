@@ -11,8 +11,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Scoring extends SubsystemBase {
-    private final CANSparkFlex rollerMotor = new CANSparkFlex(ScoringConstants.rollerMotorPort, MotorType.kBrushless);
-    private final RelativeEncoder rollerEncoder = rollerMotor.getEncoder();
+    private final CANSparkFlex scoringMotor = new CANSparkFlex(ScoringConstants.scoringMotorPort, MotorType.kBrushless);
+    private final RelativeEncoder scoringEncoder = scoringMotor.getEncoder();
     private double feedAmpSpeed = ScoringConstants.feedAmpSpeed;
 
     private static Scoring instance;
@@ -26,21 +26,21 @@ public class Scoring extends SubsystemBase {
     }
 
     public Scoring() {
-        rollerMotor.restoreFactoryDefaults();
+        scoringMotor.restoreFactoryDefaults();
 
-        rollerMotor.setIdleMode(IdleMode.kBrake);
-        rollerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
-        rollerMotor.setInverted(false);
+        scoringMotor.setIdleMode(IdleMode.kBrake);
+        scoringMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
+        scoringMotor.setInverted(false);
 
-        rollerMotor.burnFlash();
-        rollerEncoder.setPosition(0);
+        scoringMotor.burnFlash();
+        scoringEncoder.setPosition(0);
     }
 
     /**
      * Get the encoder value of the roller encoder
      */
     public double getPosition() {
-        return rollerEncoder.getPosition();
+        return scoringEncoder.getPosition();
     }
 
     /**
@@ -57,14 +57,14 @@ public class Scoring extends SubsystemBase {
      * ready to score in amp.
      */
     public void feedForAmp() {
-        rollerMotor.set(feedAmpSpeed);
+        scoringMotor.set(feedAmpSpeed);
     }
 
     /**
      * Runs the scoring roller at the constant speed designated for scoring in amp.
      */
     public void scoreAmp() {
-        rollerMotor.set(ScoringConstants.scoreAmpSpeed);
+        scoringMotor.set(ScoringConstants.scoreAmpSpeed);
     }
 
     /**
@@ -72,28 +72,28 @@ public class Scoring extends SubsystemBase {
      * ready to score in trap.
      */
     public void feedForTrap() {
-        rollerMotor.set(feedAmpSpeed);
+        scoringMotor.set(feedAmpSpeed);
     }
 
     /**
      * Runs the scoring roller at the constant speed designated for scoring in amp.
      */
     public void scoreTrap() {
-        rollerMotor.set(ScoringConstants.scoreTrapSpeed);
+        scoringMotor.set(ScoringConstants.scoreTrapSpeed);
     }
 
     /**
      * Runs the scoring roller at the constant speed designated for getting the note
      * ready to shoot in passer.
      */
-    public void scorePasser() {
-        rollerMotor.set(ScoringConstants.scorePasserSpeed);
+    public void feedForPasser() {
+        scoringMotor.set(ScoringConstants.feedPasserSpeed);
     }
 
     /**
      * Stops the scoring roller.
      */
-    public void stopRoller() {
-        rollerMotor.stopMotor();
+    public void stop() {
+        scoringMotor.stopMotor();
     }
 }

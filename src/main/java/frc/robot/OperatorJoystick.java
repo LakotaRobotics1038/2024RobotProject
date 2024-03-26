@@ -64,7 +64,7 @@ public class OperatorJoystick extends XboxController1038 {
                 .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoFinish));
         new Trigger(() -> operatorJoystick.getPOVPosition() == PovPositions.Up)
-                .and(() -> scoringElevatorLock)
+                .and(() -> !scoringElevatorLock)
                 .toggleOnTrue(new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoFinish));
 
         // Amp buttons

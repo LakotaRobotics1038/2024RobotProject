@@ -29,11 +29,12 @@ public class ShootPasserCommand extends Command {
 
     @Override
     public void execute() {
-        if (storage.noteExitingStorage()) {
+        scoring.feedForPasser();
+        passer.shoot();
+        if (!storage.noteExitingStorage()) {
             storage.stopStorage();
-            scoring.feedForAmp();
         } else {
-            scoring.scoreAmp();
+            storage.runStorage();
         }
     }
 
@@ -44,9 +45,9 @@ public class ShootPasserCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        scoring.stopRoller();
+        scoring.stop();
         storage.stopStorage();
-        passer.stopPasser();
+        passer.stop();
         timer.stop();
         timer.reset();
     }

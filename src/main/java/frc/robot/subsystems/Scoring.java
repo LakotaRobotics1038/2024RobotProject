@@ -37,7 +37,7 @@ public class Scoring extends SubsystemBase {
     }
 
     /**
-     * Get the encoder value of the roller encoder
+     * Get the encoder value of the scoring encoder
      */
     public double getPosition() {
         return scoringEncoder.getPosition();

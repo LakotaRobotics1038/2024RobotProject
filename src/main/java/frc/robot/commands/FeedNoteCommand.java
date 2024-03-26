@@ -46,7 +46,7 @@ public class FeedNoteCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        scoring.stopRoller();
+        scoring.stop();
         timer.stop();
         timer.reset();
     }

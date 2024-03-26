@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.cscore.HttpCamera;
@@ -148,15 +147,6 @@ public class Dashboard extends SubsystemBase {
         }
         field.setRobotPose(driveTrain.getPose());
         scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));
-    }
-
-    /**
-     * Puts the given {@link PathPlannerTrajectory} on the dashboard
-     *
-     * @param trajectory
-     */
-    public void setTrajectory(PathPlannerTrajectory trajectory) {
-        // this.field.getObject("traj").setTrajectory(trajectory);
     }
 
     /**

@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -35,8 +34,8 @@ public abstract class Auton extends SequentialCommandGroup {
         this.addCommands(new WaitCommand(AutonSelector.getInstance().chooseDelay()));
     }
 
-    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
-        this.initialPose = initialTrajectory.getInitialTargetHolonomicPose();
+    private void setInitialPose(Pose2d initialPose) {
+        this.initialPose = initialPose;
 
         // We need to invert the starting pose for the red alliance.
         if (alliance == Alliance.Red) {
@@ -47,6 +46,15 @@ public abstract class Auton extends SequentialCommandGroup {
 
             this.initialPose = new Pose2d(transformedTranslation, transformedHeading);
         }
+    }
+
+    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
+        this.setInitialPose(initialTrajectory.getInitialTargetHolonomicPose());
+    }
+
+    protected void setInitialPose(PathPlannerTrajectory initialTrajectory, Rotation2d rotationOffset) {
+        Pose2d initialPose = initialTrajectory.getInitialTargetHolonomicPose();
+        this.setInitialPose(new Pose2d(initialPose.getTranslation(), initialPose.getRotation().plus(rotationOffset)));
     }
 
     public Pose2d getInitialPose() {
@@ -62,8 +70,12 @@ public abstract class Auton extends SequentialCommandGroup {
                                                      // ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
                                                  // Constants class
-                        new PIDConstants(AutoConstants.kPXController, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(AutoConstants.kPThetaController, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0), // Translation
+                                                                                                         // PID
+                                                                                                         // constants
+                        new PIDConstants(AutoConstants.kPThetaController, AutoConstants.kIThetaController, 0.0), // Rotation
+                                                                                                                 // PID
+                                                                                                                 // constants
                         DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
                         DriveConstants.kBaseRadius, // Drive base radius in meters. Distance from robot center to
                                                     // furthest module.

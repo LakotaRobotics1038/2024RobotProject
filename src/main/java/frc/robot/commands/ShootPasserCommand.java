@@ -25,15 +25,13 @@ public class ShootPasserCommand extends Command {
     @Override
     public void initialize() {
         timer.start();
+        passer.shoot();
     }
 
     @Override
     public void execute() {
-        scoring.feedForPasser();
-        passer.shoot();
-        if (!storage.noteExitingStorage()) {
-            storage.stopStorage();
-        } else {
+        if (timer.get() > 0.75) {
+            scoring.feedForPasser();
             storage.runStorage();
         }
     }

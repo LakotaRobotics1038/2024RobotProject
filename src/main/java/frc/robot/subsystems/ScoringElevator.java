@@ -41,6 +41,7 @@ public class ScoringElevator extends SubsystemBase {
     public enum ElevatorSetpoints {
         Ground(ScoringElevatorConstants.groundSetpoint),
         Amp(ScoringElevatorConstants.ampSetpoint),
+        Passer(ScoringElevatorConstants.passerSetpoint),
         Trap(ScoringElevatorConstants.trapSetpoint);
 
         public final double value;

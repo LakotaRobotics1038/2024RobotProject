@@ -40,4 +40,14 @@ public class Trajectories {
         return new PathPlannerTrajectory(Paths.pathFromPosition1ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
+
+    public static PathPlannerTrajectory getFromPosition1ToNote1Trajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromPosition1ToNote1, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
+
+    public static PathPlannerTrajectory getFromPosition1ToFrontAmpTrajectory() {
+        return new PathPlannerTrajectory(Paths.pathFromPosition1ToFrontAmp, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
 }

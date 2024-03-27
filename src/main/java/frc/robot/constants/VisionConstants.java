@@ -19,4 +19,12 @@ public final class VisionConstants {
     public static final double spinD = 0.0002;
     public static final double spinSetpoint = 0.0;
     public static final double aprilTagArea = 28908;
+
+    public static final double cameraHorizontalFOV = 0;
+    public static final double cameraVerticalFOV = 0;
+    public static final double cameraResolution = 0;
+    public static final double cameraHeight = 0;
+    public static final double cameraAngle = 0;
+
+    public static final double noteHeight = 0;
 }

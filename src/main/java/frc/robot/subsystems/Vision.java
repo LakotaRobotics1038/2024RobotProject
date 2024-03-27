@@ -89,14 +89,20 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         String value = valuesSubscriber.get();
+
         try {
             JSONArray unparsedData = (JSONArray) jsonParser.parse(value);
             visionData = new ArrayList<VisionData>();
             for (Object data : unparsedData) {
                 JSONObject jsonObject = (JSONObject) data;
-                VisionData mappedData = new VisionData((String) jsonObject.get("x"), (String) jsonObject.get("y"),
-                        (String) jsonObject.get("area"), (String) jsonObject.get("conf"),
-                        (String) jsonObject.get("id"));
+                VisionData mappedData = new VisionData((String) jsonObject.get("center x"),
+                        (String) jsonObject.get("center y"), (String) jsonObject.get("top left x"),
+                        (String) jsonObject.get("top left y"), (String) jsonObject.get("top right x"),
+                        (String) jsonObject.get("top right y"), (String) jsonObject.get("bottom left x"),
+                        (String) jsonObject.get("bottom left y"), (String) jsonObject.get("bottom right x"),
+                        (String) jsonObject.get("bottom right y"),
+                        (String) jsonObject.get("conf"),
+                        (String) jsonObject.get("target"));
                 visionData.add(mappedData);
             }
         } catch (ParseException ex) {
@@ -148,38 +154,101 @@ public class Vision extends SubsystemBase {
         return enabled1;
     }
 
-    public double getX(VisionTarget target) {
+    public double getCenterX(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
             if (visionData.get(i).getTarget() == target) {
-                return visionData.get(i).getX();
+                return visionData.get(i).getCenterX();
             }
         }
         return -1;
     }
 
-    public double getY(VisionTarget target) {
+    public double getCenterY(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
             if (visionData.get(i).getTarget() == target) {
-                return visionData.get(i).getY();
+                return visionData.get(i).getCenterY();
             }
         }
         return -1;
     }
 
-    public double getArea(VisionTarget target) {
+    public double getTopLeftX(VisionTarget target) {
         for (int i = 0; i < visionData.size(); i++) {
             if (visionData.get(i).getTarget() == target) {
-                return visionData.get(i).getArea();
+                return visionData.get(i).getTopLeftX();
+            }
+        }
+        return -1;
+    }
+
+    public double getTopLeftY(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getTopLeftY();
+            }
+        }
+        return -1;
+    }
+
+    public double getTopRightX(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getTopRightX();
+            }
+        }
+        return -1;
+    }
+
+    public double getTopRightY(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getTopRightY();
+            }
+        }
+        return -1;
+    }
+
+    public double getBottomLeftX(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getBottomLeftX();
+            }
+        }
+        return -1;
+    }
+
+    public double getBottomLeftY(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getBottomLeftY();
+            }
+        }
+        return -1;
+    }
+
+    public double getBottomRightX(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getBottomRightX();
+            }
+        }
+        return -1;
+    }
+
+    public double getBottomRightY(VisionTarget target) {
+        for (int i = 0; i < visionData.size(); i++) {
+            if (visionData.get(i).getTarget() == target) {
+                return visionData.get(i).getBottomRightY();
             }
         }
         return -1;
     }
 
     public double getAngle(VisionTarget target) {
-        double x = getX(target);
-        double y = getY(target);
+        double x = getCenterX(target);
+        double y = getCenterY(target);
         if (x < VisionConstants.width / 2) {
-            x = -getX(target);
+            x = -x;
         }
         if (y < VisionConstants.height / 2) {
             y = -y;
@@ -187,25 +256,49 @@ public class Vision extends SubsystemBase {
         return Math.toDegrees(Math.atan(x / y));
     }
 
-    public double getDistance(VisionTarget target) {
-        double y = getY(target);
-        double oldY = 0.0;
+    public double convertToPositionCoordinatesX(VisionTarget target) {
+        return (getCenterX(target) - VisionConstants.cameraResolution / 2) / 2;
+    }
 
-        if (target == VisionTarget.NOTE) {
-            if (y > oldY) {
-                oldY = y;
-                return 0;
-            } else {
-                oldY = 0.0;
-                return -1;
-            }
+    public double convertToPositionCoordinatesY(VisionTarget target) {
+        return -(getCenterY(target) - VisionConstants.cameraResolution / 2) / 2;
+    }
 
-        } else if (target.id >= VisionTarget.APR1.id && target.id <= VisionTarget.APT16.id) {
-            double area = getArea(target);
-            return area;
+    public double getPitch(VisionTarget target) {
+        return convertToPositionCoordinatesY(target) / 2 * VisionConstants.cameraVerticalFOV;
+    }
+
+    public double getDistance(VisionTarget target, double targetHeight) {
+        double heightDifference = Math.abs(targetHeight - VisionConstants.cameraHeight);
+        double pitchRad = getPitch(target) * (Math.PI / 180);
+        double headingRad = getAngle(target) * (Math.PI / 180);
+        double angle = Math.tan(VisionConstants.cameraAngle + pitchRad) * Math.cos(headingRad);
+        return heightDifference / angle;
+    }
+
+    public double getHorizontalDistance(VisionTarget target, double targetHeight) {
+        double horizontalDistance;
+        double distance;
+        double heading = getAngle(target);
+        double headingRad = heading * (Math.PI / 180);
+        if (heading == 0) {
+            horizontalDistance = 0;
+            return horizontalDistance;
         } else {
-            return 1;
+            distance = getDistance(target, targetHeight);
+            horizontalDistance = Math.cos(headingRad) * distance;
+            return horizontalDistance;
         }
+    }
+
+    public double getVerticalDistance(VisionTarget target, double targetHeight) {
+        double verticalDistance;
+        double distance;
+        double heading = getAngle(target);
+        double headingRad = heading * (Math.PI / 180);
+        distance = getDistance(target, targetHeight);
+        verticalDistance = Math.sin(headingRad) * distance;
+        return verticalDistance;
     }
 
 }

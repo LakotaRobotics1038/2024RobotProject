@@ -1,6 +1,22 @@
 package frc.robot.constants;
 
 public final class VisionConstants {
+    public enum AprilTagHeights {
+        SpeakerrHeighT(1.451102),
+        AmpHeight(1.355852),
+        StageHeight(1.322324);
+
+        public final double height;
+
+        AprilTagHeights(double height) {
+            this.height = height;
+        }
+
+        public double getHeight() {
+            return height;
+        }
+    }
+
     public static final String kTableName = "Vision";
     public static final String kValuesTopic = "values";
     public static final String kRecordingTopic = "recording";
@@ -24,7 +40,7 @@ public final class VisionConstants {
     public static final double cameraVerticalFOV = 0;
     public static final double cameraResolution = 0;
     public static final double cameraHeight = 0;
-    public static final double cameraAngle = 0;
+    public static final double cameraAngleRad = 0 * (Math.PI / 180);
 
     public static final double noteHeight = 0;
 }

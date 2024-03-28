@@ -256,6 +256,10 @@ public class Vision extends SubsystemBase {
         return Math.toDegrees(Math.atan(x / y));
     }
 
+    public double getYaw(VisionTarget target) {
+        return (convertToPositionCoordinatesX(target) / 2) * VisionConstants.cameraHorizontalFOV;
+    }
+
     public double convertToPositionCoordinatesX(VisionTarget target) {
         return (getCenterX(target) - VisionConstants.cameraResolution / 2) / 2;
     }
@@ -272,7 +276,7 @@ public class Vision extends SubsystemBase {
         double heightDifference = Math.abs(targetHeight - VisionConstants.cameraHeight);
         double pitchRad = getPitch(target) * (Math.PI / 180);
         double headingRad = getAngle(target) * (Math.PI / 180);
-        double angle = Math.tan(VisionConstants.cameraAngle + pitchRad) * Math.cos(headingRad);
+        double angle = Math.tan(VisionConstants.cameraAngleRad + pitchRad) * Math.cos(headingRad);
         return heightDifference / angle;
     }
 

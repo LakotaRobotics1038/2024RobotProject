@@ -33,7 +33,7 @@ public class DriveToNoteVisionAuton extends Command {
 
     public void execute() {
         double driveOutput = dController.calculate(driveTrain.getPose().getX(), driveTrain.getPose().getX()
-                + vision.getVerticalDistance(target, VisionConstants.noteHeight) - setpointToleranceX);
+                + vision.getVerticalDistance(target, VisionConstants.noteHeight) + setpointToleranceX);
         double strafeOutput = strafeController.calculate(driveTrain.getPose().getY(),
                 driveTrain.getPose().getY() + vision.getHorizontalDistance(target, VisionConstants.noteHeight));
         double rotOutput = rotController.calculate(driveTrain.getHeading(), vision.getAngle(target));

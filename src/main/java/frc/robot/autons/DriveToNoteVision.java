@@ -3,7 +3,6 @@ package frc.robot.autons;
 import java.util.Optional;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.DriveToNoteVisionAuton;
 
 public class DriveToNoteVision extends Auton {
@@ -14,7 +13,6 @@ public class DriveToNoteVision extends Auton {
         this.setInitialPose(Trajectories.getFromPosition1ToNote1Trajectory());
 
         addCommands(
-
                 followPathCommand(Paths.pathFromPosition1ToNote1).andThen(new DriveToNoteVisionAuton(0.2)));
     }
 

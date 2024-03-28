@@ -32,17 +32,7 @@ public class ScoringElevatorPositionCommand extends Command {
     @Override
     public void initialize() {
         scoring.enable();
-        switch (scoringState) {
-            case Amp:
-                scoring.setSetpoint(ElevatorSetpoints.Amp);
-                break;
-            case Ground:
-                scoring.setSetpoint(ElevatorSetpoints.Ground);
-                break;
-            default:
-                scoring.setSetpoint(ElevatorSetpoints.Trap);
-                break;
-        }
+        scoring.setSetpoint(scoringState);
     }
 
     @Override

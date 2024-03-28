@@ -2,26 +2,24 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.ScoringConstants.ScoringLocation;
+import frc.robot.subsystems.Passer;
 import frc.robot.subsystems.Scoring;
 import frc.robot.subsystems.Storage;
 
-public class ScoreNoteCommand extends Command {
+public class ShootPasserCommand extends Command {
     private Scoring scoring = Scoring.getInstance();
     private Storage storage = Storage.getInstance();
+    private Passer passer = Passer.getInstance();
     private Timer timer = new Timer();
     private double secondsToScore = 0;
-    private ScoringLocation scoringLoc;
 
-    public ScoreNoteCommand(ScoringLocation scoringLoc, double secondsToScore) {
+    public ShootPasserCommand(double secondsToScore) {
         this.addRequirements(scoring);
-        this.scoringLoc = scoringLoc;
         this.secondsToScore = secondsToScore;
     }
 
-    public ScoreNoteCommand(ScoringLocation scoringLoc) {
+    public ShootPasserCommand() {
         this.addRequirements(scoring);
-        this.scoringLoc = scoringLoc;
     }
 
     @Override
@@ -31,26 +29,12 @@ public class ScoreNoteCommand extends Command {
 
     @Override
     public void execute() {
-        if (storage.noteExitingStorage()) {
-            storage.runStorage();
-            switch (scoringLoc) {
-                case Amp:
-                    scoring.feedForAmp();
-                    break;
-                case Trap:
-                    scoring.feedForTrap();
-                    break;
-            }
-        } else {
+        scoring.feedForPasser();
+        passer.shoot();
+        if (!storage.noteExitingStorage()) {
             storage.stopStorage();
-            switch (scoringLoc) {
-                case Amp:
-                    scoring.scoreAmp();
-                    break;
-                case Trap:
-                    scoring.scoreTrap();
-                    break;
-            }
+        } else {
+            storage.runStorage();
         }
     }
 
@@ -63,6 +47,7 @@ public class ScoreNoteCommand extends Command {
     public void end(boolean interrupted) {
         scoring.stop();
         storage.stopStorage();
+        passer.stop();
         timer.stop();
         timer.reset();
     }

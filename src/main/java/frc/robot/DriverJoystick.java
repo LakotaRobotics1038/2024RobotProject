@@ -9,6 +9,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
+import frc.robot.commands.TrapSequenceCommand;
 import frc.robot.commands.LiftDownCommand;
 import frc.robot.commands.LiftDownManualCommand;
 
@@ -96,6 +97,7 @@ public class DriverJoystick extends XboxController1038 {
         rightTrigger.whileTrue(new LiftDownCommand());
 
         leftTrigger.whileTrue(new LiftDownManualCommand());
+        leftBumper.whileTrue(new TrapSequenceCommand());
     }
 
     /**

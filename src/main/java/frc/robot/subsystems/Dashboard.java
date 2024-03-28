@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.pathplanner.lib.util.PathPlannerLogging;
 
@@ -112,10 +113,10 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        // driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
-        // .withPosition(6, 0)
-        // .withWidget(BuiltInWidgets.kBooleanBox)
-        // .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
+        driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
+                .withPosition(6, 0)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
 
         controlsTab.add(field)
                 .withPosition(2, 0)

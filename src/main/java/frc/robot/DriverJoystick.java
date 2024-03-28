@@ -106,7 +106,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return desired value rate limited and adjusted for sign changes using
      *         {@link #signChange Sign Change Function}
      */
-    private double limitRate(double value, double prevVal, SlewRateLimiter filter) {
+    public double limitRate(double value, double prevVal, SlewRateLimiter filter) {
         if (value == 0 || signChange(value, prevVal)) {
             filter.reset(0);
         }

@@ -21,24 +21,23 @@ import frc.robot.utils.VisionData;
 public class Vision extends SubsystemBase {
     // Enum for different things vision can find
     public enum VisionTarget {
-        APR1(0),
-        APT2(1),
-        APT3(2),
-        APT4(3),
-        APT5(4),
-        APT6(5),
-        APT7(6),
-        APT8(7),
-        APT9(8),
-        APT10(9),
-        APT11(10),
-        APT12(11),
-        APT13(12),
-        APT14(13),
-        APT15(14),
-        APT16(15),
-        GAVIN(16),
-        NOTE(17);
+        NOTE(0),
+        APR1(1),
+        APT2(2),
+        APT3(3),
+        APT4(4),
+        APT5(5),
+        APT6(6),
+        APT7(7),
+        APT8(8),
+        APT9(9),
+        APT10(10),
+        APT11(11),
+        APT12(12),
+        APT13(13),
+        APT14(14),
+        APT15(15),
+        APT16(16);
 
         public final int id;
 
@@ -55,19 +54,16 @@ public class Vision extends SubsystemBase {
     // Instance Values
     private JSONParser jsonParser = new JSONParser();
     private boolean recording = false;
-    private boolean enabled0 = false;
-    private boolean enabled1 = false;
-    private List<VisionData> visionData;
+    private boolean enabled = false;
+    private List<VisionData> visionData = new ArrayList<VisionData>();
 
     // Network Tables Setup
     NetworkTableInstance inst = NetworkTableInstance.getDefault();
     NetworkTable table = inst.getTable(VisionConstants.kTableName);
     BooleanTopic recordingTopic = table.getBooleanTopic(VisionConstants.kRecordingTopic);
     BooleanPublisher recordingPublisher = recordingTopic.publish();
-    BooleanTopic enabled0Topic = table.getBooleanTopic(VisionConstants.kEnabled0Topic);
-    BooleanPublisher enabled0Publisher = enabled0Topic.publish();
-    BooleanTopic enabled1Topic = table.getBooleanTopic(VisionConstants.kEnabled1Topic);
-    BooleanPublisher enabled1Publisher = enabled1Topic.publish();
+    BooleanTopic enabledTopic = table.getBooleanTopic(VisionConstants.kEnabledTopic);
+    BooleanPublisher enabledPublisher = enabledTopic.publish();
     BooleanTopic streamCam0Topic = table.getBooleanTopic(VisionConstants.kStreamCam0);
     BooleanPublisher streamCam0Publisher = streamCam0Topic.publish();
     StringTopic valuesTopic = table.getStringTopic(VisionConstants.kValuesTopic);
@@ -84,6 +80,9 @@ public class Vision extends SubsystemBase {
     }
 
     private Vision() {
+        streamCam0Publisher.set(true);
+        enabledPublisher.set(false);
+        recordingPublisher.set(false);
     }
 
     @Override
@@ -91,11 +90,10 @@ public class Vision extends SubsystemBase {
         String value = valuesSubscriber.get();
         try {
             JSONArray unparsedData = (JSONArray) jsonParser.parse(value);
-            visionData = new ArrayList<VisionData>();
+            visionData.clear();
             for (Object data : unparsedData) {
                 JSONObject jsonObject = (JSONObject) data;
                 VisionData mappedData = new VisionData((String) jsonObject.get("x"), (String) jsonObject.get("y"),
-                        (String) jsonObject.get("area"), (String) jsonObject.get("conf"),
                         (String) jsonObject.get("id"));
                 visionData.add(mappedData);
             }
@@ -120,32 +118,18 @@ public class Vision extends SubsystemBase {
         recordingPublisher.set(recording);
     }
 
-    public void enable0() {
-        enabled0 = true;
-        enabled0Publisher.set(enabled0);
+    public void enable() {
+        enabled = true;
+        enabledPublisher.set(enabled);
     }
 
-    public void disable0() {
-        enabled0 = false;
-        enabled0Publisher.set(enabled0);
+    public void disable() {
+        enabled = false;
+        enabledPublisher.set(enabled);
     }
 
-    public boolean isEnabled0() {
-        return enabled0;
-    }
-
-    public void enable1() {
-        enabled1 = true;
-        enabled1Publisher.set(enabled1);
-    }
-
-    public void disable1() {
-        enabled1 = false;
-        enabled1Publisher.set(enabled1);
-    }
-
-    public boolean isEnabled1() {
-        return enabled1;
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public double getX(VisionTarget target) {
@@ -166,46 +150,20 @@ public class Vision extends SubsystemBase {
         return -1;
     }
 
-    public double getArea(VisionTarget target) {
-        for (int i = 0; i < visionData.size(); i++) {
-            if (visionData.get(i).getTarget() == target) {
-                return visionData.get(i).getArea();
-            }
-        }
-        return -1;
-    }
-
     public double getAngle(VisionTarget target) {
         double x = getX(target);
         double y = getY(target);
+
+        if (x == -1 || y == -1) {
+            return 0;
+        }
+
         if (x < VisionConstants.width / 2) {
-            x = -getX(target);
+            x = -x;
         }
         if (y < VisionConstants.height / 2) {
             y = -y;
         }
         return Math.toDegrees(Math.atan(x / y));
     }
-
-    public double getDistance(VisionTarget target) {
-        double y = getY(target);
-        double oldY = 0.0;
-
-        if (target == VisionTarget.NOTE) {
-            if (y > oldY) {
-                oldY = y;
-                return 0;
-            } else {
-                oldY = 0.0;
-                return -1;
-            }
-
-        } else if (target.id >= VisionTarget.APR1.id && target.id <= VisionTarget.APT16.id) {
-            double area = getArea(target);
-            return area;
-        } else {
-            return 1;
-        }
-    }
-
 }

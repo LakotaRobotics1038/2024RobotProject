@@ -152,18 +152,13 @@ public class Vision extends SubsystemBase {
 
     public double getAngle(VisionTarget target) {
         double x = getX(target);
-        double y = getY(target);
 
-        if (x == -1 || y == -1) {
+        if (x == -1) {
             return 0;
         }
 
-        if (x < VisionConstants.width / 2) {
-            x = -x;
-        }
-        if (y < VisionConstants.height / 2) {
-            y = -y;
-        }
-        return Math.toDegrees(Math.atan(x / y));
+        x = x - (VisionConstants.width / 2);
+
+        return x / (VisionConstants.width / (VisionConstants.fov / 2));
     }
 }

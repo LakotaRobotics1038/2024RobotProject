@@ -7,8 +7,9 @@ public final class VisionConstants {
     public static final String kStreamCam0 = "shouldStream0";
     public static final String kEnabledTopic = "enable";
 
-    public static final double width = 640;
-    public static final double height = 480;
+    public static final double width = 320;
+    public static final double height = 180;
+    public static final double fov = 100;
 
     public static final double driveP = 0.005;
     public static final double driveI = 0;

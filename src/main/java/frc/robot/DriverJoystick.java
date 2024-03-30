@@ -4,18 +4,18 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
+import frc.robot.commands.DriveToAprilTagCommand;
 import frc.robot.commands.LiftDownCommand;
 import frc.robot.commands.LiftDownManualCommand;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Vision vision = Vision.getInstance();
 
     // Previous Status
     private double prevX = 0;
@@ -87,10 +87,8 @@ public class DriverJoystick extends XboxController1038 {
         // Lock the wheels into an X formation
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
-        // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        super.bButton
+                .whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
 
         rightBumper.whileTrue(new LiftUpCommand());
         rightTrigger.whileTrue(new LiftDownCommand());

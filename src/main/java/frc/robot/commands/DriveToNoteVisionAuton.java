@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.VisionConstants;
 import frc.robot.subsystems.DriveTrain;
@@ -18,6 +19,9 @@ public class DriveToNoteVisionAuton extends Command {
             VisionConstants.spinD);
     private VisionTarget target = VisionTarget.NOTE;
     private double setpointToleranceX;
+    private double verticalDistance;
+    private double horizontalDistance;
+    private double prevAngle;
 
     public DriveToNoteVisionAuton(double setpointToleranceX) {
         addRequirements(driveTrain, vision);
@@ -25,31 +29,43 @@ public class DriveToNoteVisionAuton extends Command {
     }
 
     public void initialize() {
-        vision.enable0();
+        vision.enable();
         dController.reset();
         strafeController.reset();
         rotController.reset();
+
+        this.verticalDistance = driveTrain.getPose().getX()
+                + vision.getVerticalDistance(target, VisionConstants.noteHeight) + setpointToleranceX;
+        this.horizontalDistance = driveTrain.getPose().getY()
+                + vision.getHorizontalDistance(target, VisionConstants.noteHeight);
+        dController.setSetpoint(verticalDistance);
+        rotController.setSetpoint(horizontalDistance);
     }
 
     public void execute() {
-        double driveOutput = dController.calculate(driveTrain.getPose().getX(), driveTrain.getPose().getX()
-                + vision.getVerticalDistance(target, VisionConstants.noteHeight) + setpointToleranceX);
-        double strafeOutput = strafeController.calculate(driveTrain.getPose().getY(),
-                driveTrain.getPose().getY() + vision.getHorizontalDistance(target, VisionConstants.noteHeight));
-        double rotOutput = rotController.calculate(driveTrain.getHeading(), vision.getAngle(target));
 
-        driveTrain.drive(driveOutput, -strafeOutput, -rotOutput, false);
+        double rotationAmount = vision.getAngle(target);
+        if (rotationAmount != 0 && rotationAmount != prevAngle) {
+            prevAngle = rotationAmount;
+            rotController.setSetpoint(
+                    // Use Rotation2d to ensure setpoint is between 0 and 360
+                    Rotation2d.fromDegrees(driveTrain.getHeading())
+                            .minus(Rotation2d.fromDegrees(rotationAmount))
+                            .getDegrees());
+        }
+        double driveOutput = dController.calculate(driveTrain.getPose().getX());
+        double strafeOutput = strafeController.calculate(driveTrain.getPose().getY());
+        double rotOutput = rotController.calculate(driveTrain.getHeading());
+
+        driveTrain.drive(driveOutput, -strafeOutput, rotOutput, false);
     }
 
     public boolean isFinished() {
-        if (dController.atSetpoint() && strafeController.atSetpoint() && rotController.atSetpoint()) {
-            return true;
-        }
         return false;
     }
 
     public void end() {
         driveTrain.drive(0, 0, 0, false);
-        vision.disable0();
+        vision.disable();
     }
 }

@@ -5,6 +5,7 @@ import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -88,9 +89,10 @@ public class DriverJoystick extends XboxController1038 {
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
 
         // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        /*
+         * super.bButton
+         * .whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
+         */
 
         rightBumper.whileTrue(new LiftUpCommand());
         rightTrigger.whileTrue(new LiftDownCommand());

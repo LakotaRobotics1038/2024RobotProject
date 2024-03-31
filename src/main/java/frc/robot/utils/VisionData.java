@@ -5,22 +5,18 @@ import frc.robot.subsystems.Vision.VisionTarget;
 public class VisionData {
     private double x;
     private double y;
-    private double area;
-    private double confidence;
     private VisionTarget target;
 
-    public VisionData(String x, String y, String area, String confidence, String target) {
+    public VisionData(String x, String y, String target) {
+        System.out.println("x " + x + " y " + y);
         this.x = Double.parseDouble(x);
         this.y = Double.parseDouble(y);
-        this.area = Double.parseDouble(area);
-        this.confidence = Double.parseDouble(confidence);
         this.target = VisionTarget.values()[Integer.parseInt(target)];
     }
 
     @Override
     public String toString() {
-        return "x: " + this.x + " y: " + this.y + " area: " + this.area + " conf: " + this.confidence + " tgt: "
-                + this.target;
+        return "x: " + this.x + " y: " + this.y + " area: " + " tgt: " + this.target;
     }
 
     public double getX() {
@@ -33,9 +29,5 @@ public class VisionData {
 
     public VisionTarget getTarget() {
         return target;
-    }
-
-    public double getArea() {
-        return area;
     }
 }

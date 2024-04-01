@@ -30,7 +30,7 @@ public class ShootPasserCommand extends Command {
 
     @Override
     public void execute() {
-        if (timer.get() > 0.75) {
+        if (timer.get() > 0.25) {
             scoring.feedForPasser();
             storage.runStorage();
         }

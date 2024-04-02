@@ -29,7 +29,7 @@ public class DriveToNoteCommand extends Command {
 
     @Override
     public void initialize() {
-        vision.enable();
+        vision.enable1();
         controller.reset();
         forwardFilter.reset(0);
         sidewaysFilter.reset(0);
@@ -56,7 +56,7 @@ public class DriveToNoteCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        vision.disable();
+        vision.disable1();
         driveTrain.drive(0, 0, 0, true);
     }
 }

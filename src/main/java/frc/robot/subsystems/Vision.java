@@ -54,7 +54,8 @@ public class Vision extends SubsystemBase {
     // Instance Values
     private JSONParser jsonParser = new JSONParser();
     private boolean recording = false;
-    private boolean enabled = false;
+    private boolean enabled0 = false;
+    private boolean enabled1 = false;
     private List<VisionData> visionData = new ArrayList<VisionData>();
 
     // Network Tables Setup
@@ -62,8 +63,10 @@ public class Vision extends SubsystemBase {
     NetworkTable table = inst.getTable(VisionConstants.kTableName);
     BooleanTopic recordingTopic = table.getBooleanTopic(VisionConstants.kRecordingTopic);
     BooleanPublisher recordingPublisher = recordingTopic.publish();
-    BooleanTopic enabledTopic = table.getBooleanTopic(VisionConstants.kEnabledTopic);
-    BooleanPublisher enabledPublisher = enabledTopic.publish();
+    BooleanTopic enabled0Topic = table.getBooleanTopic(VisionConstants.kEnabled0Topic);
+    BooleanPublisher enabled0Publisher = enabled0Topic.publish();
+    BooleanTopic enabled1Topic = table.getBooleanTopic(VisionConstants.kEnabled1Topic);
+    BooleanPublisher enabled1Publisher = enabled1Topic.publish();
     BooleanTopic streamCam0Topic = table.getBooleanTopic(VisionConstants.kStreamCam0);
     BooleanPublisher streamCam0Publisher = streamCam0Topic.publish();
     StringTopic valuesTopic = table.getStringTopic(VisionConstants.kValuesTopic);
@@ -81,7 +84,8 @@ public class Vision extends SubsystemBase {
 
     private Vision() {
         streamCam0Publisher.set(true);
-        enabledPublisher.set(false);
+        enabled0Publisher.set(false);
+        enabled1Publisher.set(false);
         recordingPublisher.set(false);
     }
 
@@ -118,18 +122,32 @@ public class Vision extends SubsystemBase {
         recordingPublisher.set(recording);
     }
 
-    public void enable() {
-        enabled = true;
-        enabledPublisher.set(enabled);
+    public void enable0() {
+        enabled0 = true;
+        enabled0Publisher.set(enabled0);
     }
 
-    public void disable() {
-        enabled = false;
-        enabledPublisher.set(enabled);
+    public void disable0() {
+        enabled0 = false;
+        enabled0Publisher.set(enabled0);
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isEnabled0() {
+        return enabled0;
+    }
+
+    public void enable1() {
+        enabled1 = true;
+        enabled1Publisher.set(enabled1);
+    }
+
+    public void disable1() {
+        enabled1 = false;
+        enabled1Publisher.set(enabled1);
+    }
+
+    public boolean isEnabled1() {
+        return enabled1;
     }
 
     public double getX(VisionTarget target) {

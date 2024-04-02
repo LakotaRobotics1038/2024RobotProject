@@ -114,7 +114,7 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        driversTab.addBoolean("Vision Enabled?", vision::isEnabled)
+        driversTab.addBoolean("Vision 1 Enabled?", vision::isEnabled1)
                 .withPosition(6, 0)
                 .withWidget(BuiltInWidgets.kBooleanBox)
                 .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));

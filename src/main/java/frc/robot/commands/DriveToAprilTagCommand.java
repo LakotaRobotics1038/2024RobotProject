@@ -40,7 +40,7 @@ public class DriveToAprilTagCommand extends Command {
 
     @Override
     public void initialize() {
-        vision.enable();
+        vision.enable0();
         rotateController.reset();
         sidewaysController.reset();
         forwardFilter.reset(0);
@@ -80,7 +80,7 @@ public class DriveToAprilTagCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        vision.disable();
+        vision.disable0();
         driveTrain.drive(0, 0, 0, true);
     }
 }

@@ -5,11 +5,12 @@ public final class VisionConstants {
     public static final String kValuesTopic = "values";
     public static final String kRecordingTopic = "recording";
     public static final String kStreamCam0 = "shouldStream0";
-    public static final String kEnabled0Topic = "on0";
-    public static final String kEnabled1Topic = "on1";
+    public static final String kEnabled0Topic = "enable0";
+    public static final String kEnabled1Topic = "enable1";
 
-    public static final double width = 640;
-    public static final double height = 480;
+    public static final double width = 1280;
+    public static final double height = 720;
+    public static final double fov = 100;
 
     public static final double driveP = 0.005;
     public static final double driveI = 0;

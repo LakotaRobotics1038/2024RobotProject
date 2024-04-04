@@ -17,12 +17,19 @@ import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 public class ScoreInAmpMidline extends Auton {
 
     private Acquisition acquisition = Acquisition.getInstance();
+    private Alliance alliance;
 
     public ScoreInAmpMidline(Optional<Alliance> alliance) {
         super(alliance);
 
-        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
-                new Rotation2d(Units.degreesToRadians(90)));
+        this.alliance = alliance.get();
+        if (this.alliance == Alliance.Blue) {
+            this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
+                    new Rotation2d(Units.degreesToRadians(270)));
+        } else if (this.alliance == Alliance.Red) {
+            this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
+                    new Rotation2d(Units.degreesToRadians(90)));
+        }
 
         super.addCommands(
                 followPathCommand(Paths.pathFromPosition1ToAmp),

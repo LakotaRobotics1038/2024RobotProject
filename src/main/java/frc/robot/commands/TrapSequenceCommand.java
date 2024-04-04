@@ -24,8 +24,6 @@ public class TrapSequenceCommand extends SequentialCommandGroup {
                                                 FinishActions.NoDisable),
                                         new WaitUntilCommand(
                                                 () -> lift.leftLowerLimitReached() && lift.rightLowerLimitReached()),
-                                        new ScoreNoteCommand(ScoringLocation.Trap, 3),
-                                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground,
-                                                FinishActions.NoDisable))));
+                                        new ScoreNoteCommand(ScoringLocation.Trap))));
     }
 }

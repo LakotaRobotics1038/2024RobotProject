@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
         OperatorJoystick.getInstance();
         Dashboard.getInstance();
 
-        addPeriodic(swagLights::periodic, 0.5);
+        addPeriodic(swagLights::periodic, 0.25);
     }
 
     @Override

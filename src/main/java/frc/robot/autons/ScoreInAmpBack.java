@@ -32,9 +32,10 @@ public class ScoreInAmpBack extends Auton {
         }
 
         super.addCommands(
-                followPathCommand(Paths.pathFromBackPos1ToAmp),
+                followPathCommand(Paths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
-                new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground));
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
+                followPathCommand(Paths.pathFromAmpToBack));
     }
 }

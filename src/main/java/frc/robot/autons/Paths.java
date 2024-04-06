@@ -18,7 +18,7 @@ public class Paths {
             .fromPathFile("From amp to midline acquire Note2");
     public static PathPlannerPath pathFromNote2ToTrap = PathPlannerPath.fromPathFile("From Note 2 to Mid Trap");
 
-    public static PathPlannerPath pathFromBackPos1ToAmp = PathPlannerPath.fromPathFile("from back pos to amp");
+    public static PathPlannerPath pathFromAmpToBack = PathPlannerPath.fromPathFile("from amp to back");
 
     public static PathPlannerPath taxiPath1 = PathPlannerPath.fromPathFile("Taxi Position 1");
     public static PathPlannerPath taxiPath2 = PathPlannerPath.fromPathFile("Taxi Position 2");

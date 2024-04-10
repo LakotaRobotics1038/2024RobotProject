@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.commands.FunctionTestingCommand;
 import frc.robot.constants.ScoringConstants;
 
 public class Dashboard extends SubsystemBase {
@@ -47,6 +48,11 @@ public class Dashboard extends SubsystemBase {
     private GenericEntry resetGyro = controlsTab.add("Reset Gyro", false)
             .withSize(1, 1)
             .withPosition(0, 0)
+            .withWidget(BuiltInWidgets.kToggleButton)
+            .getEntry();
+    private GenericEntry functionTesting = controlsTab.add("Full Function Testing", false)
+            .withSize(1, 1)
+            .withPosition(5, 2)
             .withWidget(BuiltInWidgets.kToggleButton)
             .getEntry();
 
@@ -144,6 +150,10 @@ public class Dashboard extends SubsystemBase {
         if (resetGyro.getBoolean(false)) {
             driveTrain.zeroHeading();
             resetGyro.setBoolean(false);
+        }
+        if (functionTesting.getBoolean(false)) {
+            new FunctionTestingCommand();
+            functionTesting.setBoolean(false);
         }
         field.setRobotPose(driveTrain.getPose());
         scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));

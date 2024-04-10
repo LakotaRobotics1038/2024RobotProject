@@ -40,4 +40,10 @@ public class Trajectories {
         return new PathPlannerTrajectory(Paths.pathFromPosition1ToAmp, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
+
+    public static PathPlannerTrajectory getFromMiddleSpeakerToTopNote() {
+        return new PathPlannerTrajectory(Paths.pathFromMiddleSpeakerTopNote,
+                DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
 }

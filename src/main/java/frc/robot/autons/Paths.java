@@ -21,4 +21,17 @@ public class Paths {
     public static PathPlannerPath taxiPath1 = PathPlannerPath.fromPathFile("Taxi Position 1");
     public static PathPlannerPath taxiPath2 = PathPlannerPath.fromPathFile("Taxi Position 2");
     public static PathPlannerPath taxiPath3 = PathPlannerPath.fromPathFile("Taxi Position 3");
+
+    public static PathPlannerPath pathFromMiddleSpeakerTopNote = PathPlannerPath
+            .fromPathFile("Center Speaker to top note");
+    public static PathPlannerPath pathFromMiddleSpeakerMiddleNote = PathPlannerPath
+            .fromPathFile("Center Note to Midline");
+    public static PathPlannerPath pathFromMiddleSpeakerBottomNote = PathPlannerPath
+            .fromPathFile("Center Speaker to bottom note");
+    public static PathPlannerPath pathFromTopNoteToMiddleSpeaker = PathPlannerPath
+            .fromPathFile("Top note to speaker center");
+    public static PathPlannerPath pathFromMiddleNoteToMiddleSpeaker = PathPlannerPath
+            .fromPathFile("Center Note to MidNote");
+    public static PathPlannerPath pathFromBottomNoteToMiddleSpeaker = PathPlannerPath
+            .fromPathFile("Bottom note to center Speaker");
 }

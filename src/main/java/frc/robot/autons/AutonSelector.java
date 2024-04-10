@@ -12,6 +12,8 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         AmpAuto,
+        Speaker4NoteTop,
+        Speaker4NoteBottom,
         AmpAutoMidline,
         AmpAutoAcquire,
         AmpAutoTrap,
@@ -40,6 +42,8 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Score 2 In Amp Position 1", AutonChoices.AmpAuto);
+        this.autoChooser.addOption("4 Note Speaker Top", AutonChoices.Speaker4NoteTop);
+        this.autoChooser.addOption("4 Note Speaker Bottom", AutonChoices.Speaker4NoteBottom);
         this.autoChooser.addOption("Score 2 in amp from midline Pos 1", AutonChoices.AmpAutoMidline);
         this.autoChooser.addOption("Score 2 in amp and acquire Pos 1", AutonChoices.AmpAutoAcquire);
         this.autoChooser.addOption("Score 1 in amp trap pos 1", AutonChoices.AmpAutoTrap);
@@ -83,6 +87,10 @@ public class AutonSelector {
                 return new TaxiPos2(alliance);
             case TaxiPos3:
                 return new TaxiPos3(alliance);
+            case Speaker4NoteTop:
+                return new CenterSpeaker4NoteTop(alliance);
+            case Speaker4NoteBottom:
+                return new CenterSpeaker4NoteBottom(alliance);
             default:
                 return null;
         }

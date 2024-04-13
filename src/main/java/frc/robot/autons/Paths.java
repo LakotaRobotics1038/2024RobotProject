@@ -21,4 +21,13 @@ public class Paths {
     public static PathPlannerPath taxiPath1 = PathPlannerPath.fromPathFile("Taxi Position 1");
     public static PathPlannerPath taxiPath2 = PathPlannerPath.fromPathFile("Taxi Position 2");
     public static PathPlannerPath taxiPath3 = PathPlannerPath.fromPathFile("Taxi Position 3");
+
+    public static PathPlannerPath pathFromSourceToBottomNote = PathPlannerPath
+            .fromPathFile("From Source to Bottom Note");
+    public static PathPlannerPath pathFromBottomNoteTo2ndBottomNote = PathPlannerPath
+            .fromPathFile("From Midline bottom note to 2nd bottom note");
+    public static PathPlannerPath pathFrom2ndBottomNoteToMiddleNote = PathPlannerPath
+            .fromPathFile("Midline 2nd to bottom note to middle");
+    public static PathPlannerPath pathFromMiddleNoteTo2ndNote = PathPlannerPath
+            .fromPathFile("Midline Middle note to 2nd note");
 }

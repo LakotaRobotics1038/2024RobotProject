@@ -3,12 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.LiftConstants;
-import frc.robot.subsystems.Drawbridge;
 import frc.robot.subsystems.Lift;
 
 public class LiftUpCommand extends Command {
     private Lift lift = Lift.getInstance();
-    private Drawbridge drawbridge = Drawbridge.getInstance();
 
     public LiftUpCommand() {
         addRequirements(lift);
@@ -39,6 +37,5 @@ public class LiftUpCommand extends Command {
     public void end(boolean interrupted) {
         lift.enableRatchets();
         lift.disable();
-        drawbridge.up();
     }
 }

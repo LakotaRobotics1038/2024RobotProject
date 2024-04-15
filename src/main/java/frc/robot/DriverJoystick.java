@@ -4,11 +4,12 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision.VisionTarget;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
+import frc.robot.commands.DriveToAprilTagCommand;
 import frc.robot.commands.ReverseTrapSequenceCommand;
 import frc.robot.commands.TrapSequenceCommand;
 import frc.robot.commands.LiftDownCommand;
@@ -17,7 +18,6 @@ import frc.robot.commands.LiftDownManualCommand;
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Vision vision = Vision.getInstance();
 
     // Previous Status
     private double prevX = 0;
@@ -90,10 +90,8 @@ public class DriverJoystick extends XboxController1038 {
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
         super.bButton.whileTrue(new LiftUpCommand());
 
-        // Enables Vision thing
-        super.aButton
-                .onTrue(new InstantCommand(vision::enable0, vision))
-                .onFalse(new InstantCommand(vision::disable0, vision));
+        super.yButton
+                .whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
 
         rightBumper.whileTrue(new ReverseTrapSequenceCommand());
         rightTrigger.whileTrue(new LiftDownCommand());
@@ -110,7 +108,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return desired value rate limited and adjusted for sign changes using
      *         {@link #signChange Sign Change Function}
      */
-    private double limitRate(double value, double prevVal, SlewRateLimiter filter) {
+    public double limitRate(double value, double prevVal, SlewRateLimiter filter) {
         if (value == 0 || signChange(value, prevVal)) {
             filter.reset(0);
         }

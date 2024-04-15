@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.pathplanner.lib.util.PathPlannerLogging;
 
@@ -69,7 +70,7 @@ public class Dashboard extends SubsystemBase {
     private Dashboard() {
         super();
         camera = new HttpCamera("JetsonCamera", "http://10.10.38.15:1180/stream");
-        camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        camera.setConnectionStrategy(ConnectionStrategy.kAutoManage);
         tableInstance.getEntry("/CameraPublisher/JetsonCamera/streams").setStringArray(camera.getUrls());
 
         // TODO: This prevents you from switching tabs for some reason
@@ -85,8 +86,9 @@ public class Dashboard extends SubsystemBase {
 
         driversTab.addNumber("Gyro", () -> {
             double angle = driveTrain.getHeading();
-            angle %= 360;
-            return angle < 0 ? angle + 360 : angle;
+            return angle;
+            // angle %= 360;
+            // return angle < 0 ? angle + 360 : angle;
         })
                 .withPosition(2, 0)
                 .withSize(2, 1);
@@ -112,10 +114,10 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        // driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
-        // .withPosition(6, 0)
-        // .withWidget(BuiltInWidgets.kBooleanBox)
-        // .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
+        driversTab.addBoolean("Vision 1 Enabled?", vision::isEnabled1)
+                .withPosition(6, 0)
+                .withWidget(BuiltInWidgets.kBooleanBox)
+                .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
 
         controlsTab.add(field)
                 .withPosition(2, 0)

@@ -14,12 +14,12 @@ import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
-public class ScoreInAmpMidline extends Auton {
+public class ScoreInAmpBack extends Auton {
 
     private Acquisition acquisition = Acquisition.getInstance();
     private Alliance alliance;
 
-    public ScoreInAmpMidline(Optional<Alliance> alliance) {
+    public ScoreInAmpBack(Optional<Alliance> alliance) {
         super(alliance);
 
         this.alliance = alliance.get();
@@ -35,14 +35,8 @@ public class ScoreInAmpMidline extends Auton {
                 followPathCommand(Paths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
-                new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
                 new ParallelCommandGroup(
-                        followPathCommand(Paths.pathFromAmpToMidlineAcquire)
-                                .until(acquisition::isNotePresent)
-                                .andThen(followPathCommand(Paths.pathFromMidlineNoteToAmp)),
-                        new AcquisitionRunCommand()),
-                new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(ScoringLocation.Amp, 3),
-                followPathCommand(Paths.pathFromAmpToMidlineAcquire));
+                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
+                        followPathCommand(Paths.pathFromAmpToBack)));
     }
 }

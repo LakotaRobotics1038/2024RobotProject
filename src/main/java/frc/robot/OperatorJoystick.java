@@ -15,7 +15,9 @@ import frc.robot.commands.ShootPasserCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.subsystems.ScoringElevator;
 import frc.robot.subsystems.Storage;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
+import frc.robot.subsystems.Vision.CameraStream;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.DrawbridgeDownCommand;
 import frc.robot.commands.DrawbridgeUpCommand;
@@ -29,6 +31,7 @@ public class OperatorJoystick extends XboxController1038 {
     private XboxController1038 operatorJoystick = new XboxController1038(OperatorJoystickPort);
     private ScoringElevator scoringElevator = ScoringElevator.getInstance();
     private Storage storage = Storage.getInstance();
+    private Vision vision = Vision.getInstance();
     private boolean scoringElevatorLock = true;
 
     public static OperatorJoystick getInstance() {
@@ -45,7 +48,9 @@ public class OperatorJoystick extends XboxController1038 {
         // aButton.whileTrue(new FullAcquireCommand());
         aButton
                 .whileTrue(new AcquisitionRunCommand())
-                .onTrue(new InstantCommand(() -> scoringElevatorLock = true));
+                .onTrue(new InstantCommand(() -> scoringElevatorLock = true))
+                .onTrue(new InstantCommand(() -> vision.setCamStream(CameraStream.cam1)))
+                .onFalse(new InstantCommand(() -> vision.setCamStream(CameraStream.cam0)));
         bButton.whileTrue(new ReverseStorageCommand());
         xButton.whileTrue(new UnacquireCommand());
         yButton.onTrue(new FeedNoteFineAdjCommand());

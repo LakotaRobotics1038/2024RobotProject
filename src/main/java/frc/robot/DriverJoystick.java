@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.commands.LiftUpCommand;
 import frc.robot.commands.DriveToAprilTagCommand;
+import frc.robot.commands.ReverseTrapSequenceCommand;
+import frc.robot.commands.TrapSequenceCommand;
 import frc.robot.commands.LiftDownCommand;
 import frc.robot.commands.LiftDownManualCommand;
 
@@ -86,14 +88,16 @@ public class DriverJoystick extends XboxController1038 {
 
         // Lock the wheels into an X formation
         super.xButton.whileTrue(new RunCommand(driveTrain::setX, driveTrain));
+        super.bButton.whileTrue(new LiftUpCommand());
 
-        super.bButton
+        super.yButton
                 .whileTrue(new DriveToAprilTagCommand(this, VisionTarget.APR1));
 
-        rightBumper.whileTrue(new LiftUpCommand());
+        rightBumper.whileTrue(new ReverseTrapSequenceCommand());
         rightTrigger.whileTrue(new LiftDownCommand());
 
         leftTrigger.whileTrue(new LiftDownManualCommand());
+        leftBumper.whileTrue(new TrapSequenceCommand());
     }
 
     /**

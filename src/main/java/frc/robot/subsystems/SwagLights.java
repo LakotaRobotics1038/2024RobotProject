@@ -4,11 +4,13 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.OperatorJoystick;
 
 public class SwagLights implements Subsystem {
 
     private Acquisition acquisition = Acquisition.getInstance();
     private Storage storage = Storage.getInstance();
+    private OperatorJoystick operatorJoystick = OperatorJoystick.getInstance();
 
     // Enums
     public enum RobotStates {
@@ -64,6 +66,9 @@ public class SwagLights implements Subsystem {
                 .onTrue(new InstantCommand(() -> operatorState = OperatorStates.NoteAcquired));
         new Trigger(storage::noteExitingStorage)
                 .onFalse(new InstantCommand(() -> operatorState = OperatorStates.Default));
+        new Trigger(operatorJoystick.aButton)
+                .onTrue(new InstantCommand(() -> operatorState = OperatorStates.NoteSeen))
+                .onFalse(new InstantCommand(() -> operatorState = OperatorStates.Default));
     }
 
     @Override
@@ -83,6 +88,7 @@ public class SwagLights implements Subsystem {
      * @param values
      */
     private void setLedStates(String... values) {
+        System.out.println(String.join("", values));
         serialPort.writeString(String.join("", values));
     }
 

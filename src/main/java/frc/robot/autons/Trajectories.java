@@ -45,4 +45,9 @@ public class Trajectories {
         return new PathPlannerTrajectory(Paths.pathFromSourceToBottomNote, DriveTrain.getInstance().getChassisSpeeds(),
                 Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
     }
+
+    public static PathPlannerTrajectory getFromAmpToTopNote() {
+        return new PathPlannerTrajectory(Paths.pathFromPos1ToTopNote, DriveTrain.getInstance().getChassisSpeeds(),
+                Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()));
+    }
 }

@@ -30,7 +30,7 @@ public class MidlineNoteAutonSource extends Auton {
                                 .until(acquisition::isNotePresent),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoDisable)
                                 .onlyIf(() -> storage.noteExitingStorage() || acquisition.isNotePresent())
-                                .alongWith(new ShootPasserCommand()),
+                                .andThen(new ShootPasserCommand(1.5)),
                         new AcquisitionRunCommand()),
 
                 new ParallelCommandGroup(
@@ -38,7 +38,7 @@ public class MidlineNoteAutonSource extends Auton {
                                 .until(acquisition::isNotePresent),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoDisable)
                                 .onlyIf(() -> storage.noteExitingStorage() || acquisition.isNotePresent())
-                                .alongWith(new ShootPasserCommand()),
+                                .andThen(new ShootPasserCommand(1.5)),
                         new AcquisitionRunCommand()),
 
                 new ParallelCommandGroup(
@@ -46,7 +46,7 @@ public class MidlineNoteAutonSource extends Auton {
                                 .until(acquisition::isNotePresent),
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoDisable)
                                 .onlyIf(() -> storage.noteExitingStorage() || acquisition.isNotePresent())
-                                .alongWith(new ShootPasserCommand()),
+                                .andThen(new ShootPasserCommand(1.5)),
                         new AcquisitionRunCommand()));
 
     }

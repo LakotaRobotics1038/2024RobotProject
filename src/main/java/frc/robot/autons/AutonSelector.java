@@ -13,6 +13,8 @@ public class AutonSelector {
         NoAuto,
         AmpAuto,
         ScoreAmpBack,
+        Midline4NotesAmp,
+        Midline4NoteSource,
         AmpAutoMidline,
         AmpAutoAcquire,
         AmpAutoTrap,
@@ -41,6 +43,8 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Score 2 In Amp Position 1", AutonChoices.AmpAuto);
+        this.autoChooser.addOption("Shoot 4 Midline notes Source Side", AutonChoices.Midline4NoteSource);
+        this.autoChooser.addOption("Shoot 4 Midline notes Amp Side", AutonChoices.Midline4NotesAmp);
         this.autoChooser.addOption("Score Amp Back", AutonChoices.ScoreAmpBack);
         this.autoChooser.addOption("Score 2 in amp from midline Pos 1", AutonChoices.AmpAutoMidline);
         this.autoChooser.addOption("Score 2 in amp and acquire Pos 1", AutonChoices.AmpAutoAcquire);
@@ -75,6 +79,10 @@ public class AutonSelector {
                 return new ScoreInAmp(alliance);
             case ScoreAmpBack:
                 return new ScoreInAmpBack(alliance);
+            case Midline4NoteSource:
+                return new MidlineNoteAutonSource(alliance);
+            case Midline4NotesAmp:
+                return new MidlineNoteAutonAmp(alliance);
             case AmpAutoMidline:
                 return new ScoreInAmpMidline(alliance);
             case AmpAutoAcquire:

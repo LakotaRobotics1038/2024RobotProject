@@ -5,21 +5,19 @@ import java.util.Optional;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Storage;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ShootPasserCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
-public class MidlineNoteAuton extends Auton {
+public class MidlineNoteAutonSource extends Auton {
 
     private Acquisition acquisition = Acquisition.getInstance();
     private Storage storage = Storage.getInstance();
 
-    public MidlineNoteAuton(Optional<Alliance> alliance) {
+    public MidlineNoteAutonSource(Optional<Alliance> alliance) {
         super(alliance);
 
         this.setInitialPose(Trajectories.getFromSouceToBottomMidlineNote());

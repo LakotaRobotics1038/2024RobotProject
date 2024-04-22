@@ -12,10 +12,22 @@ public class ShootPasserCommand extends Command {
     private Passer passer = Passer.getInstance();
     private Timer timer = new Timer();
     private double secondsToScore = 0;
+    private double shootDelay = 0.25;
+
+    public ShootPasserCommand(double secondsToScore, double shootDelay) {
+        this.addRequirements(scoring);
+        this.secondsToScore = secondsToScore;
+        this.shootDelay += shootDelay;
+    }
 
     public ShootPasserCommand(double secondsToScore) {
         this.addRequirements(scoring);
         this.secondsToScore = secondsToScore;
+    }
+
+    public ShootPasserCommand(double shootDelay, boolean doShootDelay) {
+        this.addRequirements(scoring);
+        this.shootDelay += shootDelay;
     }
 
     public ShootPasserCommand() {
@@ -30,7 +42,7 @@ public class ShootPasserCommand extends Command {
 
     @Override
     public void execute() {
-        if (timer.get() > 0.25) {
+        if (timer.get() > shootDelay) {
             scoring.feedForPasser();
             storage.runStorage();
         }

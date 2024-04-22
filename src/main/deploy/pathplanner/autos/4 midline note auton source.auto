@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From Source to Bottom Note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "From Midline bottom note to 2nd bottom note"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline 2nd to bottom note to middle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Midline Middle note to 2nd note"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

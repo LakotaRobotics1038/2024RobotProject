@@ -18,6 +18,6 @@ public class FunctionTestingCommand extends SequentialCommandGroup {
                 new LiftUpCommand(),
                 new DrawbridgeUpCommand(),
                 new LiftDownCommand(),
-                new ShootPasserCommand());
+                new ShootPasserCommand(5));
     }
 }

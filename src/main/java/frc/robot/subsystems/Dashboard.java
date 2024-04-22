@@ -151,12 +151,15 @@ public class Dashboard extends SubsystemBase {
             driveTrain.zeroHeading();
             resetGyro.setBoolean(false);
         }
+
+        field.setRobotPose(driveTrain.getPose());
+        scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));
+
         if (functionTesting.getBoolean(false)) {
             new FunctionTestingCommand();
             functionTesting.setBoolean(false);
         }
-        field.setRobotPose(driveTrain.getPose());
-        scoring.setFeedAmpSpeed(feedAmpSpeed.getDouble(ScoringConstants.feedAmpSpeed));
+
     }
 
     /**

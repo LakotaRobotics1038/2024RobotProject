@@ -3,6 +3,7 @@ package frc.robot.autons;
 import java.util.Optional;
 
 import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Storage;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -16,6 +17,7 @@ import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 public class CenterSpeaker4NoteBottom extends Auton {
 
     private Acquisition acquisition = Acquisition.getInstance();
+    private Storage storage = Storage.getInstance();
 
     public CenterSpeaker4NoteBottom(Optional<Alliance> alliance) {
         super(alliance);
@@ -25,7 +27,7 @@ public class CenterSpeaker4NoteBottom extends Auton {
 
         super.addCommands(
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer, FinishActions.NoDisable),
-                new ShootPasserCommand(),
+                new ShootPasserCommand(1.0),
 
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromMiddleSpeakerBottomNote)
@@ -33,9 +35,10 @@ public class CenterSpeaker4NoteBottom extends Auton {
                                 .andThen(new ParallelCommandGroup(
                                         followPathCommand(Paths.pathFromBottomNoteToMiddleSpeaker),
                                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer,
-                                                FinishActions.NoDisable)),
+                                                FinishActions.NoDisable)
+                                                .unless(() -> !storage.noteExitingStorage())),
                                         new AcquisitionRunCommand()),
-                        new ShootPasserCommand(),
+                        new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage()),
 
                         new ParallelCommandGroup(
                                 followPathCommand(Paths.pathFromMiddleSpeakerMiddleNote)
@@ -43,9 +46,10 @@ public class CenterSpeaker4NoteBottom extends Auton {
                                         .andThen(new ParallelCommandGroup(
                                                 followPathCommand(Paths.pathFromMiddleNoteToMiddleSpeaker),
                                                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer,
-                                                        FinishActions.NoDisable)),
+                                                        FinishActions.NoDisable))
+                                                .unless(() -> !storage.noteExitingStorage()),
                                                 new AcquisitionRunCommand()),
-                                new ShootPasserCommand())),
+                                new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage()))),
 
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromMiddleSpeakerTopNote)
@@ -53,8 +57,9 @@ public class CenterSpeaker4NoteBottom extends Auton {
                                 .andThen(new ParallelCommandGroup(
                                         followPathCommand(Paths.pathFromTopNoteToMiddleSpeaker),
                                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer,
-                                                FinishActions.NoDisable)),
+                                                FinishActions.NoDisable))
+                                        .unless(() -> !storage.noteExitingStorage()),
                                         new AcquisitionRunCommand()),
-                        new ShootPasserCommand()));
+                        new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage())));
     }
 }

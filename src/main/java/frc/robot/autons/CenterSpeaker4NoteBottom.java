@@ -22,7 +22,7 @@ public class CenterSpeaker4NoteBottom extends Auton {
     public CenterSpeaker4NoteBottom(Optional<Alliance> alliance) {
         super(alliance);
 
-        this.setInitialPose(Trajectories.getFromPosition1ToAmpTrajectory(),
+        this.setInitialPose(Trajectories.getFromMiddleSpeakerToTopNote(),
                 new Rotation2d(Units.degreesToRadians(180)));
 
         super.addCommands(
@@ -38,18 +38,18 @@ public class CenterSpeaker4NoteBottom extends Auton {
                                                 FinishActions.NoDisable)
                                                 .unless(() -> !storage.noteExitingStorage())),
                                         new AcquisitionRunCommand()),
-                        new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage()),
+                        new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage())),
 
-                        new ParallelCommandGroup(
-                                followPathCommand(Paths.pathFromMiddleSpeakerMiddleNote)
-                                        .until(acquisition::isNotePresent)
-                                        .andThen(new ParallelCommandGroup(
-                                                followPathCommand(Paths.pathFromMiddleNoteToMiddleSpeaker),
-                                                new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer,
-                                                        FinishActions.NoDisable))
-                                                .unless(() -> !storage.noteExitingStorage()),
-                                                new AcquisitionRunCommand()),
-                                new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage()))),
+                new ParallelCommandGroup(
+                        followPathCommand(Paths.pathFromMiddleSpeakerMiddleNote)
+                                .until(acquisition::isNotePresent)
+                                .andThen(new ParallelCommandGroup(
+                                        followPathCommand(Paths.pathFromMiddleNoteToMiddleSpeaker),
+                                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Passer,
+                                                FinishActions.NoDisable))
+                                        .unless(() -> !storage.noteExitingStorage()),
+                                        new AcquisitionRunCommand()),
+                        new ShootPasserCommand(1.0).unless(() -> !storage.noteExitingStorage())),
 
                 new ParallelCommandGroup(
                         followPathCommand(Paths.pathFromMiddleSpeakerTopNote)

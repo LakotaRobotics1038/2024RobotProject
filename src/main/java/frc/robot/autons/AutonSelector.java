@@ -12,6 +12,7 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         AmpAuto,
+        ShootAndSit,
         Speaker4NoteTop,
         Speaker4NoteBottom,
         AmpAutoMidline,
@@ -41,6 +42,7 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("Shoot and Sit", AutonChoices.ShootAndSit);
         this.autoChooser.addOption("Score 2 In Amp Position 1", AutonChoices.AmpAuto);
         this.autoChooser.addOption("4 Note Speaker Top", AutonChoices.Speaker4NoteTop);
         this.autoChooser.addOption("4 Note Speaker Bottom", AutonChoices.Speaker4NoteBottom);
@@ -75,6 +77,8 @@ public class AutonSelector {
         switch (this.autoChooser.getSelected()) {
             case AmpAuto:
                 return new ScoreInAmp(alliance);
+            case ShootAndSit:
+                return new ShootAndSit(alliance);
             case AmpAutoMidline:
                 return new ScoreInAmpMidline(alliance);
             case AmpAutoAcquire:

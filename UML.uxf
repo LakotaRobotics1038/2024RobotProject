@@ -1,0 +1,717 @@
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>518</x><y>980</y><w>322</w><h>287</h></coordinates><panel_attributes>DriveTrain
+--
+-!frontLeft: MAXSwerveModule
+-!frontRight: MAXSwerveModule
+-!rearLeft: MAXSwerveModule
+-!rearRight: MAXSwerveModule
+-!gyro: Pigeon2
+-odometry: SwerveDriveOdometry
+-instance: DriveTrain
+--
+_+getInstance(): DriveTrain_
+-DriveTrain()
++periodic(): void
++getPose(): Pose2d
++resetOdometry(pose: Pose2d): void
++drive(xSpeed: double, ySpeed: double, rot: double, fieldRelative: boolean): void
++applyChassisSpeeds(speeds: ChassisSpeeds): void
++getChassisSpeeds(): ChassisSpeeds
++setX(): void
++setModuleStates(desiredStates: SwerveModuleState[]): void
++getModuleStates(): SwerveModuleState[]
++setDrivingIdleMode(mode IdleMode): void
++resetEncoders(): void
++zeroHeading(): void
++getHeading(): double
++getTurnRate(): double
++getRoll(): double
++getPitch(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>973</x><y>616</y><w>119</w><h>161</h></coordinates><panel_attributes>Acquisition
+--
+_-instance: Acquisition_
+_-sushiMotor: CanSparkMax_
+_-intakeMotor: CanSparkMax_
+_-acqLaser: DigitalInput_
+--
+-Acquisition()
+_+getInstance(): Acquisition_
++acquire(): void
++runSushi(): void
++reverseMotors(): void
++reverseSushi(): void
++stopSushi(): void
++stopIntake(): void
++isNotePresent(): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>973</x><y>770</y><w>98</w><h>203</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;270;120;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>945</x><y>959</y><w>70</w><h>21</h></coordinates><panel_attributes>SubsystemBase</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>833</x><y>966</y><w>126</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;260</additional_attributes></element><element><id>Text</id><coordinates><x>1631</x><y>1463</y><w>35</w><h>21</h></coordinates><panel_attributes>!=Final</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>602</x><y>644</y><w>196</w><h>231</h></coordinates><panel_attributes>Dashboard
+--
+-driveTrain: DriveTrain
+-scoring: Scoring
+-vision: Vision
+-autoChooser: SendableChooser&lt;AutonChoices&gt;
+-delayChooser: SendableChooser&lt;Double&gt;
+-!driversTab: ShuffleboardTab
+-!controlsTab: ShuffleboardTab
+-!tableInstance: NetworkTableInstance
+-!field: Field2d
+-!camera: HttpCamera
+-resetGyro: GenericEntry
+-feedAmpSpeed: GenericEntry
+_-instance: Dashboard_
+--
+_+getInstance(): Dashboard_
+-Dashboard()
++periodic(): void
++setTrajectory(trajectory: Trajectory): void
++clearTrajectory(): void
++getAutoChooser(): SendableChooser&lt;AutonChoices&gt;
++getDelayChooser(): SendableChooser&lt;Double&gt;
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>511</x><y>735</y><w>70</w><h>49</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+Cameras
+--
+coneCamera
+cubeCamera
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>574</x><y>756</y><w>42</w><h>21</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>40;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>791</x><y>854</y><w>168</w><h>119</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>220;150;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>602</x><y>875</y><w>175</w><h>105</h></coordinates><panel_attributes>Drawbridge
+--
+-leftDrawbridgeServo: Servo
+-rightDrawbridgeServo: Servo
+_-instance: Drawbridge_
+--
+_+getInstance(): Drawbridge_
+-Drawbridge()
++down(): void
++up(): void
++getPosition(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>770</x><y>917</y><w>189</w><h>63</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;70;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>483</x><y>1267</y><w>441</w><h>497</h></coordinates><panel_attributes>Lift
+--
+-driveTrain: DriveTrain
+-leftLieftMotor: CANSparkMax
+-rightLiftMotor: CANSparkMax
+-leftLiftEnconer: RelativeEncoder
+-rightLiftEncoder: RelativeEncoder
+-leftLimitSwitch: SparkLimitSwitch
+-rightLimitSwitch: SparkLimitSwitch
+-leftRatchetServo: Servo
+-rightRatchetServo: Servo
+-verticalControllerLeft: PIDController
+-verticalControllerRight: PIDController
+-errorController: PIDController
+-enabled: boolean
+_-instance: Lift_
+--
+_+getInstance(): Lift_
+-Lift()
++enableRatchets(): void
++disableRatchets(): void
++leftRatchetUnlocked(): boolean
++rightRatchetUnlocked(): boolean
+-run(motor: CANSparkMax, encoder: RelativeEncoder, ratchetUnlocked: BooleanSupplier, speed: double): void
+-runLeft(speed: double): void
+-runRight(speed: double): void
++runLeftDown(): void
++runRightDown(): void
++leftLowerLimitReached(): boolean
++rightLowerLimitReached(): boolean
++periodic(): void
++getLeftVerticalController(): PIDController
++getRightVerticalController(): PIDController
++getErrorController(): PIDController
++setSetpointLeft(setPoint: double): void
++setSetpointRight(setPoint: double): void
++getLeftSetpoint(): double
++getRightSetpoint(): double
++getLeftPosition(): double
++getRightPosition(): double
++stopLeftMotor(): void
++stopRightMotor(): void
++stopMotors(): void
++enable(): void
++disable(): void
++isEnabled(): boolean
++leftOnTarget(): boolean
++rightOnTarget(): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>924</x><y>1267</y><w>140</w><h>112</h></coordinates><panel_attributes>Passer
+--
+-!passerMotor: CANSparkFlex
+-!passerEncoder: RelativeEncoder
+_-instance: Passer_
+--
+_getInstance(): Passer_
+-Passer()
++getPosition(): double
++shoot(): void
++stop(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1064</x><y>1267</y><w>147</w><h>161</h></coordinates><panel_attributes>Scoring
+--
+-!scoringMotor: CANSparkFlex
+-!scoringEncoder: RelativeEncoder
+-feedAmpSpeed: double
+_-instance: Scoring_
+--
+_+getInstance(): Scoring_
++Scoring()
++getPosition(): double
++setFeedAmpSpeed(speed: double): void
++scoreAmp(): void
++feedForTrap(): void
++scoreTrap(): void
++feedForPasser(): void
++stop(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1162</x><y>987</y><w>210</w><h>280</h></coordinates><panel_attributes>ScoringElevator
+--
+-!leftScoringElevatorMotor: CANSparkMax
+-!rightScoringElevatorMotor: CANSparkMax
+-!leftScoringElevatorLimitSwitch: SparkLimitSwitch
+-!rightScoringElevatorLimitSwitch: SparkLimitSwitch
+-leftScoringElevatorEncoder: RelativeEncoder
+-rightScoringElevatorEncoder: RelativeEncoder
+-enabled: boolean
+-verticalController: PIDController
+-errorController: PIDController
+_-instance: ScoringElevator_
+--
+_+getInstance(): ScoringElevator_
++ScoringElevator()
++periodic(): void
++getVerticalController(): PIDController
++getErrorController(): PIDController
++setSetpoint(): void
++getSetpoint(): double
++getLeftPosition(): double
++getRightPosition(): double
++stop(): void
++enable(): void
++disable(): void
++isEnabled(): boolean
++onTarget(): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1309</x><y>1260</y><w>21</w><h>35</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1253</x><y>1281</y><w>210</w><h>98</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+ElevatorSetpoints
+--
+Ground(ScoringElevatorConstants.groundSetpoint)
+Amp(ScoringElevatorConstants.ampSetpoint)
+Passer(ScoringElevatorConstants.passerSetpoint)
+Trap(ScoringElevatorConstants.trapSetpoint)
++!value: double
+--
+ElevatorSetpoints(value: double)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>966</x><y>973</y><w>49</w><h>308</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;420</additional_attributes></element><element><id>Relation</id><coordinates><x>1008</x><y>966</y><w>168</w><h>203</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;220;270</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1162</x><y>812</y><w>147</w><h>182</h></coordinates><panel_attributes>Storage
+--
+-!transitionMotor: CANSparkMax
+-!storageMotor: CANSparkMax
+-!enterStorageLaser: DigitalInput
+-!exitStorageLasert: DIgitalInput
+-!instance: Storage
+--
+_+getInstance(): Storage_
+-Storage()
++runTransition(): void
++reverseTransition(): void
++runStorage(): void
++reverseStorage(): void
++stopStorage(): void
++stopstopTransition(): void
++noteEnteringStorag(): boolean
++noteExitingStorage(): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1008</x><y>952</y><w>168</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;20;220;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1092</x><y>644</y><w>147</w><h>161</h></coordinates><panel_attributes>SwagLights
+--
+-acquisition: Acquisition
+-storage: Storage
+-operatorJoystick: OperatorJoystick
+-serialPort: SerialPort
+-robotState: RobotStates
+-operatorState: OperatorStates
+_-instance: SwagLights_
+--
+_+getInstance(): SwagLights_
+-SwagLights()
++periodic(): void
++stopSerialPort: void
++setDisabled(): void
++setEStop(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1225</x><y>553</y><w>21</w><h>105</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1106</x><y>553</y><w>21</w><h>105</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1162</x><y>476</y><w>112</w><h>84</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+RobotStates
+--
+Enabled("A")
+Disabled("D")
+EmergencyStop("E")
++!value: String
+--
+-RobotStates(value: String)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1036</x><y>476</y><w>126</w><h>84</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+OperatorStates
+--
+Defualt("X")
+NoteSeen("N")
+NoteAcquired("G")
++!value: String
+--
+-OperatorStates(value: String)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1001</x><y>798</y><w>140</w><h>175</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;230;180;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>798</x><y>413</y><w>175</w><h>371</h></coordinates><panel_attributes>Vision
+--
+-jsonParser: JSONParser
+-recording: boolean
+-enabled0: boolean
+-enabled1: boolean
+-VisionData: List&lt;VisionData&gt;
+inst: NetworkTableInstance
+table: NetworkTable
+recordingTopic: BooleanTopic
+recordingPublisher: BooleanPublisher
+enabled0Topic: BooleanTopic
+enabled0Publisher: BooleanPublisher
+enabled1Topic: BooleanTopic
+enabled1Publisher: BooleanPublisher
+streamCam0Topic: BooleanTopic
+streamCam0Publisher: BooleanPublisher
+valuesTopic: StringTopic
+valuesSubscriber: StringSubscriber
+_-instance: Vision_
+--
+_+getInstance()_
+-Vision()
++periodic(): void
++setCamStream(cam: CameraStream): void
++startRecording(): void
++stopRecording(): void
++enable0(): void
++disable0(): void
++isEnabled0(): boolean
++enable1(): void
++disable1(): void
++isEnabled1(): boolean
++getX(target: VisionTarget): double
++getY(target: VisionTarget): double
++getAngle(target: VisionTarget): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>826</x><y>385</y><w>21</w><h>42</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>798</x><y>161</y><w>84</w><h>231</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+VisionTarget
+--
+NOTE(0)
+APT1(1)
+APT2(2)
+APT3(3)
+APT4(4)
+APT5(5)
+APT6(6)
+APT7(7)
+APT8(8)
+APT9(9)
+APT10(10)
+APT11(11)
+APT12(12)
+APT13(13)
+APT14(14)
+APT15(15)
+APT16(16)
++!id: int
+--
+VisionTarget(id: int)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>910</x><y>385</y><w>21</w><h>42</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>882</x><y>343</y><w>70</w><h>49</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+CameraStream
+--
+cam0
+cam1</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>889</x><y>777</y><w>77</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;260;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1687</x><y>378</y><w>70</w><h>21</h></coordinates><panel_attributes>Command</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1281</x><y>210</y><w>182</w><h>126</h></coordinates><panel_attributes>AquireCommand
+--
+_-acquisition: Acquisition_
+-timer: Timer
+-timeToAcquire: double;
+-seen: boolean;
+--
++AcquireCommand()
++AcquireCommand(timeToAcquire: double)
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1456</x><y>294</y><w>245</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>330;140;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1302</x><y>441</y><w>147</w><h>63</h></coordinates><panel_attributes>DrawbridgeDownCommand
+--
+-drawbridge: DrawBridge
+--
++DrawbridgeDownCommand()
++initialize(): void
++isFinished(): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1449</x><y>357</y><w>259</w><h>56</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>350;60;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1302</x><y>504</y><w>147</w><h>63</h></coordinates><panel_attributes>DrawbridgeUpCommand
+--
+-drawbridge: Drawbridge
+--
++DrawbridgeUpCommand()
++initialize(): void
++isFinished: boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1442</x><y>392</y><w>280</w><h>91</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>380;10;10;110</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1281</x><y>567</y><w>308</w><h>126</h></coordinates><panel_attributes>FeedNoteCommand
+--
+-scoring: Scoring
+-timer: Timer
+-secondsToScore: double
+-dcoringLoc: ScoringLocation
+--
++FeedNoteCommand(scoringLoc: ScoringLocation, secondsToScore: double)
++FeedNoteCommand(scoringLoc: ScoringLocation)
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1512</x><y>392</y><w>224</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>300;10;10;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1589</x><y>567</y><w>140</w><h>98</h></coordinates><panel_attributes>FeedNoteFineAdjCommand
+--
+-scoring: Scoring
+-startingPos: double
+--
++FeedNoteFineAdjCommand()
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1652</x><y>392</y><w>91</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1505</x><y>882</y><w>112</w><h>21</h></coordinates><panel_attributes>SequentialCommandGroup</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1372</x><y>861</y><w>105</w><h>42</h></coordinates><panel_attributes>FullAcquireCommand
+--
+
+--
++FullAcquireCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1470</x><y>868</y><w>49</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1729</x><y>567</y><w>133</w><h>77</h></coordinates><panel_attributes>LiftDownCommand
+--
+-lift: Lift
+--
++LiftDownCommand()
++intiialize(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1736</x><y>392</y><w>63</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1862</x><y>567</y><w>133</w><h>77</h></coordinates><panel_attributes>LiftDownManualCommand
+--
+-lift: Lift
+--
++LiftFownManualCommand()
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>392</y><w>217</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;290;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1995</x><y>525</y><w>133</w><h>77</h></coordinates><panel_attributes>LiftUpCommand
+--
+-lift: Lift
+--
++LiftUpCommand()
++initialize(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>385</y><w>259</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;350;260</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1946</x><y>448</y><w>133</w><h>77</h></coordinates><panel_attributes>ReverseStorageCommand
+--
+-storage: Storage
+--
++ReverseStorageCommand()
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>378</y><w>210</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;280;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1442</x><y>924</y><w>147</w><h>56</h></coordinates><panel_attributes>ReverseTrapSequenceCommand
+--
+-lift: Lift
+-!liftTrapPosition: double
+--
++ReverseTrapSequenceCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1512</x><y>896</y><w>28</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>20;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1918</x><y>308</y><w>308</w><h>140</h></coordinates><panel_attributes>ScoreNoteCommand
+--
+-scoring: Scoring
+-storage: Storage
+-timer: Timer
+-secondsToScore: double
+-scoringLoc: ScoringLocation
+--
++ScoreNoteCommand(scoringLoc: ScoringLocation, secondsToScore: double)
++ScoreNoteCommand(scoringLoc: ScoringLocation)
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>371</y><w>182</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;240;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1841</x><y>203</y><w>385</w><h>105</h></coordinates><panel_attributes>ScoringElevatorPositionCommand
+--
+-scoring: ScoringElevator
+-scoringState: ElevatorSetpoints
+-finsihAction: FinishActions
+--
++ScoringElevatorPositionCommand(scoringState: ElevatorSetpoints, finishAction: FinishActions)
++ScoringElevatorPositionCommand(scoringState: ElevatorSetpoints)
++initialize(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2219</x><y>252</y><w>42</w><h>21</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>10;10;40;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2247</x><y>224</y><w>63</w><h>63</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+FinishActions
+--
+NoFinish
+NoDisable
+Default</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1827</x><y>63</y><w>203</w><h>140</h></coordinates><panel_attributes>ShootPasserCommand
+--
+-scoring: Scoring
+-storage: Storage
+-passer: Passer
+-timer: Timer
+-secondsToScore: double
+--
++ShootPasserCommand(secondsToScore: double)
++ShootPasserCommand()
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(boolean interrupted): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>245</y><w>105</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;190;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1736</x><y>196</y><w>112</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;260;140;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1687</x><y>77</y><w>140</w><h>84</h></coordinates><panel_attributes>StorageRunCommand
+--
+-storage: Storage
+-acquisition: Acquisition
+--
++StorageRunCommand()
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1715</x><y>154</y><w>63</w><h>238</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;320;70;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1337</x><y>133</y><w>133</w><h>77</h></coordinates><panel_attributes>SushiForwardCommand
+--
+_-acquisition: Acquisition_
+--
++SushiForwardCommand()
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1547</x><y>49</y><w>140</w><h>84</h></coordinates><panel_attributes>TransitionRunCommand
+--
+-storage: Storage
+-acquisition: Acquisition
+--
++TransitionRunCommand()
++execute(): void
++isFinished(): boolean
++end(interrupted: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1589</x><y>952</y><w>119</w><h>56</h></coordinates><panel_attributes>TrapSequenceCommand
+--
+-lift: Lift
+-!liftTrapPosition: double
+--
++TrapSequenceCommand()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1603</x><y>896</y><w>35</w><h>70</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;30;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1638</x><y>126</y><w>77</w><h>266</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;360;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1309</x><y>336</y><w>147</w><h>105</h></coordinates><panel_attributes>AquisitionRunCommand
+--
+-storage: Storage
+-acquisition: Acquisition
+-scoringElevator: ScoringElevator
+--
++AcquisitionRunCommand()
++intialize(): void
++execute(): void
++isFinished(): boolean
++end(isFinished: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1400</x><y>0</y><w>147</w><h>133</h></coordinates><panel_attributes>UnaquireCommand
+--
+-acquisition: Acquisition
+-timer: Timer
+-timeToDrop: double
+--
++UnacquireCommand()
++UnacquireCommand(timeToDrop: int)
++initialize(): void
++execute(): void
++isFinished(): boolean
++end(interrypted: boolean); void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1463</x><y>189</y><w>245</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>330;280;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1505</x><y>126</y><w>224</w><h>266</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>300;360;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>861</x><y>973</y><w>105</w><h>308</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>130;10;10;420</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2219</x><y>1288</y><w>140</w><h>105</h></coordinates><panel_attributes>AcquisitionConstants
+--
+_+!intakeMotorPort: int_
+_+!sushiMotorPort: int_
+_+!acqLaserPort: int_
+_+!reverseMotorSpeed: double_
+_+!sushiSpeed: double_
+_+!intakeSpeed: double_
+_+!defaultTimeToAcquire: double_
+_+!timeToDrop: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1988</x><y>966</y><w>231</w><h>105</h></coordinates><panel_attributes>AutoConstants
+--
+_+!kMaxAccelerationMetersPerSecondSquared: double_
+_+!kMaxAngularSpeedRadiansPerSecond: double_
+_+!kMaxAngularSpeedRadiansPerSecondSquared: double_
+_+!kPXController: double_
+_+!kIXController: double_
+_+!kPThetaController: double_
+_+!kIThetaController: double_
+_+!kThetaControllerConstraints: TrapezoidProfile.Constraints_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2051</x><y>1071</y><w>168</w><h>84</h></coordinates><panel_attributes>DrawbridgeConstants
+--
+_+!leftServoPort: int_
+_+!rightServoPort: int_
+_+!minLeftDrawbridgeExtension: double_
+_+!maxLeftDrawbridgeExtension: double_
+_+!minRightDrawbridgeExtension: double_
+_+!maxRightDrawbridgeExtension: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1939</x><y>1155</y><w>98</w><h>42</h></coordinates><panel_attributes>FieldConstants
+--
+_+!lkFieldWidth: double_
+_+!kFieldLength: double_
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1939</x><y>1071</y><w>112</w><h>42</h></coordinates><panel_attributes>IOConstants
+--
+_+!kDriverControllerPort: int_
+_+!kOperatorControllerPort_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2219</x><y>966</y><w>140</w><h>322</h></coordinates><panel_attributes>LiftConstants
+--
+_+!leftMotorPort: int_
+_+!rightMotorPort: int_
+_+!leftServoPort: int_
+_+!rightSevoPort: int_
+_+!leftRatchetLockPos: double_
+_+!leftRatchetUnlockPos: double_
+_+!rightRatchetLockPos: double_
+_+!rightRatchetUnlockPos: double_
+_+!upSpeed: double_
+_+!downSpeed: double_
+_+!maxExtension: double_
+_+!minExtension: double_
+_+!maxLiftInches: double_
+_+!minLiftInches: double_
+_+!maxPower: double_
+_+!kVerticalDownP: double_
+_+!kVerticalDownI: double_
+_+!kVerticalDownD: double_
+_+!kVerticalLeftUpP: double_
+_+!kVerticalLeftUpI: double_
+_+!kVerticalLeftUpD: double_
+_+!kVerticalRightUpP: double_
+_+!kVerticalRightUpI: double_
+_+!kVerticalRightUpD: double_
+_+!kErrorP: double_
+_+!kErrorI: double_
+_+!kErrorD: double_
+_+!tolerance: double_
+_+!encoderConversion: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2359</x><y>966</y><w>140</w><h>105</h></coordinates><panel_attributes>NeoMotorConstants
+--
+_+!kNeoFreeSpeedRpm: double_
+_+!kVortexFreeSpeedRpm: double_
+_+!kNeo550FreeSpeedRpm: double_
+_+!kMaxNeoCurrent: int_
+_+!kMaxVortexCurrent: int_
+_+!kMaxNeo550Current: int_
+_+!kMinPower: double_
+_+!kMaxPower: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1946</x><y>1113</y><w>105</w><h>42</h></coordinates><panel_attributes>PasserConstants
+--
+_+!passerMotorPort: int_
+_+!shooterSpeed: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1988</x><y>882</y><w>147</w><h>84</h></coordinates><panel_attributes>ScoringConstants
+--
+_+!scoringMotorPort: int_
+_+!feedTrapSpeed: double_
+_+!scoreTrapSpeed: double_
+_+!feedAmpSpeed: double_
+_+!scoreAmpSpeed: double_
+_+!feedPasserSpeed: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1974</x><y>931</y><w>28</w><h>21</h></coordinates><panel_attributes>lt=-</panel_attributes><additional_attributes>20;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1911</x><y>910</y><w>70</w><h>49</h></coordinates><panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+ScoringLocation
+--
+Amp
+Trap</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2037</x><y>1155</y><w>182</w><h>217</h></coordinates><panel_attributes>ScoringElevatorConstants
+--
+_+!leftScoringElevatorMotorPort: int_
+_+!rightScoringElevatorMotorPort: int_
+_+!maxElevatorInches: double_
+_+!maxElevatorEncoderCounts: double_
+_+!elevatorEncoderConversionFactor: double_
+_+!groundSetpoint: double_
+_+!ampSetpoint: double_
+_+!passerSetpoint: double_
+_+!trapSetpoint: double_
+_+!maxDistance: double_
+_+!minDistance: double_
+_+!maxSpeed: double_
+_+!minSpeed: double_
+_+!kVerticalP: double_
+_+!kVerticalI: double_
+_+!kVerticalD: double_
+_+!kErrorP: double_
+_+!kErrorI: double_
+_+!kErrorD: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2135</x><y>861</y><w>140</w><h>105</h></coordinates><panel_attributes>StorageConstants
+--
+_+!transitionMotorPort: int_
+_+!storagePort: int_
+_+!enterStorageLaserPort: int_
+_+!exitStorageLasterPort: int_
+_+!transitionSpeed: double_
+_+!reverseTransitionSpeed: double_
+_+!storageSpeed: double_
+_+!reverseStorageSpeed: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2359</x><y>1071</y><w>203</w><h>371</h></coordinates><panel_attributes>SwerveModuleConstants
+--
+_+!kDrivingMotorPinionTeeth: int_
+_+!kTurningEncoderInverted: boolean_
+_+!kDrivingMotorFreeSpeedRps: double_
+_+!kWheelDiameterMeters: double_
+_+!kWheelCircumferenceMeters: double_
+_+!kSpurGearTeeth: double_
+_+!kBevelGearTeeth: double_
+_+!kBevelPinionTeeth: double_
+_+!kDrivingMotorReduction: double_
+_+!kDriveWheelFreeSpeedRps: double_
+_+!kDrivingEncoderPositionFactor: double_
+_+!kDrivingEncoderVelocityFactor: double_
+_+!kTurningEncoderPositionFactor: double_
+_+!kTurningEncoderVelocityFactor: double_
+_+!kTurningEncoderPositionPIDMinInput: double_
+_+!kTurningEncoderPositionPIDMaxInput: double_
+_+!kDrivingP: double_
+_+!kDrivingI: double_
+_+!kDrivingD: double_
+_+!kDrivingFF: double_
+_+!kDrivingMinOutput: double_
+_+!kDrivingMaxOutput: double_
+_+!kTurningP: double_
+_+!kTurningI: double_
+_+!kTurningD: double_
+_+!kTurningFF: double_
+_+!kTurningMinOutput: double_
+_+!kTurningMaxOutpu: double_
+_+!kAutoDrivingMotorIdleMode: IdleMode_
+_+!kTeleopDrivingMotorIdleMode: IdleMode_
+_+!kTurningMotorIdleMode: IdleMode_
+_+!kDrivingMotorCurrentLimit: int_
+_+!kTurningMotorCurrentLimit: int_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1890</x><y>1197</y><w>147</w><h>196</h></coordinates><panel_attributes>VisionConstants
+--
+_+!kTableName: String_
+_+!kValuesTopic: String_
+_+!kRecordingTopic: String_
+_+!kStreamCam0: String_
+_+!kEnabled0Topic: String_
+_+!kEnabled1Topic: String_
+_+!width: double_
+_+!height: double_
+_+!fov: double_
+_+!driveP: double_
+_+!driveI: double_
+_+!driveD: double_
+_+!spinP: double_
+_+!spinI: double_
+_+!spinD: double_
+_+!spinSetpoint: double_
+_+!aprilTagArea: double_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1554</x><y>854</y><w>21</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1400</x><y>742</y><w>357</w><h>119</h></coordinates><panel_attributes>/Auton/
+--
+-initialPose: Pose2d
+#driveTrain: DriveTrain
+#alliance: Alliace
+--
++Auton(alliance: Optional&lt;Alliance&gt;)
+-setInitialPose(initialPose: Pose2d): void
+#setInitialPose(initialTrajectory: PathPlannerTrajectory): void
+#setInitialPose(initialTrajectory: PathPlannerTrajectory, rotationOffset: Rotation2d): void
++getInitialPose(): Pose2d
++followPathCommand(path: PathPlannerPath): Command</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1645</x><y>854</y><w>196</w><h>98</h></coordinates><panel_attributes>AutonSelector
+--
+autoChooser: SendableChooser&lt;AutonChoices&gt;
+delayChooser: SendableChooser&lt;Double&gt;
+_-instance: AutonSelector_
+--
+_+getInstance(): AutonSelector_
+-AutonSelector()
++chooseAuton(): Auton
++chooseDelay(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1610</x><y>882</y><w>49</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;50;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1407</x><y>1043</y><w>210</w><h>161</h></coordinates><panel_attributes>Paths
+--
+_+pathFromPosition1ToAmp: PathPlannerPath_
+_+pathFromTaxi3ToPos1: PathPlannerPath_
+_+pathFromAmpToNote1: PathPlannerPath_
+_+pathFromNote1ToAmp: PathPlannerPath_
+_+pathFromAmpToMidline: PathPlannerPath_
+_+pathFromAmpToMidlineAcquire: PathPlannerPath_
+_+pathFromMidlineNoteToAmp: PathPlannerPath_
+_+pathFromAmpToMidlineNote2: PathPlannerPath_
+_+pathFromNote2ToTrap: PathPlannerPath_
+_+pathFromAmpToBack: PathPlannerPath_
+_+taxiPath1: PathPlannerPath_
+_+taxiPath2: PathPlannerPath_
+_+taxiPath3: PathPlannerPath_</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>756</y><w>56</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1792</x><y>770</y><w>175</w><h>49</h></coordinates><panel_attributes>ScoreInAmp
+--
+-acquisition: Acquisition
+--
++ScoreInAmp(alliance: Optional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>721</y><w>56</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1792</x><y>714</y><w>203</w><h>56</h></coordinates><panel_attributes>ScoreAmpMidline
+--
+-acquisition: Acquisition
+-alliance: Alliance
+--
+ScoreInAmpMidline(alliance: Optional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>798</y><w>56</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;60;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1792</x><y>819</y><w>196</w><h>49</h></coordinates><panel_attributes>ScoreInAmpTrap
+--
+-acquisition: Acquisition
+--
++ScoreInAmpTrap(alliance: Optaional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1792</x><y>679</y><w>161</w><h>35</h></coordinates><panel_attributes>TaxiPos1
+--
++TaxiPos1(alliance: Optional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1750</x><y>707</y><w>56</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;60;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1631</x><y>679</y><w>161</w><h>35</h></coordinates><panel_attributes>TaxiPos2
+--
++TaxiPos2(alliance: Optional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1715</x><y>707</y><w>21</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;50;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1470</x><y>693</y><w>161</w><h>35</h></coordinates><panel_attributes>TaxiPos3
+--
++TaxiPos3(alliance: Optional&lt;Alliance&gt;)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1554</x><y>721</y><w>21</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;30;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1624</x><y>1043</y><w>252</w><h>98</h></coordinates><panel_attributes>Trajectories
+--
+_+getFromAmpToNote1Trajectory(): PathPlannerTrajectory_
+_+getFromTaxi3ToPos1Trajectory(): PathPlannerTrajectory_
+_+getFromPos1TaxiTrajectory(): PathPlannerTrajectory_
+_+getFromPos2TaxiTrajectory(): PathPlannerTrajectory_
+_+getFromPos3TaxiTrajectory(): PathPlannerTrajectory_
+_+getFromNote1ToAmpTrajectory(): PathPlannerTrajectory_
+_+getFromPosition1ToAmpTrajectory(): PathPlannerTrajectory_</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1253</x><y>1386</y><w>189</w><h>112</h></coordinates><panel_attributes>VisionData
+--
+-x: double
+-y: double
+-target: VisionTarget
+--
++VisionData(x: String, y: String, target: String)
++toString(): String
++getX(): double
++getY(): double
++getTarget(): VisionTarget</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1624</x><y>1148</y><w>105</w><h>98</h></coordinates><panel_attributes>VisionData
+--
+-x: double
+-y: double
+-target: VisionTarget
+--
++toString(): String
++getX(): double
++getY(): double
+getTarget(): VisionTarget</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>147</x><y>707</y><w>147</w><h>133</h></coordinates><panel_attributes>Robot
+--
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

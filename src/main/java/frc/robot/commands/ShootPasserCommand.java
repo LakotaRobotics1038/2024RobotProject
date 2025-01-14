@@ -14,7 +14,7 @@ public class ShootPasserCommand extends Command {
     private double secondsToScore = 0;
 
     public ShootPasserCommand(double secondsToScore) {
-        this.addRequirements(scoring);
+        this();
         this.secondsToScore = secondsToScore;
     }
 

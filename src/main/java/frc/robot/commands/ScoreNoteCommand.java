@@ -13,15 +13,14 @@ public class ScoreNoteCommand extends Command {
     private double secondsToScore = 0;
     private ScoringLocation scoringLoc;
 
-    public ScoreNoteCommand(ScoringLocation scoringLoc, double secondsToScore) {
-        this.addRequirements(scoring);
-        this.scoringLoc = scoringLoc;
-        this.secondsToScore = secondsToScore;
-    }
-
     public ScoreNoteCommand(ScoringLocation scoringLoc) {
         this.addRequirements(scoring);
         this.scoringLoc = scoringLoc;
+    }
+
+    public ScoreNoteCommand(ScoringLocation scoringLoc, double secondsToScore) {
+        this(scoringLoc);
+        this.secondsToScore = secondsToScore;
     }
 
     @Override

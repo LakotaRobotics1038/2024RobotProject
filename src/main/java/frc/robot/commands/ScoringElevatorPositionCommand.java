@@ -17,16 +17,14 @@ public class ScoringElevatorPositionCommand extends Command {
 
     private FinishActions finishAction = FinishActions.Default;
 
-    public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState, FinishActions finishAction) {
-        addRequirements(scoring);
-        this.scoringState = scoringState;
-        this.finishAction = finishAction;
-
-    }
-
     public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState) {
         addRequirements(scoring);
         this.scoringState = scoringState;
+    }
+
+    public ScoringElevatorPositionCommand(ElevatorSetpoints scoringState, FinishActions finishAction) {
+        this(scoringState);
+        this.finishAction = finishAction;
     }
 
     @Override

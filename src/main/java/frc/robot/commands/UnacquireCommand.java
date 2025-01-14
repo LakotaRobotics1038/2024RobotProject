@@ -15,7 +15,7 @@ public class UnacquireCommand extends Command {
     }
 
     public UnacquireCommand(int timeToDrop) {
-        addRequirements(acquisition);
+        this();
         this.timeToDrop = timeToDrop;
     }
 

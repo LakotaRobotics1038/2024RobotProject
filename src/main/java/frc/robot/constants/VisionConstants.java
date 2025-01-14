@@ -11,7 +11,6 @@ public final class VisionConstants {
     public static final double width = 1280;
     public static final double height = 720;
     public static final double fov = 100;
-
     public static final double driveP = 0.005;
     public static final double driveI = 0;
     public static final double driveD = 0.0002;

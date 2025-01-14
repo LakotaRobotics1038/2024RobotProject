@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 public class StorageConstants {
-
     public static final int transitionMotorPort = 7;
     public static final int storagePort = 8;
 

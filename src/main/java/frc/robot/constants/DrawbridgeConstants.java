@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 public class DrawbridgeConstants {
-
     public static final int leftServoPort = 2;
     public static final int rightServoPort = 3;
 

@@ -22,7 +22,6 @@ public class Dashboard extends SubsystemBase {
     // Inputs
     private DriveTrain driveTrain = DriveTrain.getInstance();
     private Scoring scoring = Scoring.getInstance();
-    private Vision vision = Vision.getInstance();
 
     // Choosers
     private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();

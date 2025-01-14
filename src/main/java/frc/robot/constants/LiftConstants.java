@@ -20,8 +20,6 @@ public class LiftConstants {
     public static final double maxLiftInches = 27;
     public static final double minLiftInches = 0;
 
-    public static final double maxPower = 1.0;
-
     public static final double kVerticalDownP = 0.06;
     public static final double kVerticalDownI = 0.015;
     public static final double kVerticalDownD = 0.0;

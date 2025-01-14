@@ -13,8 +13,6 @@ public class ScoringElevatorConstants {
     public static final double passerSetpoint = 6.75;
     public static final double trapSetpoint = 15.0;
 
-    public static final double maxDistance = 0;
-    public static final double minDistance = maxElevatorInches;
     public static final double maxSpeed = 0.5;
     public static final double minSpeed = -0.25;
 

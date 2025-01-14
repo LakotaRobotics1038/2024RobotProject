@@ -18,13 +18,11 @@ import frc.robot.constants.SwerveModuleConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
-// import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
     private AutonSelector autonSelector = AutonSelector.getInstance();
     private SwagLights swagLights = SwagLights.getInstance();
-    // private Vision vision = Vision.getInstance();
 
     // Variables
     private Auton autonomousCommand;

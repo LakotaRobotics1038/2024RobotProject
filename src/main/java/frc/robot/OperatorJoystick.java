@@ -45,7 +45,6 @@ public class OperatorJoystick extends XboxController1038 {
     private OperatorJoystick() {
         super(IOConstants.kOperatorControllerPort);
 
-        // aButton.whileTrue(new FullAcquireCommand());
         aButton
                 .whileTrue(new AcquisitionRunCommand())
                 .onTrue(new InstantCommand(() -> scoringElevatorLock = true))

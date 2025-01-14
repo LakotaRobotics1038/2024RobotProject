@@ -13,5 +13,4 @@ public class TaxiPos1 extends Auton {
         addCommands(
                 followPathCommand(Paths.taxiPath1));
     }
-
 }

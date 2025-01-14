@@ -32,7 +32,6 @@ public class AcquisitionRunCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        // return acquisition.isNotePresent();
         return storage.noteExitingStorage();
     }
 

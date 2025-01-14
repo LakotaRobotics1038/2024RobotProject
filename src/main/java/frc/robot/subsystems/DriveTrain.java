@@ -132,6 +132,11 @@ public class DriveTrain extends SubsystemBase {
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
+    /**
+     * Sets the speeds for the the chassis to move
+     *
+     * @param speeds
+     */
     public void applyChassisSpeeds(ChassisSpeeds speeds) {
         SwerveModuleState[] swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
         this.setModuleStates(swerveModuleStates);
@@ -184,6 +189,11 @@ public class DriveTrain extends SubsystemBase {
         };
     }
 
+    /**
+     * Set the idle mode to use on the drive motors
+     *
+     * @param mode
+     */
     public void setDrivingIdleMode(IdleMode mode) {
         frontLeft.setDrivingIdleMode(mode);
         rearLeft.setDrivingIdleMode(mode);
@@ -214,29 +224,11 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /**
-     * Returns the turn rate of the robot.
-     *
-     * @return The turn rate of the robot, in degrees per second
-     */
-    public double getTurnRate() {
-        return gyro.getRate() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
-    }
-
-    /**
      * Returns the roll value of the robot.
      *
      * @return the robot's roll in degrees, from 0 to 360
      */
     public double getRoll() {
         return -gyro.getRoll().getValue();
-    }
-
-    /**
-     * Returns the pitch value of the robot.
-     *
-     * @return the robot's pitch in degrees, from ? to ?
-     */
-    public double getPitch() {
-        return gyro.getPitch().getValue();
     }
 }

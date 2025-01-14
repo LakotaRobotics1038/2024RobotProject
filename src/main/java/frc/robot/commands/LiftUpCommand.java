@@ -14,7 +14,7 @@ public class LiftUpCommand extends Command {
 
     @Override
     public void initialize() {
-        lift.disableRatchets();
+        lift.unlockRatchets();
         PIDController leftController = lift.getLeftVerticalController();
         leftController.setP(LiftConstants.kVerticalLeftUpP);
         leftController.setI(LiftConstants.kVerticalLeftUpI);
@@ -35,7 +35,7 @@ public class LiftUpCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        lift.enableRatchets();
+        lift.lockRatchets();
         lift.disable();
     }
 }

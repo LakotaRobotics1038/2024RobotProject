@@ -39,13 +39,6 @@ public class Passer extends SubsystemBase {
     }
 
     /**
-     * Get the encoder value of the passer encoder
-     */
-    public double getPosition() {
-        return passerEncoder.getPosition();
-    }
-
-    /**
      * Runs the passer at a constant speed
      */
     public void shoot() {

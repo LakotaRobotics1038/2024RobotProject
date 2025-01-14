@@ -23,7 +23,8 @@ public final class Lift extends SubsystemBase {
     private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
     private RelativeEncoder leftLiftEncoder = leftLiftMotor.getEncoder();
     private RelativeEncoder rightLiftEncoder = rightLiftMotor.getEncoder();
-    private SparkLimitSwitch leftLimitSwitch = leftLiftMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    private SparkLimitSwitch leftLimitSwitch = leftLiftMotor
+            .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
     private SparkLimitSwitch rightLimitSwitch = rightLiftMotor
             .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
@@ -100,7 +101,7 @@ public final class Lift extends SubsystemBase {
     /**
      * Enables the lift ratchets (sets them to a constant maximum extension).
      */
-    public void enableRatchets() {
+    public void lockRatchets() {
         leftRatchetServo.set(LiftConstants.leftRatchetLockPos);
         rightRatchetServo.set(LiftConstants.rightRatchetLockPos);
     }
@@ -108,7 +109,7 @@ public final class Lift extends SubsystemBase {
     /**
      * Disables the lift ratchets (sets them to a constant minimum extension).
      */
-    public void disableRatchets() {
+    public void unlockRatchets() {
         leftRatchetServo.set(LiftConstants.leftRatchetUnlockPos);
         rightRatchetServo.set(LiftConstants.rightRatchetUnlockPos);
     }
@@ -131,6 +132,17 @@ public final class Lift extends SubsystemBase {
         return rightRatchetServo.get() == LiftConstants.rightRatchetUnlockPos;
     }
 
+    /**
+     * Runs the passed motor at a passed speed until the passed encoder reaches max
+     * extension, but only if the ratchet is unlocked
+     *
+     * @param motor           The motor to set the speed of
+     * @param encoder         The encoder to measure the position of the passed
+     *                        motor
+     * @param ratchetUnlocked A boolean supplier to determine if the ratchet for
+     *                        this motor is unlocked
+     * @param speed           The speed at which to move the motor
+     */
     private void run(CANSparkMax motor, RelativeEncoder encoder, BooleanSupplier ratchetUnlocked, double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && ratchetUnlocked.getAsBoolean()) {
@@ -210,13 +222,14 @@ public final class Lift extends SubsystemBase {
             runLeft(left);
             runRight(right);
         }
+
         if (leftLimitSwitch.isPressed() && leftLiftEncoder.getPosition() != 0) {
             leftLiftEncoder.setPosition(0);
         }
+
         if (rightLimitSwitch.isPressed() && rightLiftEncoder.getPosition() != 0) {
             rightLiftEncoder.setPosition(0);
         }
-
     }
 
     /**
@@ -315,20 +328,6 @@ public final class Lift extends SubsystemBase {
     /**
      * Stops left lift motor.
      */
-    public void stopLeftMotor() {
-        leftLiftMotor.stopMotor();
-    }
-
-    /**
-     * Stops right lift motor.
-     */
-    public void stopRightMotor() {
-        rightLiftMotor.stopMotor();
-    }
-
-    /**
-     * Stops left lift motor.
-     */
     public void stopMotors() {
         leftLiftMotor.stopMotor();
         rightLiftMotor.stopMotor();
@@ -355,23 +354,5 @@ public final class Lift extends SubsystemBase {
      */
     public boolean isEnabled() {
         return enabled;
-    }
-
-    /**
-     * Returns whether left lift is at setpoint.
-     *
-     * @return whether left lift is at setpoint
-     */
-    public boolean leftOnTarget() {
-        return getLeftVerticalController().atSetpoint();
-    }
-
-    /**
-     * Returns whether right lift is at setpoint.
-     *
-     * @return whether right lift is at setpoint
-     */
-    public boolean rightOnTarget() {
-        return getRightVerticalController().atSetpoint();
     }
 }

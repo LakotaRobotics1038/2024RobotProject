@@ -49,7 +49,7 @@ public class Acquisition extends SubsystemBase {
     /**
      * Runs the acquisition intake motor at a constant speed.
      */
-    public void acquire() {
+    public void runIntake() {
         intakeMotor.set(AcquisitionConstants.intakeSpeed);
     }
 
@@ -66,10 +66,6 @@ public class Acquisition extends SubsystemBase {
     public void reverseMotors() {
         sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
         intakeMotor.set(AcquisitionConstants.reverseMotorSpeed);
-    }
-
-    public void reverseSushi() {
-        sushiMotor.set(AcquisitionConstants.reverseMotorSpeed);
     }
 
     /**

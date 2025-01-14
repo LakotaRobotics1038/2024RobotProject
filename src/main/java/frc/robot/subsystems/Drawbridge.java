@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.DrawbridgeConstants;
 
 public class Drawbridge extends SubsystemBase {
-    private Servo leftDrawbridgeServo = new Servo(DrawbridgeConstants.leftServoPort);
-    private Servo rightDrawbridgeServo = new Servo(DrawbridgeConstants.rightServoPort);
+    private Servo leftServo = new Servo(DrawbridgeConstants.leftServoPort);
+    private Servo rightServo = new Servo(DrawbridgeConstants.rightServoPort);
 
     private static Drawbridge instance;
 
@@ -18,22 +18,22 @@ public class Drawbridge extends SubsystemBase {
     }
 
     private Drawbridge() {
-        leftDrawbridgeServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
-        rightDrawbridgeServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        leftServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+        rightServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
         this.up();
     }
 
     public void down() {
-        leftDrawbridgeServo.set(DrawbridgeConstants.maxLeftDrawbridgeExtension);
-        rightDrawbridgeServo.set(DrawbridgeConstants.maxRightDrawbridgeExtension);
+        leftServo.set(DrawbridgeConstants.maxLeftExtension);
+        rightServo.set(DrawbridgeConstants.maxRightExtension);
     }
 
     public void up() {
-        leftDrawbridgeServo.set(DrawbridgeConstants.minLeftDrawbridgeExtension);
-        rightDrawbridgeServo.set(DrawbridgeConstants.minRightDrawbridgeExtension);
+        leftServo.set(DrawbridgeConstants.minLeftExtension);
+        rightServo.set(DrawbridgeConstants.minRightExtension);
     }
 
     public double getPosition() {
-        return leftDrawbridgeServo.get();
+        return leftServo.get();
     }
 }

@@ -23,7 +23,7 @@ public class AcquisitionRunCommand extends Command {
     @Override
     public void execute() {
         if (scoringElevator.getSetpoint() == ElevatorSetpoints.Ground.value) {
-            acquisition.acquire();
+            acquisition.runIntake();
             acquisition.runSushi();
             storage.runTransition();
             storage.runStorage();

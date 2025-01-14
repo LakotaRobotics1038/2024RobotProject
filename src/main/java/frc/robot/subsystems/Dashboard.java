@@ -71,9 +71,6 @@ public class Dashboard extends SubsystemBase {
         camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
         tableInstance.getEntry("/CameraPublisher/JetsonCamera/streams").setStringArray(camera.getUrls());
 
-        // TODO: This prevents you from switching tabs for some reason
-        // Shuffleboard.selectTab("Drivers");
-
         driversTab.add("Auton Choices", autoChooser)
                 .withPosition(0, 0)
                 .withSize(2, 1);
@@ -89,7 +86,6 @@ public class Dashboard extends SubsystemBase {
         })
                 .withPosition(2, 0)
                 .withSize(2, 1);
-        // .withWidget(BuiltInWidgets.kGyro);
 
         controlsTab.addNumber("Roll", driveTrain::getRoll)
                 .withPosition(1, 0);
@@ -111,30 +107,10 @@ public class Dashboard extends SubsystemBase {
                 .withPosition(6, 0)
                 .withSize(4, 4);
 
-        // driversTab.addBoolean("Vision Enabled?", vision::isEnabled0)
-        // .withPosition(6, 0)
-        // .withWidget(BuiltInWidgets.kBooleanBox)
-        // .withProperties(Map.of("colorWhenTrue", "green", "colorWhenFalse", "red"));
-
         controlsTab.add(field)
                 .withPosition(2, 0)
                 .withSize(8, 5)
                 .withWidget(BuiltInWidgets.kField);
-
-        // driversTab.addDouble("LeftScoreLiftEnc", scoring::getLeftPosition)
-        // .withPosition(0, 3);
-        // driversTab.addDouble("RightScoreLiftEnc", scoring::getRightPosition)
-        // .withPosition(1, 3);
-
-        // driversTab.add("Vert Controller",
-        // scoring.getVerticalController())
-        // .withPosition(0, 1)
-        // .withWidget(BuiltInWidgets.kPIDController);
-
-        // driversTab.add("Err Controller",
-        // scoring.getErrorController())
-        // .withPosition(1, 1)
-        // .withWidget(BuiltInWidgets.kPIDController);
     }
 
     @Override
@@ -167,12 +143,19 @@ public class Dashboard extends SubsystemBase {
     /**
      * Gets the sendable chooser for Auton Modes
      *
-     * @return
+     * @return {@link SendableChooser} of {@link AutonChoices} to get the selected
+     *         auton
      */
     public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
     }
 
+    /**
+     * Gets the sendable chooser for the Auton Delay
+     *
+     * @return {@link SendableChooser} of {@link Double} to get the delay for the
+     *         start of auton
+     */
     public SendableChooser<Double> getDelayChooser() {
         return delayChooser;
     }

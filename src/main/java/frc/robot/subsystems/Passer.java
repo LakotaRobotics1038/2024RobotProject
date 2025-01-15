@@ -1,16 +1,19 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.PasserConstants;
 
 public class Passer extends SubsystemBase {
-    private final CANSparkFlex passerMotor = new CANSparkFlex(PasserConstants.passerMotorPort, MotorType.kBrushless);
+    private final SparkFlex passerMotor = new SparkFlex(PasserConstants.passerMotorPort, MotorType.kBrushless);
     private final RelativeEncoder passerEncoder = passerMotor.getEncoder();
 
     private static Passer instance;
@@ -28,13 +31,15 @@ public class Passer extends SubsystemBase {
     }
 
     private Passer() {
-        passerMotor.restoreFactoryDefaults();
+        SparkFlexConfig passerConfig = new SparkFlexConfig();
 
-        passerMotor.setIdleMode(IdleMode.kBrake);
-        passerMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
-        passerMotor.setInverted(true);
+        passerConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent)
+                .inverted(true);
 
-        passerMotor.burnFlash();
+        passerMotor.configure(passerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
         passerEncoder.setPosition(0);
     }
 

@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 public final class SwerveModuleConstants {
     // The MAXSwerve module can be configured with one of three pinion gears: 12T,

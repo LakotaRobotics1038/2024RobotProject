@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -48,7 +47,7 @@ public class DriveTrain extends SubsystemBase {
     // Odometry class for tracking robot pose
     private SwerveDriveOdometry odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
-            Rotation2d.fromDegrees(-gyro.getAngle()),
+            Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble()),
             new SwerveModulePosition[] {
                     frontLeft.getPosition(),
                     frontRight.getPosition(),
@@ -75,7 +74,7 @@ public class DriveTrain extends SubsystemBase {
     @Override
     public void periodic() {
         odometry.update(
-                Rotation2d.fromDegrees(-gyro.getAngle()),
+                Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),
                         frontRight.getPosition(),
@@ -100,7 +99,7 @@ public class DriveTrain extends SubsystemBase {
      */
     public void resetOdometry(Pose2d pose) {
         odometry.resetPosition(
-                Rotation2d.fromDegrees(-gyro.getAngle()),
+                Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble()),
                 new SwerveModulePosition[] {
                         frontLeft.getPosition(),
                         frontRight.getPosition(),
@@ -128,7 +127,7 @@ public class DriveTrain extends SubsystemBase {
         this.applyChassisSpeeds(
                 fieldRelative
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot,
-                                Rotation2d.fromDegrees(-gyro.getAngle()))
+                                Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble()))
                         : new ChassisSpeeds(xSpeed, ySpeed, rot));
     }
 
@@ -220,7 +219,16 @@ public class DriveTrain extends SubsystemBase {
      * @return the robot's heading in degrees, from -180 to 180
      */
     public double getHeading() {
-        return Rotation2d.fromDegrees(-gyro.getAngle()).getDegrees();
+        return Rotation2d.fromDegrees(-gyro.getYaw().getValueAsDouble()).getDegrees();
+    }
+
+    /**
+     * Returns the turn rate of the robot.
+     *
+     * @return The turn rate of the robot, in degrees per second
+     */
+    public double getTurnRate() {
+        return gyro.getAngularVelocityZWorld().getValueAsDouble() * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
     }
 
     /**
@@ -229,6 +237,15 @@ public class DriveTrain extends SubsystemBase {
      * @return the robot's roll in degrees, from 0 to 360
      */
     public double getRoll() {
-        return -gyro.getRoll().getValue();
+        return -gyro.getRoll().getValueAsDouble();
+    }
+
+    /**
+     * Returns the pitch value of the robot.
+     *
+     * @return the robot's pitch in degrees, from ? to ?
+     */
+    public double getPitch() {
+        return gyro.getPitch().getValueAsDouble();
     }
 }

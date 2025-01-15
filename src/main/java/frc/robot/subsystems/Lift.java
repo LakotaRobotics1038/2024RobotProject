@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
 import java.util.function.BooleanSupplier;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.spark.SparkLimitSwitch;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -19,14 +22,12 @@ import frc.robot.constants.NeoMotorConstants;
 public final class Lift extends SubsystemBase {
     private DriveTrain driveTrain = DriveTrain.getInstance();
 
-    private CANSparkMax leftLiftMotor = new CANSparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
-    private CANSparkMax rightLiftMotor = new CANSparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
+    private SparkMax leftLiftMotor = new SparkMax(LiftConstants.leftMotorPort, MotorType.kBrushless);
+    private SparkMax rightLiftMotor = new SparkMax(LiftConstants.rightMotorPort, MotorType.kBrushless);
     private RelativeEncoder leftLiftEncoder = leftLiftMotor.getEncoder();
     private RelativeEncoder rightLiftEncoder = rightLiftMotor.getEncoder();
-    private SparkLimitSwitch leftLimitSwitch = leftLiftMotor
-            .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    private SparkLimitSwitch rightLimitSwitch = rightLiftMotor
-            .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    private SparkLimitSwitch leftLimitSwitch = leftLiftMotor.getReverseLimitSwitch();
+    private SparkLimitSwitch rightLimitSwitch = rightLiftMotor.getReverseLimitSwitch();
 
     private Servo leftRatchetServo = new Servo(LiftConstants.leftServoPort);
     private Servo rightRatchetServo = new Servo(LiftConstants.rightServoPort);
@@ -65,29 +66,34 @@ public final class Lift extends SubsystemBase {
      * follow the left. Burns these settings to the flash of each motor.
      */
     private Lift() {
-        leftLiftMotor.restoreFactoryDefaults();
-        rightLiftMotor.restoreFactoryDefaults();
+        SparkMaxConfig leftLiftConfig = new SparkMaxConfig();
+        SparkMaxConfig rightLiftConfig = new SparkMaxConfig();
 
-        leftLiftMotor.setIdleMode(IdleMode.kBrake);
-        rightLiftMotor.setIdleMode(IdleMode.kBrake);
+        leftLiftConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(false)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        leftLiftConfig.limitSwitch
+                .reverseLimitSwitchEnabled(true)
+                .reverseLimitSwitchType(Type.kNormallyOpen);
+        leftLiftConfig.encoder
+                .positionConversionFactor(LiftConstants.encoderConversion);
 
-        leftLimitSwitch.enableLimitSwitch(true);
-        rightLimitSwitch.enableLimitSwitch(true);
+        rightLiftConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(true)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightLiftConfig.limitSwitch
+                .reverseLimitSwitchEnabled(true)
+                .reverseLimitSwitchType(Type.kNormallyOpen);
+        rightLiftConfig.encoder
+                .positionConversionFactor(LiftConstants.encoderConversion);
 
-        leftLiftMotor.setInverted(false);
-        rightLiftMotor.setInverted(true);
+        leftLiftMotor.configure(leftLiftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightLiftMotor.configure(rightLiftConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         leftRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
         rightRatchetServo.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
-
-        leftLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
-        rightLiftMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
-
-        leftLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
-        rightLiftEncoder.setPositionConversionFactor(LiftConstants.encoderConversion);
-
-        leftLiftMotor.burnFlash();
-        rightLiftMotor.burnFlash();
 
         verticalControllerLeft.disableContinuousInput();
         verticalControllerLeft.setTolerance(LiftConstants.tolerance);
@@ -143,7 +149,7 @@ public final class Lift extends SubsystemBase {
      *                        this motor is unlocked
      * @param speed           The speed at which to move the motor
      */
-    private void run(CANSparkMax motor, RelativeEncoder encoder, BooleanSupplier ratchetUnlocked, double speed) {
+    private void run(SparkMax motor, RelativeEncoder encoder, BooleanSupplier ratchetUnlocked, double speed) {
         speed = MathUtil.clamp(speed, LiftConstants.downSpeed, LiftConstants.upSpeed);
         if (speed > 0 && ratchetUnlocked.getAsBoolean()) {
             if (encoder.getPosition() < LiftConstants.maxExtension) {

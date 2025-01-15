@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ScoringConstants;
@@ -11,7 +14,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Scoring extends SubsystemBase {
-    private final CANSparkFlex scoringMotor = new CANSparkFlex(ScoringConstants.scoringMotorPort, MotorType.kBrushless);
+    private final SparkFlex scoringMotor = new SparkFlex(ScoringConstants.scoringMotorPort, MotorType.kBrushless);
     private final RelativeEncoder scoringEncoder = scoringMotor.getEncoder();
     private double feedAmpSpeed = ScoringConstants.feedAmpSpeed;
 
@@ -26,13 +29,15 @@ public class Scoring extends SubsystemBase {
     }
 
     public Scoring() {
-        scoringMotor.restoreFactoryDefaults();
+        SparkFlexConfig scoringConfig = new SparkFlexConfig();
 
-        scoringMotor.setIdleMode(IdleMode.kBrake);
-        scoringMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent);
-        scoringMotor.setInverted(false);
+        scoringConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(NeoMotorConstants.kMaxVortexCurrent)
+                .inverted(false);
 
-        scoringMotor.burnFlash();
+        scoringMotor.configure(scoringConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
         scoringEncoder.setPosition(0);
     }
 

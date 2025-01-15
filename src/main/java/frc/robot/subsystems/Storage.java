@@ -1,8 +1,13 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkMaxConfigAccessor;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,10 +16,12 @@ import frc.robot.constants.StorageConstants;
 
 public class Storage extends SubsystemBase {
 
-    private final CANSparkMax transitionMotor = new CANSparkMax(StorageConstants.transitionMotorPort,
+    private final SparkMax transitionMotor = new SparkMax(
+            StorageConstants.transitionMotorPort,
             MotorType.kBrushless);
-    private final CANSparkMax storageMotor = new CANSparkMax(
-            StorageConstants.storagePort, MotorType.kBrushless);
+    private final SparkMax storageMotor = new SparkMax(
+            StorageConstants.storagePort,
+            MotorType.kBrushless);
 
     private final DigitalInput enterStorageLaser = new DigitalInput(StorageConstants.enterStorageLaserPort);
     private final DigitalInput exitStorageLaser = new DigitalInput(StorageConstants.exitStorageLaserPort);
@@ -34,20 +41,20 @@ public class Storage extends SubsystemBase {
     }
 
     private Storage() {
-        transitionMotor.restoreFactoryDefaults();
-        storageMotor.restoreFactoryDefaults();
+        SparkMaxConfig transitionConfig = new SparkMaxConfig();
+        SparkMaxConfig storageConfig = new SparkMaxConfig();
 
-        storageMotor.setIdleMode(IdleMode.kBrake);
-        transitionMotor.setIdleMode(IdleMode.kBrake);
+        transitionConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(false)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
+        storageConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(true)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
 
-        storageMotor.setInverted(true);
-        transitionMotor.setInverted(false);
-
-        storageMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
-        transitionMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
-
-        transitionMotor.burnFlash();
-        storageMotor.burnFlash();
+        transitionMotor.configure(transitionConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        storageMotor.configure(storageConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void runTransition() {

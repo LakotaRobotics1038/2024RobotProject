@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -12,26 +15,26 @@ import frc.robot.constants.NeoMotorConstants;
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
 
-    private static CANSparkMax sushiMotor = new CANSparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
-    private static CANSparkMax intakeMotor = new CANSparkMax(AcquisitionConstants.intakeMotorPort,
+    private static SparkMax sushiMotor = new SparkMax(AcquisitionConstants.sushiMotorPort, MotorType.kBrushless);
+    private static SparkMax intakeMotor = new SparkMax(AcquisitionConstants.intakeMotorPort,
             MotorType.kBrushless);
     private static DigitalInput acqLaser = new DigitalInput(AcquisitionConstants.acqLaserPort);
 
     private Acquisition() {
-        sushiMotor.restoreFactoryDefaults();
-        intakeMotor.restoreFactoryDefaults();
+        SparkMaxConfig sushiConfig = new SparkMaxConfig();
+        SparkMaxConfig intakeConfig = new SparkMaxConfig();
 
-        sushiMotor.setIdleMode(IdleMode.kBrake);
-        intakeMotor.setIdleMode(IdleMode.kBrake);
+        sushiConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeo550Current)
+                .inverted(true);
+        intakeConfig
+                .idleMode(IdleMode.kBrake)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeo550Current)
+                .inverted(false);
 
-        sushiMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
-        intakeMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeo550Current);
-
-        intakeMotor.setInverted(false);
-        sushiMotor.setInverted(true);
-
-        sushiMotor.burnFlash();
-        intakeMotor.burnFlash();
+        sushiMotor.configure(sushiConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     /**

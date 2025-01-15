@@ -2,12 +2,11 @@ package frc.robot.autons;
 
 import java.util.Optional;
 
-import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.commands.FollowPathCommand;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,10 +14,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.constants.AutoConstants;
-import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.DriveTrain;
 
@@ -48,51 +47,59 @@ public abstract class Auton extends SequentialCommandGroup {
         }
     }
 
-    protected void setInitialPose(PathPlannerTrajectory initialTrajectory) {
-        this.setInitialPose(initialTrajectory.getInitialTargetHolonomicPose());
+    protected void setInitialPose(Optional<PathPlannerTrajectory> initialTrajectory) {
+        if (initialTrajectory.isPresent()) {
+            this.setInitialPose(initialTrajectory.get().getInitialPose());
+        }
     }
 
-    protected void setInitialPose(PathPlannerTrajectory initialTrajectory, Rotation2d rotationOffset) {
-        Pose2d initialPose = initialTrajectory.getInitialTargetHolonomicPose();
-        this.setInitialPose(new Pose2d(initialPose.getTranslation(), initialPose.getRotation().plus(rotationOffset)));
+    protected void setInitialPose(Optional<PathPlannerTrajectory> initialTrajectory, Rotation2d rotationOffset) {
+        if (initialTrajectory.isPresent()) {
+            Pose2d initialPose = initialTrajectory.get().getInitialPose();
+            this.setInitialPose(
+                    new Pose2d(initialPose.getTranslation(), initialPose.getRotation().plus(rotationOffset)));
+        }
     }
 
     public Pose2d getInitialPose() {
         return initialPose;
     }
 
-    public Command followPathCommand(PathPlannerPath path) {
-        return new FollowPathHolonomic(
-                path,
-                this.driveTrain::getPose, // Robot pose supplier
-                this.driveTrain::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this.driveTrain::applyChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE
-                                                     // ChassisSpeeds
-                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your
-                                                 // Constants class
-                        new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0), // Translation
-                                                                                                         // PID
-                                                                                                         // constants
-                        new PIDConstants(AutoConstants.kPThetaController, AutoConstants.kIThetaController, 0.0), // Rotation
-                                                                                                                 // PID
-                                                                                                                 // constants
-                        DriveConstants.kMaxSpeedMetersPerSecond, // Max module speed, in m/s
-                        DriveConstants.kBaseRadius, // Drive base radius in meters. Distance from robot center to
-                                                    // furthest module.
-                        new ReplanningConfig() // Default path replanning config. See the API for the options here
-                ),
-                () -> {
-                    // Boolean supplier that controls when the path will be mirrored for the red
-                    // alliance
-                    // This will flip the path being followed to the red side of the field.
-                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+    public Command followPathCommand(String path) {
+        try {
+            if (!AutoConstants.kRobotConfig.isPresent()) {
+                throw new Error("PP Robot Config is Missing");
+            }
+            return new FollowPathCommand(
+                    PathPlannerPath.fromPathFile(path),
+                    // Robot pose supplier
+                    this.driveTrain::getPose,
+                    // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                    this.driveTrain::getChassisSpeeds,
+                    // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                    (speeds, feedforwards) -> this.driveTrain.applyChassisSpeeds(speeds),
+                    new PPHolonomicDriveController(
+                            // Translation PIDconstants
+                            new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0),
+                            // Rotation PID constants
+                            new PIDConstants(AutoConstants.kPThetaController, AutoConstants.kIThetaController, 0.0)),
+                    AutoConstants.kRobotConfig.get(),
+                    () -> {
+                        // Boolean supplier that controls when the path will be mirrored for the red
+                        // alliance
+                        // This will flip the path being followed to the red side of the field.
+                        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                    if (this.alliance != null) {
-                        return this.alliance == DriverStation.Alliance.Red;
-                    }
-                    return false;
-                },
-                this.driveTrain // Reference to this subsystem to set requirements
-        );
+                        if (this.alliance != null) {
+                            return this.alliance == DriverStation.Alliance.Red;
+                        }
+                        return false;
+                    },
+                    this.driveTrain // Reference to this subsystem to set requirements
+            );
+        } catch (Exception e) {
+            DriverStation.reportError("Failed to create auton: " + e.getMessage(), e.getStackTrace());
+            return Commands.none();
+        }
     }
 }

@@ -1,10 +1,14 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.spark.SparkLimitSwitch;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -14,16 +18,15 @@ import frc.robot.constants.ScoringElevatorConstants;
 
 public class ScoringElevator extends SubsystemBase {
 
-    private final CANSparkMax leftScoringElevatorMotor = new CANSparkMax(
+    private final SparkMax leftScoringElevatorMotor = new SparkMax(
             ScoringElevatorConstants.leftScoringElevatorMotorPort,
             MotorType.kBrushless);
-    private final CANSparkMax rightScoringElevatorMotor = new CANSparkMax(
-            ScoringElevatorConstants.rightScoringElevatorMotorPort, MotorType.kBrushless);
+    private final SparkMax rightScoringElevatorMotor = new SparkMax(
+            ScoringElevatorConstants.rightScoringElevatorMotorPort,
+            MotorType.kBrushless);
 
-    private final SparkLimitSwitch leftScoringElevatorLimitSwitch = leftScoringElevatorMotor
-            .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-    private final SparkLimitSwitch rightScoringElevatorLimitSwitch = rightScoringElevatorMotor
-            .getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    private final SparkLimitSwitch leftScoringElevatorLimitSwitch = leftScoringElevatorMotor.getReverseLimitSwitch();
+    private final SparkLimitSwitch rightScoringElevatorLimitSwitch = rightScoringElevatorMotor.getReverseLimitSwitch();
 
     private RelativeEncoder leftScoringElevatorEncoder = leftScoringElevatorMotor.getEncoder();
     private RelativeEncoder rightScoringElevatorEncoder = rightScoringElevatorMotor.getEncoder();
@@ -62,28 +65,37 @@ public class ScoringElevator extends SubsystemBase {
     }
 
     public ScoringElevator() {
-        rightScoringElevatorMotor.restoreFactoryDefaults();
-        leftScoringElevatorMotor.restoreFactoryDefaults();
+        SparkMaxConfig leftScoringElevatorConfig = new SparkMaxConfig();
+        SparkMaxConfig rightScoringElevatorConfig = new SparkMaxConfig();
 
-        rightScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
-        leftScoringElevatorMotor.setIdleMode(IdleMode.kBrake);
+        leftScoringElevatorConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(true)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        leftScoringElevatorConfig.limitSwitch
+                .reverseLimitSwitchEnabled(true)
+                .reverseLimitSwitchType(Type.kNormallyOpen);
+        leftScoringElevatorConfig.encoder
+                .positionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
 
-        rightScoringElevatorMotor.setInverted(false);
-        leftScoringElevatorMotor.setInverted(true);
+        rightScoringElevatorConfig
+                .idleMode(IdleMode.kBrake)
+                .inverted(false)
+                .smartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
+        rightScoringElevatorConfig.limitSwitch
+                .reverseLimitSwitchEnabled(true)
+                .reverseLimitSwitchType(Type.kNormallyOpen);
+        rightScoringElevatorConfig.encoder
+                .positionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
 
-        leftScoringElevatorEncoder
-                .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
-        rightScoringElevatorEncoder
-                .setPositionConversionFactor(ScoringElevatorConstants.elevatorEncoderConversionFactor);
-
-        leftScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
-        rightScoringElevatorMotor.setSmartCurrentLimit(NeoMotorConstants.kMaxNeoCurrent);
-
-        leftScoringElevatorLimitSwitch.enableLimitSwitch(true);
-        rightScoringElevatorLimitSwitch.enableLimitSwitch(true);
-
-        rightScoringElevatorMotor.burnFlash();
-        leftScoringElevatorMotor.burnFlash();
+        leftScoringElevatorMotor.configure(
+                leftScoringElevatorConfig,
+                ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
+        rightScoringElevatorMotor.configure(
+                rightScoringElevatorConfig,
+                ResetMode.kResetSafeParameters,
+                PersistMode.kPersistParameters);
 
         verticalController.disableContinuousInput();
         verticalController.setTolerance(0.5);

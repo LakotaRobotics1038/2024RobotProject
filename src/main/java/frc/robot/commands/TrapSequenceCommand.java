@@ -15,15 +15,16 @@ public class TrapSequenceCommand extends SequentialCommandGroup {
         this.addCommands(
                 new LiftDownCommand()
                         .alongWith(
-                                new SequentialCommandGroup(
-                                        new DrawbridgeDownCommand(),
-                                        new WaitUntilCommand(
-                                                () -> lift.getLeftPosition() <= liftTrapPosition
-                                                        && lift.getRightPosition() <= liftTrapPosition),
-                                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap,
-                                                FinishActions.NoDisable),
-                                        new WaitUntilCommand(
-                                                () -> lift.leftLowerLimitReached() && lift.rightLowerLimitReached()),
-                                        new ScoreNoteCommand(ScoringLocation.Trap))));
+                                new DrawbridgeDownCommand()
+                                        .andThen(
+                                                new WaitUntilCommand(
+                                                        () -> lift.getLeftPosition() <= liftTrapPosition
+                                                                && lift.getRightPosition() <= liftTrapPosition),
+                                                new ScoringElevatorPositionCommand(ElevatorSetpoints.Trap,
+                                                        FinishActions.NoDisable),
+                                                new WaitUntilCommand(
+                                                        () -> lift.leftLowerLimitReached()
+                                                                && lift.rightLowerLimitReached()),
+                                                new ScoreNoteCommand(ScoringLocation.Trap))));
     }
 }

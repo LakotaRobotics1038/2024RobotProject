@@ -14,11 +14,9 @@ public class ReverseTrapSequenceCommand extends SequentialCommandGroup {
         this.addCommands(
                 new LiftUpCommand()
                         .alongWith(
-                                new SequentialCommandGroup(
-                                        new WaitUntilCommand(
-                                                () -> lift.getLeftPosition() >= liftTrapPosition
-                                                        && lift.getRightPosition() >= liftTrapPosition),
-                                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground,
+                                new WaitUntilCommand(() -> lift.getLeftPosition() >= liftTrapPosition
+                                        && lift.getRightPosition() >= liftTrapPosition)
+                                        .andThen(new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground,
                                                 FinishActions.NoDisable))),
                 new DrawbridgeUpCommand());
     }

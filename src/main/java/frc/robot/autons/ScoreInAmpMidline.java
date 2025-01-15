@@ -6,7 +6,6 @@ import frc.robot.subsystems.Acquisition;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
@@ -35,15 +34,16 @@ public class ScoreInAmpMidline extends Auton {
         super.addCommands(
                 followPathCommand(AutoPaths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
+                new ScoreNoteCommand(ScoringLocation.Amp)
+                        .withTimeout(1.5),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
-                new ParallelCommandGroup(
-                        followPathCommand(AutoPaths.pathFromAmpToMidlineAcquire)
-                                .until(acquisition::isNotePresent)
-                                .andThen(followPathCommand(AutoPaths.pathFromMidlineNoteToAmp)),
-                        new AcquisitionRunCommand()),
+                followPathCommand(AutoPaths.pathFromAmpToMidlineAcquire)
+                        .alongWith(new AcquisitionRunCommand())
+                        .until(acquisition::isNotePresent)
+                        .andThen(followPathCommand(AutoPaths.pathFromMidlineNoteToAmp)),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(ScoringLocation.Amp, 3),
+                new ScoreNoteCommand(ScoringLocation.Amp)
+                        .withTimeout(3),
                 followPathCommand(AutoPaths.pathFromAmpToMidlineAcquire));
     }
 }

@@ -5,7 +5,6 @@ import java.util.Optional;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
@@ -32,9 +31,9 @@ public class ScoreInAmpBack extends Auton {
         super.addCommands(
                 followPathCommand(AutoPaths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
-                new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
-                new ParallelCommandGroup(
-                        new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
-                        followPathCommand(AutoPaths.pathFromAmpToBack)));
+                new ScoreNoteCommand(ScoringLocation.Amp)
+                        .withTimeout(1.5),
+                new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground)
+                        .alongWith(followPathCommand(AutoPaths.pathFromAmpToBack)));
     }
 }

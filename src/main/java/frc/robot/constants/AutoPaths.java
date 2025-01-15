@@ -1,6 +1,6 @@
-package frc.robot.autons;
+package frc.robot.constants;
 
-public class Paths {
+public class AutoPaths {
     public static String pathFromPosition1ToAmp = "From position 1 to amp";
 
     public static String pathFromAmpToNote1 = "From amp to top note";

@@ -11,6 +11,7 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
+import frc.robot.constants.AutoPaths;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
@@ -32,17 +33,17 @@ public class ScoreInAmpMidline extends Auton {
         }
 
         super.addCommands(
-                followPathCommand(Paths.pathFromPosition1ToAmp),
+                followPathCommand(AutoPaths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
                 new ParallelCommandGroup(
-                        followPathCommand(Paths.pathFromAmpToMidlineAcquire)
+                        followPathCommand(AutoPaths.pathFromAmpToMidlineAcquire)
                                 .until(acquisition::isNotePresent)
-                                .andThen(followPathCommand(Paths.pathFromMidlineNoteToAmp)),
+                                .andThen(followPathCommand(AutoPaths.pathFromMidlineNoteToAmp)),
                         new AcquisitionRunCommand()),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 3),
-                followPathCommand(Paths.pathFromAmpToMidlineAcquire));
+                followPathCommand(AutoPaths.pathFromAmpToMidlineAcquire));
     }
 }

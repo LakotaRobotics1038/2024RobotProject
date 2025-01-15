@@ -8,6 +8,7 @@ import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.constants.AutoConstants;
+import frc.robot.constants.AutoPaths;
 import frc.robot.subsystems.DriveTrain;
 
 public class Trajectories {
@@ -15,7 +16,7 @@ public class Trajectories {
         try {
             return Optional.of(
                     new PathPlannerTrajectory(
-                            PathPlannerPath.fromPathFile(Paths.pathFromNote1ToAmp),
+                            PathPlannerPath.fromPathFile(AutoPaths.pathFromNote1ToAmp),
                             DriveTrain.getInstance().getChassisSpeeds(),
                             Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()),
                             AutoConstants.kRobotConfig.get()));
@@ -29,7 +30,7 @@ public class Trajectories {
         try {
             return Optional.of(
                     new PathPlannerTrajectory(
-                            PathPlannerPath.fromPathFile(Paths.taxiPath3),
+                            PathPlannerPath.fromPathFile(AutoPaths.taxiPath3),
                             DriveTrain.getInstance().getChassisSpeeds(),
                             Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()),
                             AutoConstants.kRobotConfig.get()));
@@ -43,7 +44,7 @@ public class Trajectories {
         try {
             return Optional.of(
                     new PathPlannerTrajectory(
-                            PathPlannerPath.fromPathFile(Paths.pathFromPosition1ToAmp),
+                            PathPlannerPath.fromPathFile(AutoPaths.pathFromPosition1ToAmp),
                             DriveTrain.getInstance().getChassisSpeeds(),
                             Rotation2d.fromDegrees(DriveTrain.getInstance().getHeading()),
                             AutoConstants.kRobotConfig.get()));

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.ScoreNoteCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand;
 import frc.robot.commands.ScoringElevatorPositionCommand.FinishActions;
+import frc.robot.constants.AutoPaths;
 import frc.robot.constants.ScoringConstants.ScoringLocation;
 import frc.robot.subsystems.ScoringElevator.ElevatorSetpoints;
 
@@ -29,11 +30,11 @@ public class ScoreInAmpBack extends Auton {
         }
 
         super.addCommands(
-                followPathCommand(Paths.pathFromPosition1ToAmp),
+                followPathCommand(AutoPaths.pathFromPosition1ToAmp),
                 new ScoringElevatorPositionCommand(ElevatorSetpoints.Amp, FinishActions.NoDisable),
                 new ScoreNoteCommand(ScoringLocation.Amp, 1.5),
                 new ParallelCommandGroup(
                         new ScoringElevatorPositionCommand(ElevatorSetpoints.Ground),
-                        followPathCommand(Paths.pathFromAmpToBack)));
+                        followPathCommand(AutoPaths.pathFromAmpToBack)));
     }
 }

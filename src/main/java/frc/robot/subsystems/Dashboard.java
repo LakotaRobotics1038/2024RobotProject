@@ -30,11 +30,12 @@ public class Dashboard extends SubsystemBase {
     // Tabs
     private final ShuffleboardTab driversTab = Shuffleboard.getTab("Drivers");
     private final ShuffleboardTab controlsTab = Shuffleboard.getTab("Controls");
-    private final NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
+    // private final NetworkTableInstance tableInstance =
+    // NetworkTableInstance.getDefault();
 
     // Variables
     private final Field2d field = new Field2d();
-    private final HttpCamera camera;
+    // private final HttpCamera camera;
 
     // Enums
     public enum Cameras {
@@ -67,9 +68,9 @@ public class Dashboard extends SubsystemBase {
 
     private Dashboard() {
         super();
-        camera = new HttpCamera("JetsonCamera", "http://10.10.38.15:1180/stream");
-        camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
-        tableInstance.getEntry("/CameraPublisher/JetsonCamera/streams").setStringArray(camera.getUrls());
+        // camera = new HttpCamera("JetsonCamera", "http://10.10.38.15:1180/stream");
+        // camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+        // tableInstance.getEntry("/CameraPublisher/JetsonCamera/streams").setStringArray(camera.getUrls());
 
         driversTab.add("Auton Choices", autoChooser)
                 .withPosition(0, 0)
